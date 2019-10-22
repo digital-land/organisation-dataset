@@ -196,7 +196,7 @@ local-authority-eng:NEA,E07000175
 local-authority-eng:NEC,E07000195
 local-authority-eng:NET,E08000021
 local-authority-eng:NFK,
-local-authority-eng:NDE	,
+local-authority-eng:NDE,
 local-authority-eng:NDO,
 local-authority-eng:NED,E07000038
 local-authority-eng:NEL,E06000012
@@ -350,5 +350,3 @@ local-authority-eng:WYC,E07000238
 local-authority-eng:WYO,E07000007
 local-authority-eng:WYR,E07000128
 local-authority-eng:WYE,E07000239
-development-corporation:DC1,E51000001
-development-corporation:DC2,E51000002

@@ -24,11 +24,13 @@ def load(key, fields, url=None, prefix=None):
         curie = "%s%s" % (prefix, row[key])
         organisations.setdefault(curie, {})
         for f in fields:
-            organisations[curie][f] = row[f]
+            if row[f]:
+                organisations[curie][f] = row[f]
 
 
 load("local-authority-eng", ["name", "official-name", "end-date"])
 load("government-organisation", ["name", "website", "end-date"])
+load("organisation", ["name", "website", "statistical-geography"], url="data/development-corporation.csv", prefix="")
 load("organisation", ["website"], url="data/website.csv", prefix="")
 load("organisation", ["statistical-geography"], url="data/statistical-geography.csv", prefix="")
 

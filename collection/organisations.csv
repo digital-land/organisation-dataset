@@ -441,7 +441,7 @@ government-organisation:OT1166,Infrastructure and Projects Authority,https://www
 government-organisation:PB1164,Historic England,https://www.gov.uk/government/organisations/historic-england,,,
 government-organisation:OT1161,National Infrastructure Commission,https://www.gov.uk/government/organisations/national-infrastructure-commission,,,
 government-organisation:CO1159,Commercial Court,https://www.gov.uk/courts-tribunals/commercial-court,,,
-government-organisation:PB1154,Ebbsfleet Development Corporation,https://www.gov.uk/government/organisations/ebbsfleet-development-corporation,,,
+government-organisation:PB1154,Ebbsfleet Development Corporation,https://www.gov.uk/government/organisations/ebbsfleet-development-corporation,E51000003,,
 government-organisation:OT1153,Defence and Security Media Advisory Committee,https://www.gov.uk/government/organisations/defence-and-security-media-advisory-committee,,,
 government-organisation:PB1152,Disabled People’s Employment Corporation,https://www.gov.uk/government/organisations/disabled-peoples-employment-corporation,,,
 government-organisation:OT1151,Payment Systems Regulator,https://www.gov.uk/government/organisations/payment-systems-regulator,,,
@@ -1354,5 +1354,6 @@ government-organisation:D6,Department for Education,https://www.gov.uk/governmen
 government-organisation:D3,"Department for Business, Innovation & Skills",https://www.gov.uk/government/organisations/department-for-business-innovation-skills,,,2016-07-14
 government-organisation:D2,Cabinet Office,https://www.gov.uk/government/organisations/cabinet-office,,,
 government-organisation:D1,Attorney General's Office,https://www.gov.uk/government/organisations/attorney-generals-office,,,
-development-corporation:DC1,,,E51000001,,
-development-corporation:DC2,,,E51000002,,
+development-corporation:london-legacy,London Legacy Development Corporation,https://www.queenelizabetholympicpark.co.uk/planning-authority/planning-policy,E51000001,,
+development-corporation:opdc,Old Oak and Park Royal Development Corporation,https://www.london.gov.uk/about-us/organisations-we-work/old-oak-and-park-royal-development-corporation-opdc/,E51000002,,
+development-corporation:south-tees,South Tees Development Corporation,https://www.southteesdc.com/,E51000004,,

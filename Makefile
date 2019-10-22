@@ -2,13 +2,14 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-all: collect
+all: data/organisations.csv
 
-collect:
-	python3 organisations.py
+data/organisations.csv:
+	mkdir -p data
+	python3 bin/organisations.py > data/organisations.py
 
 black:
-	black .
+	black --line-length 100 .
 
 init::
 	pip3 install -r requirements.txt

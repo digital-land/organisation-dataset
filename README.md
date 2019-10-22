@@ -7,16 +7,22 @@ A collection of data about Local Planning Authorities and other organisations wh
 
 * [collection/organisations.csv](collection/organisations.csv)
 
-The data is assembled from the following authoritative sources:
+The list of organisations is assembled from the following registers:
 
-* [government-organisation](https://www.registers.service.gov.uk/registers/government-organisation)
-* [local-authority-eng](https://www.registers.service.gov.uk/registers/local-authority-eng)
+* [government-organisation](https://government-organisation.register.gov.uk)
+* [local-authority-eng](https://local-authority-eng.register.gov.uk)
 
-and combined with the following datasets, to be replaced with more authoritative sources, where possible:
+and combined with the following registers to provide statistical geographies:
 
-* [data/development-corporation.csv](data/development-corporation.csv) -- a list of development corporations
-* [data/website.csv](data/website.csv) -- websites for local authorities, national parks and development corporations
-* [data/statistical-geography.csv](data/gss.csv) -- mapping of organisations to their GSS statistical-geography code
+* [statistical-geography-county-eng](https://statistical-geography-county-eng.register.gov.uk)
+* [statistical-geography-london-borough-eng](https://statistical-geography-london-borough-eng.register.gov.uk)
+* [statistical-geography-metropolitan-district-eng](https://statistical-geography-metropolitan-district-eng.register.gov.uk)
+* [statistical-geography-non-metropolitan-district-eng](https://statistical-geography-non-metropolitan-district-eng.register.gov.uk)
+* [statistical-geography-unitary-authority-eng](https://statistical-geography-unitary-authority-eng.register.gov.uk)
+
+This locally maintained dataset adds websites for local authorities, and development corporations not yet listed on GOV.UK:
+
+* [data/organisations.csv](data/organisations.csv)
 
 # Updating the collection
 

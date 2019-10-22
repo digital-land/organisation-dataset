@@ -2,16 +2,11 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-DATA=\
-	data/development-corporation.csv\
-	data/statistical-geography.csv\
-	data/website.csv
+all: collection/organisations.csv
 
-all: data/organisations.csv
-
-data/organisations.csv:	$(DATA)
+collection/organisations.csv:	data/organisations.csv bin/organisations.py
 	mkdir -p collection
-	python3 bin/organisations.py > collection/organisations.csv
+	python3 bin/organisations.py > $@
 
 black:
 	black --line-length 100 .

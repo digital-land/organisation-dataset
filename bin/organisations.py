@@ -44,7 +44,7 @@ load("organisation", ["name", "website", "statistical-geography"], url="data/org
 
 w = csv.DictWriter(sys.stdout, fields, extrasaction='ignore')
 w.writeheader()
-for organisation in organisations:
+for organisation in sorted(organisations):
     o = organisations[organisation]
     o["organisation"] = organisation
     o["name"] = o.get("official-name", o.get("name", ""))

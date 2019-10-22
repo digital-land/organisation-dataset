@@ -20,7 +20,7 @@ and combined with the following registers to provide statistical geographies:
 * [statistical-geography-non-metropolitan-district-eng](https://statistical-geography-non-metropolitan-district-eng.register.gov.uk)
 * [statistical-geography-unitary-authority-eng](https://statistical-geography-unitary-authority-eng.register.gov.uk)
 
-This locally maintained dataset adds websites for local authorities, and development corporations not yet listed on GOV.UK:
+This locally maintained dataset provides websites for local authorities, development corporations not yet listed on GOV.UK, and other missing values:
 
 * [data/organisations.csv](data/organisations.csv)
 

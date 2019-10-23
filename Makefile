@@ -9,7 +9,7 @@ collection/organisation.csv:	data/organisation.csv bin/organisations.py
 	python3 bin/organisations.py > $@
 
 black:
-	black --line-length 100 .
+	black .
 
 init::
 	pip3 install -r requirements.txt

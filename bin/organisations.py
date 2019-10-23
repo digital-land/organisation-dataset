@@ -40,7 +40,7 @@ load("local-authority-eng", ["statistical-geography-non-metropolitan-district-en
 load("local-authority-eng", ["statistical-geography-unitary-authority-eng"], register="statistical-geography-unitary-authority-eng")
 
 # assert fixes
-load("organisation", ["name", "website", "statistical-geography"], url="data/organisations.csv", prefix="")
+load("organisation", ["name", "website", "statistical-geography"], url="data/organisation.csv", prefix="")
 
 w = csv.DictWriter(sys.stdout, fields, extrasaction='ignore')
 w.writeheader()

@@ -2,9 +2,9 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-all: collection/organisations.csv
+all: collection/organisation.csv
 
-collection/organisations.csv:	data/organisations.csv bin/organisations.py
+collection/organisation.csv:	data/organisation.csv bin/organisations.py
 	mkdir -p collection
 	python3 bin/organisations.py > $@
 

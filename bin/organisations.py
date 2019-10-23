@@ -3,13 +3,19 @@
 import sys
 import csv
 import requests
+from SPARQLWrapper import SPARQLWrapper, CSV
+
 
 organisations = {}
+gss = {}
+
 fields = [
     "organisation",
     "name",
     "website",
     "statistical-geography",
+    "opendatacommunities",
+    "data-govuk",
     "start-date",
     "end-date",
 ]
@@ -44,6 +50,41 @@ def load_register(key, fields, register=None):
 
 def load_file(path, key, fields):
     return load(open(path), key, fields)
+
+
+def index_gss():
+    for o in organisations:
+        if "statistical-geography" in organisations[o]:
+            gss[organisations[o]["statistical-geography"]] = o
+
+
+def load_opendatacommunities():
+    sparql = SPARQLWrapper("https://opendatacommunities.org/sparql")
+    sparql.setQuery(
+        """
+    SELECT ?uri ?name ?gss
+    WHERE {
+      VALUES ?o { 
+        <http://opendatacommunities.org/def/ontology/admingeo/nationalPark>
+        <http://opendatacommunities.org/def/ontology/admingeo/County>
+        <http://opendatacommunities.org/def/ontology/admingeo/UnitaryAuthority>
+        <http://opendatacommunities.org/def/ontology/admingeo/MetropolitanDistrict>
+        <http://opendatacommunities.org/def/ontology/admingeo/NonMetropolitanDistrict>
+        <http://opendatacommunities.org/def/ontology/admingeo/LondonBorough>
+        <http://opendatacommunities.org/def/local-government/DevelopmentCorporation>
+      }
+
+        ?uri ?p ?o ;
+            <http://www.w3.org/2000/01/rdf-schema#label> ?name ;
+            <http://publishmydata.com/def/ontology/foi/code> ?gss
+      }
+    """
+    )
+    sparql.setReturnFormat(CSV)
+    results = sparql.query().convert()
+    for row in csv.DictReader(results.decode("utf-8").splitlines()):
+        if row["gss"] in gss:
+            organisations[gss[row["gss"]]]["opendatacommunities"] = row["uri"]
 
 
 load_register("local-authority-eng", ["name", "official-name", "end-date"])
@@ -82,6 +123,10 @@ load_file(
     "organisation",
     ["name", "website", "statistical-geography"],
 )
+
+index_gss()
+load_opendatacommunities()
+
 
 w = csv.DictWriter(sys.stdout, fields, extrasaction="ignore")
 w.writeheader()

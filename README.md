@@ -5,7 +5,7 @@
 
 A collection of data about Local Planning Authorities and other organisations who publish data used by digital land:
 
-* [collection/organisations.csv](collection/organisations.csv)
+* [collection/organisation.csv](collection/organisation.csv)
 
 The list of organisations is assembled from the following registers:
 
@@ -20,9 +20,13 @@ and combined with the following registers to provide statistical geographies:
 * [statistical-geography-non-metropolitan-district-eng](https://statistical-geography-non-metropolitan-district-eng.register.gov.uk)
 * [statistical-geography-unitary-authority-eng](https://statistical-geography-unitary-authority-eng.register.gov.uk)
 
+The data is matched against [https://opendatacommunities.org](https://opendatacommunities.org/home).
+
 This locally maintained dataset provides websites for local authorities, development corporations not yet listed on GOV.UK, and other missing values:
 
 * [data/organisations.csv](data/organisations.csv)
+
+The plan is to move to replace this locally maintained data with the website, and other data sourced from Wikipedia, such as https://www.wikidata.org/wiki/Q931180
 
 # Updating the collection
 

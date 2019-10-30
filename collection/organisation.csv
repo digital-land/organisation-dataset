@@ -50,7 +50,7 @@ government-organisation:D30,,Treasury Solicitor’s Department,https://www.gov.u
 government-organisation:D303,,Office for National Statistics,https://www.gov.uk/government/organisations/office-for-national-statistics,,,,,,
 government-organisation:D352,,Office of Fair Trading,https://www.gov.uk/government/organisations/office-of-fair-trading,,,,,,2014-04-01
 government-organisation:D38,,Ordnance Survey,https://www.gov.uk/government/organisations/ordnance-survey,,,,,,
-government-organisation:D4,,"Ministry of Housing, Communities and Local Government",https://www.gov.uk/government/organisations/ministry-of-housing-communities-and-local-government,,,,,,
+government-organisation:D4,Q601819,"Ministry of Housing, Communities and Local Government",https://www.gov.uk/government/organisations/ministry-of-housing-communities-and-local-government,,,,,,
 government-organisation:D435,,Supreme Court of the United Kingdom,https://www.gov.uk/government/organisations/supreme-court-of-the-united-kingdom,,,,,,
 government-organisation:D5,,"Department for Digital, Culture, Media and Sport",https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport,,,,,,
 government-organisation:D550,,Competition and Markets Authority,https://www.gov.uk/government/organisations/competition-and-markets-authority,,,,,,
@@ -111,7 +111,7 @@ government-organisation:EA33,,National Measurement Office,https://www.gov.uk/gov
 government-organisation:EA34,,Intellectual Property Office,https://www.gov.uk/government/organisations/intellectual-property-office,,,,,,
 government-organisation:EA365,,Government Procurement Service,https://www.gov.uk/government/organisations/government-procurement-service,,,,,,2014-04-01
 government-organisation:EA37,,Fire Service College,https://www.gov.uk/government/organisations/fire-service-college,,,,,,
-government-organisation:EA39,,Planning Inspectorate,https://www.gov.uk/government/organisations/planning-inspectorate,,,,,,
+government-organisation:EA39,Q7201367,Planning Inspectorate,https://www.gov.uk/government/organisations/planning-inspectorate,,,,,,
 government-organisation:EA40,,Queen Elizabeth II Conference Centre,https://www.gov.uk/government/organisations/queen-elizabeth-ii-conference-centre,,,,,,
 government-organisation:EA41,,Royal Parks,https://www.gov.uk/government/organisations/royal-parks,,,,,,2017-03-15
 government-organisation:EA42,,Defence Science and Technology Laboratory,https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory,,,,,,

@@ -17,6 +17,7 @@ fields = [
     "toid",
     "opendatacommunities",
     "data-govuk",
+    "esd-inventories",
     "start-date",
     "end-date",
 ]
@@ -129,7 +130,7 @@ if True:
 load_file(
     "data/organisation.csv",
     "organisation",
-    ["wikidata", "government-organisation", "website", "opendatacommunities"],
+    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories"],
     prefix="",
     #add={"digital-land-organisation", True}
 )

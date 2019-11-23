@@ -16,7 +16,6 @@ fields = [
     "statistical-geography",
     "toid",
     "opendatacommunities",
-    "data-govuk",
     "esd-inventories",
     "start-date",
     "end-date",

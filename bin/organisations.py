@@ -129,7 +129,7 @@ if True:
 load_file(
     "data/organisation.csv",
     "organisation",
-    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories"],
+    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories", "statistical-geography"],
     prefix="",
     #add={"digital-land-organisation", True}
 )
@@ -214,9 +214,8 @@ authorities = sparql(
            FILTER (langMatches( lang(?name), "EN" ) )
     }
     """)
-#patch(authorities, key="wikidata", fields=["wikidata", "name", "website", "toid"], prefix="http://www.wikidata.org/entity/")
 patch(authorities, key="statistical-geography", fields=["wikidata", "website", "toid"], prefix="http://www.wikidata.org/entity/")
-
+patch(authorities, key="wikidata", fields=["website", "toid", "statistical-geography"], prefix="http://www.wikidata.org/entity/")
 
 errors = 0
 

@@ -2,7 +2,9 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-all: collection/organisation.csv
+TARGETS=collection/organisation.csv
+
+all: $(TARGETS)
 
 collection/organisation.csv:	data/organisation.csv bin/organisations.py
 	mkdir -p collection
@@ -14,3 +16,5 @@ black:
 init::
 	pip3 install -r requirements.txt
 
+clobber::
+	rm -f $(TARGETS)

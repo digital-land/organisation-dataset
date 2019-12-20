@@ -129,7 +129,7 @@ if True:
 load_file(
     "data/organisation.csv",
     "organisation",
-    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories", "statistical-geography"],
+    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories", "statistical-geography", "name"],
     prefix="",
     #add={"digital-land-organisation", True}
 )

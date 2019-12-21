@@ -16,6 +16,7 @@ fields = [
     "statistical-geography",
     "toid",
     "opendatacommunities",
+    "opendatacommunities-area",
     "esd-inventories",
     "start-date",
     "end-date",
@@ -75,6 +76,8 @@ def patch(results, key, fields, prefix=None):
                 row["end-date"] = row[k]
             elif k == "gss":
                 row["statistical-geography"] = row[k]
+            elif k == "opendatacommunities_area":
+                row["opendatacommunities-area"] = row[k]
 
         if key in row and row[key] in keys:
             organisation = keys[row[key]]
@@ -156,13 +159,13 @@ corporations = sparql(
 
 patch(corporations, key="wikidata", fields=["name", "website", "statistical-geography", "start-date", "end-date"], prefix="http://www.wikidata.org/entity/")
 
-# match opencommunities.org
+# match opencommunities.org local authorities
 s = sparql(
     "https://opendatacommunities.org/sparql",
     """
     PREFIX admingeo: <http://opendatacommunities.org/def/ontology/admingeo/>
     PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
-    SELECT DISTINCT ?opendatacommunities ?name ?gss
+    SELECT DISTINCT ?opendatacommunities_area ?name ?gss ?opendatacommunities
     WHERE {
         VALUES ?o {
             admingeo:nationalPark
@@ -173,13 +176,34 @@ s = sparql(
             admingeo:LondonBorough
             localgov:DevelopmentCorporation
         }
+        ?opendatacommunities_area ?p ?o ;
+            <http://publishmydata.com/def/ontology/foi/displayName> ?name ;
+            <http://publishmydata.com/def/ontology/foi/code> ?gss ;
+            <http://opendatacommunities.org/def/local-government/isGovernedBy> ?opendatacommunities
+    }
+    """)
+
+patch(s, key="statistical-geography", fields=["name", "opendatacommunities", "opendatacommunities-area"])
+
+# match opencommunities.org other LPAs
+s = sparql(
+    "https://opendatacommunities.org/sparql",
+    """
+    PREFIX admingeo: <http://opendatacommunities.org/def/ontology/admingeo/>
+    PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+    SELECT DISTINCT ?opendatacommunities ?name ?gss
+    WHERE {
+        VALUES ?o {
+            admingeo:nationalPark
+            localgov:DevelopmentCorporation
+        }
         ?opendatacommunities ?p ?o ;
             <http://publishmydata.com/def/ontology/foi/displayName> ?name ;
             <http://publishmydata.com/def/ontology/foi/code> ?gss
     }
     """)
 
-patch(s, key="statistical-geography", fields=["name", "opendatacommunities"])
+patch(s, key="statistical-geography", fields=["name", "opendatacommunities", "opendatacommunities-area"])
 
 # add website, toids from wikidata
 authorities = sparql(

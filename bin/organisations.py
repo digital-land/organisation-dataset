@@ -203,7 +203,7 @@ s = sparql(
     }
     """)
 
-patch(s, key="statistical-geography", fields=["name", "opendatacommunities", "opendatacommunities-area"])
+patch(s, key="statistical-geography", fields=["name", "opendatacommunities"])
 
 # add website, toids from wikidata
 authorities = sparql(

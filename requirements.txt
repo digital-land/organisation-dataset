@@ -2,3 +2,4 @@ black==19.3b0
 canonicaljson==1.1.4
 requests==2.22.0
 SPARQLWrapper==1.8.4
+validators

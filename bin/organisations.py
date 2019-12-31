@@ -4,6 +4,36 @@ import sys
 import csv
 import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
+import logging
+import re
+import validators
+from datetime import datetime
+
+
+def valid_url(n, url):
+    if url != "" and not validators.url(url):
+        logging.error("%s: invalid url %s" % (n, url))
+        return True
+    return False
+
+
+def valid_date(n, date):
+    if date == None or date == "":
+        return False
+
+    if re.match(r"^\d\d\d\d$", date):
+        date = date + "-01"
+
+    if re.match(r"^\d\d\d\d-\d\d$", date):
+        date = date + "-01"
+
+    try:
+        if date == datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d"):
+            return False
+    except ValueError:
+        logging.error("%s: invalid date %s" % (n, date))
+
+    return True
 
 
 organisations = {}
@@ -21,6 +51,7 @@ fields = [
     "start-date",
     "end-date",
 ]
+
 
 def load(f, key, fields, prefix=None):
     if prefix is None:
@@ -97,9 +128,16 @@ def sparql(endpoint, query):
     return s.query().convert()
 
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
+
 if True:
-    load_register("local-authority-eng", ["name", "official-name", "end-date"])
-    load_register("government-organisation", ["name", "website", "end-date"])
+    load_register(
+        "local-authority-eng", ["name", "official-name", "start-date", "end-date"]
+    )
+    load_register(
+        "government-organisation", ["name", "website", "start-date", "end-date"]
+    )
 
     # statistical geography codes
     load_register(
@@ -132,9 +170,19 @@ if True:
 load_file(
     "data/organisation.csv",
     "organisation",
-    ["wikidata", "government-organisation", "website", "opendatacommunities", "esd-inventories", "statistical-geography", "name"],
+    [
+        "wikidata",
+        "government-organisation",
+        "website",
+        "opendatacommunities",
+        "esd-inventories",
+        "statistical-geography",
+        "name",
+        "start-date",
+        "end-date",
+    ],
     prefix="",
-    #add={"digital-land-organisation", True}
+    # add={"digital-land-organisation", True}
 )
 
 # add development corporations and national parks
@@ -155,9 +203,15 @@ corporations = sparql(
          ?wikidata rdfs:label ?name .
            FILTER (langMatches( lang(?name), "EN" ) )
     }
-    """)
+    """,
+)
 
-patch(corporations, key="wikidata", fields=["name", "website", "statistical-geography", "start-date", "end-date"], prefix="http://www.wikidata.org/entity/")
+patch(
+    corporations,
+    key="wikidata",
+    fields=["name", "website", "statistical-geography", "start-date", "end-date"],
+    prefix="http://www.wikidata.org/entity/",
+)
 
 # match opencommunities.org local authorities
 s = sparql(
@@ -181,9 +235,14 @@ s = sparql(
             <http://publishmydata.com/def/ontology/foi/code> ?gss ;
             <http://opendatacommunities.org/def/local-government/isGovernedBy> ?opendatacommunities
     }
-    """)
+    """,
+)
 
-patch(s, key="statistical-geography", fields=["name", "opendatacommunities", "opendatacommunities-area"])
+patch(
+    s,
+    key="statistical-geography",
+    fields=["name", "opendatacommunities", "opendatacommunities-area"],
+)
 
 # match opencommunities.org other LPAs
 s = sparql(
@@ -201,7 +260,8 @@ s = sparql(
             <http://publishmydata.com/def/ontology/foi/displayName> ?name ;
             <http://publishmydata.com/def/ontology/foi/code> ?gss
     }
-    """)
+    """,
+)
 
 patch(s, key="statistical-geography", fields=["name", "opendatacommunities"])
 
@@ -237,9 +297,20 @@ authorities = sparql(
          ?wikidata rdfs:label ?name .
            FILTER (langMatches( lang(?name), "EN" ) )
     }
-    """)
-patch(authorities, key="statistical-geography", fields=["wikidata", "website", "toid"], prefix="http://www.wikidata.org/entity/")
-patch(authorities, key="wikidata", fields=["website", "toid", "statistical-geography"], prefix="http://www.wikidata.org/entity/")
+    """,
+)
+patch(
+    authorities,
+    key="statistical-geography",
+    fields=["wikidata", "website", "toid"],
+    prefix="http://www.wikidata.org/entity/",
+)
+patch(
+    authorities,
+    key="wikidata",
+    fields=["website", "toid", "statistical-geography"],
+    prefix="http://www.wikidata.org/entity/",
+)
 
 errors = 0
 
@@ -255,14 +326,44 @@ for organisation in sorted(organisations):
         if k.endswith("-date") and o[k].endswith("T00:00:00Z"):
             o[k] = o[k][:10]
 
-    if not all(k in o and o[k] for k in ["name", 
-#    "website", 
-    #"statistical-geography"
-]):
-        print(o, file=sys.stderr)
-        errors += 1
+    # some validation ..
+    for url_field in ["opendatacommunities", "opendatacommunities-area", "website"]:
+        if valid_url(organisation, o.get(url_field, "")):
+            errors += 1
+
+    for date_field in ["start-date", "end-date"]:
+        if valid_date(organisation, o.get(date_field, "")):
+            errors += 1
+
+    # mandatory fields ..
+    mandatory_fields = ["name"]
+
+    if not o.get("end-date", ""):
+        mandatory_fields.append("website")
+
+        # LPA additional constraints ..
+        if (
+            organisation.startswith("local-authority-eng")
+            or organisation.startswith("national-park")
+            or organisation.startswith("development-corporation")
+        ):
+            mandatory_fields.extend(
+                [
+                    "wikidata",
+                    "statistical-geography",
+                    "opendatacommunities",
+                    "opendatacommunities-area"
+                ]
+            )
+
+    for mandatory_field in mandatory_fields:
+        if mandatory_field not in o:
+            logging.error("%s: missing %s field" % (organisation, mandatory_field))
+            errors += 1
+
     w.writerow(o)
 
 if errors:
-    print(errors, "errors", file=sys.stderr)
-    #sys.exit(2)
+    logging.error("%d errors" % (errors))
+    # live with errors .. for now ..
+    # sys.exit(2)

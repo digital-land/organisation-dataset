@@ -1,0 +1,13 @@
+index-entry-number,entry-number,entry-timestamp,key,local-authority-type,name,start-date,end-date
+12,12,2018-10-09T13:46:55Z,COMB,COMB,"Combined Authority",2014-01-01,
+11,11,2017-10-25T17:09:29Z,CIT,CIT,City,,
+10,10,2017-10-25T17:09:29Z,BGH,BGH,Borough,,
+9,9,2016-11-01T13:58:18Z,SRA,SRA,"Strategic Regional Authority",,
+8,8,2016-10-31T12:49:57Z,CC,CC,"City corporation",,
+7,7,2016-10-21T16:18:12Z,UA,UA,"Unitary authority",,
+6,6,2016-10-21T16:18:12Z,MD,MD,"Metropolitan district",,
+5,5,2016-10-21T16:18:12Z,NMD,NMD,"Non-metropolitan district",,
+4,4,2016-10-21T16:18:12Z,LBO,LBO,"London borough",,
+3,3,2016-10-21T16:18:12Z,DIS,DIS,District,,
+2,2,2016-10-21T16:18:12Z,CTY,CTY,County,,
+1,1,2016-10-21T16:18:12Z,CA,CA,"Council area",,

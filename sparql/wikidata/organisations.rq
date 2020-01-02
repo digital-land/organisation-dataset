@@ -7,6 +7,7 @@ SELECT DISTINCT * WHERE {
   VALUES ?legislature {
     wd:Q3336962 # National Park Authority
     wd:Q5266682 # Development Corporation
+    wd:Q2097994 # municipal corporation
     wd:Q4321471 # County council
     wd:Q5150900 # Combined authority
     wd:Q21561328 # English unitary authority council
@@ -14,7 +15,7 @@ SELECT DISTINCT * WHERE {
     wd:Q21561306 # English non-metropolitan district council
     wd:Q21561350 # London borough council
     wd:Q16690653 # borough council
-    wd:Q2097994 # municipal corporation
+    wd:Q80647952 # Strategic Regional Authority
   }
 
   ?wikidata wdt:P31 ?legislature .

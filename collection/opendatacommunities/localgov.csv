@@ -1,0 +1,5 @@
+o,opendatacommunities,p,name,statistical-geography
+http://opendatacommunities.org/def/local-government/DevelopmentCorporation,http://opendatacommunities.org/id/dev-corp/ebbsfleet,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,Ebbsfleet Development Corporation,E51000003
+http://opendatacommunities.org/def/local-government/DevelopmentCorporation,http://opendatacommunities.org/id/dev-corp/london-legacy,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,London Legacy Development Corporation,E51000001
+http://opendatacommunities.org/def/local-government/DevelopmentCorporation,http://opendatacommunities.org/id/dev-corp/old-oak-and-park-royal,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,Old Oak and Park Royal Development Corporation,E51000002
+http://opendatacommunities.org/def/local-government/DevelopmentCorporation,http://opendatacommunities.org/id/dev-corp/south-tees,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,South Tees Development Corporation,E51000004

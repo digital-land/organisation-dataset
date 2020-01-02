@@ -1,0 +1,13 @@
+PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX foi: <http://publishmydata.com/def/ontology/foi/>
+
+SELECT DISTINCT *
+WHERE {
+    VALUES ?o {
+        localgov:DevelopmentCorporation
+    }
+    ?opendatacommunities ?p ?o .
+    { ?opendatacommunities foi:displayName ?name }
+    OPTIONAL { ?opendatacommunities foi:code ?statistical_geography }
+}
+ORDER BY ASC(?name)

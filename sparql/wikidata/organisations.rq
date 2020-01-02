@@ -1,0 +1,29 @@
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT * WHERE {
+
+  VALUES ?legislature {
+    wd:Q3336962 # National Park Authority
+    wd:Q5266682 # Development Corporation
+    wd:Q4321471 # County council
+    wd:Q5150900 # Combined authority
+    wd:Q21561328 # English unitary authority council
+    wd:Q19414242 # English metropolitan district council
+    wd:Q21561306 # English non-metropolitan district council
+    wd:Q21561350 # London borough council
+    wd:Q16690653 # borough council
+    wd:Q2097994 # municipal corporation
+  }
+
+  ?wikidata wdt:P31 ?legislature .
+  ?wikidata rdfs:label ?name .
+    FILTER (langMatches(lang(?name), "EN" ))
+  OPTIONAL { ?wikidata wdt:P856 ?website }
+  OPTIONAL { ?wikidata wdt:P836 ?statistical_geography }
+  OPTIONAL { ?wikidata wdt:P3120 ?toid }
+  OPTIONAL { ?wikidata wdt:P571 ?start_date }
+  OPTIONAL { ?wikidata wdt:P576 ?end_date }
+}
+ORDER BY ASC(?name)

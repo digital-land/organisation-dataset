@@ -2,12 +2,37 @@
 
 import sys
 import csv
-import requests
-from SPARQLWrapper import SPARQLWrapper, JSON
 import logging
 import re
 import validators
 from datetime import datetime
+
+register_dir = "collection/register/"
+wikidata_dir = "collection/wikidata/"
+opendatacommunties_dir = "collection/opendatacommunties/"
+
+organisations = {}
+
+fields = [
+    "organisation",
+    "wikidata",
+    "name",
+    "website",
+    "statistical-geography",
+    "toid",
+    "opendatacommunities",
+    "opendatacommunities-area",
+    "esd-inventories",
+    "start-date",
+    "end-date",
+]
+
+
+def save(organisations):
+    w = csv.DictWriter(sys.stdout, fields, extrasaction="ignore")
+    w.writeheader()
+    for organisation in sorted(organisations):
+        w.writerow(organisations[organisation])
 
 
 def valid_url(n, url):
@@ -36,334 +61,135 @@ def valid_date(n, date):
     return True
 
 
-organisations = {}
+def validate(organisations):
+    errors = 0
+    for organisation in sorted(organisations):
+        o = organisations[organisation]
 
-fields = [
-    "organisation",
-    "wikidata",
-    "name",
-    "website",
-    "statistical-geography",
-    "toid",
-    "opendatacommunities",
-    "opendatacommunities-area",
-    "esd-inventories",
-    "start-date",
-    "end-date",
-]
+        # some validation ..
+        for url_field in ["opendatacommunities", "opendatacommunities-area", "website"]:
+            if valid_url(organisation, o.get(url_field, "")):
+                errors += 1
+
+        for date_field in ["start-date", "end-date"]:
+            if valid_date(organisation, o.get(date_field, "")):
+                errors += 1
+
+        # mandatory fields ..
+        mandatory_fields = ["name"]
+
+        if not o.get("end-date", ""):
+            mandatory_fields.append("website")
+
+            # LPA additional constraints ..
+            if (
+                organisation.startswith("local-authority-eng")
+                or organisation.startswith("national-park")
+                or organisation.startswith("development-corporation")
+            ):
+                mandatory_fields.extend(
+                    [
+                        "wikidata",
+                        "statistical-geography",
+                        "opendatacommunities",
+                        "opendatacommunities-area"
+                    ]
+                )
+
+        for mandatory_field in mandatory_fields:
+            if not o.get(mandatory_field, ""):
+                logging.error("%s: missing %s field" % (organisation, mandatory_field))
+                errors += 1
+
+    return errors
 
 
-def load(f, key, fields, prefix=None):
+
+def load_register(register=None, key=None, prefix=None, path=None, fields={}):
+    if path is None:
+        path = register_dir + register + ".csv"
+
+    if key is None:
+        key = register
+
     if prefix is None:
         prefix = key + ":"
-    for row in csv.DictReader(f):
+
+    for row in csv.DictReader(open(path)):
         if row[key]:
             curie = prefix + row[key]
             organisations.setdefault(curie, {})
-            for field in fields:
-                to = (
-                    "statistical-geography"
-                    if field.startswith("statistical-geography")
-                    else field
-                )
+
+            for field in row:
+                to = fields.get(field, field)
                 if row[field]:
                     organisations[curie][to] = row[field]
 
 
-def load_register(key, fields, register=None):
-    url = "https://%s.register.gov.uk/records.csv?page-index=1&page-size=5000" % (
-        register or key
-    )
-    return load(requests.get(url).content.decode("utf-8").splitlines(), key, fields)
+def load_statistical_geography_register(name):
+    register = "statistical-geography-" + name
+    fields = { register: "statistical-geography" }
+    load_register(register, fields=fields, key="local-authority-eng")
 
 
-def load_file(path, key, fields, prefix=None):
-    return load(open(path), key, fields, prefix)
-
-
+# index organisations by key
 def index(key):
-    index = {}
-    for o in organisations:
-        if key in organisations[o]:
-            index[organisations[o][key]] = o
-    return index
+    keys = {}
+    for organisation in organisations:
+        if key in organisations[organisation]:
+            keys.setdefault(organisations[organisation][key], [])
+            keys[organisations[organisation][key]].append(organisation)
+    return keys
 
 
-def remove_prefix(value, prefix):
-    if prefix and value.startswith(prefix):
-        return value[len(prefix) :]
-    return value
-
-
-def patch(results, key, fields, prefix=None):
+def patch(path, key):
     keys = index(key)
-    for d in results["results"]["bindings"]:
-        row = {}
-        for k in d:
-            row[k] = remove_prefix(d[k]["value"], prefix)
-            if k == "inception":
-                row["start-date"] = row[k]
-            elif k == "dissolved":
-                row["end-date"] = row[k]
-            elif k == "gss":
-                row["statistical-geography"] = row[k]
-            elif k == "opendatacommunities_area":
-                row["opendatacommunities-area"] = row[k]
-
-        if key in row and row[key] in keys:
-            organisation = keys[row[key]]
-            for field in fields:
-                if field in row:
-                    organisations[organisation].setdefault(field, row[field])
+    for row in csv.DictReader(open(path)):
+        for organisation in keys.get(row[key], []):
+            for field in row:
+                if not organisations[organisation].get(field, None):
+                    organisations[organisation][field] = row[field]
 
 
-def sparql(endpoint, query):
-    s = SPARQLWrapper(
-        endpoint,
-        agent="Mozilla/5.0 (Windows NT 5.1; rv:36.0) Gecko/20100101 Firefox/36.0",
-    )
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-    s.setQuery(query)
-    s.setReturnFormat(JSON)
-    return s.query().convert()
+    # load GOV.UK registers
+    load_register("local-authority-eng")
+    load_register("government-organisation")
 
+    # add organisations missing from registers
+    load_register(path="data/organisation.csv", key="organisation", prefix="")
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-
-
-if True:
-    load_register(
-        "local-authority-eng", ["name", "official-name", "start-date", "end-date"]
-    )
-    load_register(
-        "government-organisation", ["name", "website", "start-date", "end-date"]
-    )
+    # assert name from offical-name
+    for organisation, o in organisations.items():
+        o["organisation"] = organisation
+        o["name"] = o.get("official-name", o.get("name", ""))
 
     # statistical geography codes
-    load_register(
-        "local-authority-eng",
-        ["statistical-geography-county-eng"],
-        register="statistical-geography-county-eng",
-    )
-    load_register(
-        "local-authority-eng",
-        ["statistical-geography-london-borough-eng"],
-        register="statistical-geography-london-borough-eng",
-    )
-    load_register(
-        "local-authority-eng",
-        ["statistical-geography-metropolitan-district-eng"],
-        register="statistical-geography-metropolitan-district-eng",
-    )
-    load_register(
-        "local-authority-eng",
-        ["statistical-geography-non-metropolitan-district-eng"],
-        register="statistical-geography-non-metropolitan-district-eng",
-    )
-    load_register(
-        "local-authority-eng",
-        ["statistical-geography-unitary-authority-eng"],
-        register="statistical-geography-unitary-authority-eng",
-    )
+    load_statistical_geography_register("county-eng")
+    load_statistical_geography_register("london-borough-eng")
+    load_statistical_geography_register("metropolitan-district-eng")
+    load_statistical_geography_register("non-metropolitan-district-eng")
+    load_statistical_geography_register("unitary-authority-eng")
 
-# add curated organisations, which includes development corporations
-load_file(
-    "data/organisation.csv",
-    "organisation",
-    [
-        "wikidata",
-        "government-organisation",
-        "website",
-        "opendatacommunities",
-        "esd-inventories",
-        "statistical-geography",
-        "name",
-        "start-date",
-        "end-date",
-    ],
-    prefix="",
-    # add={"digital-land-organisation", True}
-)
+    patch("collection/wikidata/organisations.csv", key="name")
+    patch("collection/wikidata/organisations.csv", key="wikidata")
 
-# add development corporations and national parks
-corporations = sparql(
-    "https://query.wikidata.org/sparql",
-    """
-    SELECT DISTINCT * WHERE {
-      VALUES ?q { 
-            wd:Q3336962 # National Park Authority
-            wd:Q5266682 # Development Corporation
-        }
-      ?wikidata wdt:P31 ?q .
-         OPTIONAL { ?wikidata wdt:P856 ?website }
-         OPTIONAL { ?wikidata wdt:P3120 ?toid }
-         OPTIONAL { ?wikidata wdt:P836 ?gss }
-         OPTIONAL { ?wikidata wdt:P571 ?inception }
-         OPTIONAL { ?wikidata wdt:P576 ?dissolved }
-         ?wikidata rdfs:label ?name .
-           FILTER (langMatches( lang(?name), "EN" ) )
-    }
-    """,
-)
+    patch("collection/opendatacommunities/admingeo.csv", key="statistical-geography")
+    patch("collection/opendatacommunities/localgov.csv", key="statistical-geography")
 
-patch(
-    corporations,
-    key="wikidata",
-    fields=["name", "website", "statistical-geography", "start-date", "end-date"],
-    prefix="http://www.wikidata.org/entity/",
-)
+    for organisation, o in organisations.items():
+        # strip blank times from dates
+        for k in o:
+            if k.endswith("-date") and o[k].endswith("T00:00:00Z"):
+                o[k] = o[k][:10]
 
-# match opencommunities.org local authorities
-s = sparql(
-    "https://opendatacommunities.org/sparql",
-    """
-    PREFIX admingeo: <http://opendatacommunities.org/def/ontology/admingeo/>
-    PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
-    SELECT DISTINCT ?opendatacommunities_area ?name ?gss ?opendatacommunities
-    WHERE {
-        VALUES ?o {
-            admingeo:nationalPark
-            admingeo:County
-            admingeo:UnitaryAuthority
-            admingeo:MetropolitanDistrict
-            admingeo:NonMetropolitanDistrict
-            admingeo:LondonBorough
-            localgov:DevelopmentCorporation
-        }
-        ?opendatacommunities_area ?p ?o ;
-            <http://publishmydata.com/def/ontology/foi/displayName> ?name ;
-            <http://publishmydata.com/def/ontology/foi/code> ?gss ;
-            <http://opendatacommunities.org/def/local-government/isGovernedBy> ?opendatacommunities
-    }
-    """,
-)
+    save(organisations)
 
-patch(
-    s,
-    key="statistical-geography",
-    fields=["name", "opendatacommunities", "opendatacommunities-area"],
-)
+    errors = validate(organisations)
 
-# match opencommunities.org other LPAs
-s = sparql(
-    "https://opendatacommunities.org/sparql",
-    """
-    PREFIX admingeo: <http://opendatacommunities.org/def/ontology/admingeo/>
-    PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
-    SELECT DISTINCT ?opendatacommunities ?name ?gss
-    WHERE {
-        VALUES ?o {
-            admingeo:nationalPark
-            localgov:DevelopmentCorporation
-        }
-        ?opendatacommunities ?p ?o ;
-            <http://publishmydata.com/def/ontology/foi/displayName> ?name ;
-            <http://publishmydata.com/def/ontology/foi/code> ?gss
-    }
-    """,
-)
-
-patch(s, key="statistical-geography", fields=["name", "opendatacommunities"])
-
-# add website, toids from wikidata
-authorities = sparql(
-    "https://query.wikidata.org/sparql",
-    """
-    SELECT DISTINCT * WHERE {
-      VALUES ?q {
-        wd:Q4321471 # county council 
-        wd:Q5150900 # combined authority 
-        wd:Q21561328 # English unitary authority council 
-        wd:Q19414242 # English metropolitan district council 
-        wd:Q21561306 # English non-metropolitan district council 
-        wd:Q21561350 # London borough council 
-        wd:Q16690653 # borough council 
-        wd:Q180673 # ceremonial county of England
-        wd:Q171809 # county of England
-        wd:Q1138494 # historic county of England
-        wd:Q769628 # metropolitan county
-        wd:Q769603 # non-metropolitan county
-        wd:Q1136601 # unitary authority of England
-        wd:Q21272231 # county council area
-        wd:Q211690 #  London borough
-        wd:Q1002812 # metropolitan borough
-        wd:Q1187580 # non-metropolitan district
-        wd:Q1006876 # borough in the United Kingdom
-      }
-      ?wikidata wdt:P31 ?q .
-         { ?wikidata wdt:P856 ?website }
-         OPTIONAL { ?wikidata wdt:P3120 ?toid }
-         OPTIONAL { ?wikidata wdt:P836 ?gss }
-         ?wikidata rdfs:label ?name .
-           FILTER (langMatches( lang(?name), "EN" ) )
-    }
-    """,
-)
-patch(
-    authorities,
-    key="statistical-geography",
-    fields=["wikidata", "website", "toid"],
-    prefix="http://www.wikidata.org/entity/",
-)
-patch(
-    authorities,
-    key="wikidata",
-    fields=["website", "toid", "statistical-geography"],
-    prefix="http://www.wikidata.org/entity/",
-)
-
-errors = 0
-
-w = csv.DictWriter(sys.stdout, fields, extrasaction="ignore")
-w.writeheader()
-for organisation in sorted(organisations):
-    o = organisations[organisation]
-    o["organisation"] = organisation
-    o["name"] = o.get("official-name", o.get("name", ""))
-
-    # strip blank times from dates
-    for k in o:
-        if k.endswith("-date") and o[k].endswith("T00:00:00Z"):
-            o[k] = o[k][:10]
-
-    # some validation ..
-    for url_field in ["opendatacommunities", "opendatacommunities-area", "website"]:
-        if valid_url(organisation, o.get(url_field, "")):
-            errors += 1
-
-    for date_field in ["start-date", "end-date"]:
-        if valid_date(organisation, o.get(date_field, "")):
-            errors += 1
-
-    # mandatory fields ..
-    mandatory_fields = ["name"]
-
-    if not o.get("end-date", ""):
-        mandatory_fields.append("website")
-
-        # LPA additional constraints ..
-        if (
-            organisation.startswith("local-authority-eng")
-            or organisation.startswith("national-park")
-            or organisation.startswith("development-corporation")
-        ):
-            mandatory_fields.extend(
-                [
-                    "wikidata",
-                    "statistical-geography",
-                    "opendatacommunities",
-                    "opendatacommunities-area"
-                ]
-            )
-
-    for mandatory_field in mandatory_fields:
-        if mandatory_field not in o:
-            logging.error("%s: missing %s field" % (organisation, mandatory_field))
-            errors += 1
-
-    w.writerow(o)
-
-if errors:
-    logging.error("%d errors" % (errors))
-    # live with errors .. for now ..
-    # sys.exit(2)
+    if errors:
+        logging.error("%d errors" % (errors))
+        # live with errors .. for now ..
+        #sys.exit(2)

@@ -1,0 +1,20 @@
+PREFIX admingeo: <http://opendatacommunities.org/def/ontology/admingeo/>
+PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX foi: <http://publishmydata.com/def/ontology/foi/>
+
+SELECT DISTINCT *
+WHERE {
+    VALUES ?o {
+        admingeo:nationalPark
+        admingeo:County
+        admingeo:UnitaryAuthority
+        admingeo:MetropolitanDistrict
+        admingeo:NonMetropolitanDistrict
+        admingeo:LondonBorough
+    }
+    ?opendatacommunities_area ?p ?o .
+    { ?opendatacommunities_area foi:displayName ?name }
+    OPTIONAL { ?opendatacommunities_area foi:code ?statistical_geography }
+    OPTIONAL { ?opendatacommunities_area localgov:isGovernedBy ?opendatacommunities }
+}
+ORDER BY ASC(?name)

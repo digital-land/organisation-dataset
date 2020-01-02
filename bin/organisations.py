@@ -76,7 +76,7 @@ def validate(organisations):
                 errors += 1
 
         # mandatory fields ..
-        mandatory_fields = ["name"]
+        mandatory_fields = ["name", "wikidata"]
 
         if not o.get("end-date", ""):
             mandatory_fields.append("website")
@@ -89,7 +89,6 @@ def validate(organisations):
             ):
                 mandatory_fields.extend(
                     [
-                        "wikidata",
                         "statistical-geography",
                         "opendatacommunities",
                         "opendatacommunities-area"
@@ -104,10 +103,13 @@ def validate(organisations):
     return errors
 
 
+def register_path(name):
+    return register_dir + name + ".csv"
+
 
 def load_register(register=None, key=None, prefix=None, path=None, fields={}):
     if path is None:
-        path = register_dir + register + ".csv"
+        path = register_path(register)
 
     if key is None:
         key = register
@@ -151,20 +153,22 @@ def patch(path, key):
                     organisations[organisation][field] = row[field]
 
 
+def patch_register(register=None, key=None):
+    key = key or register
+    patch(register_path(register), key)
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
     # load GOV.UK registers
     load_register("local-authority-eng")
-    load_register("government-organisation")
 
     # add organisations missing from registers
     load_register(path="data/organisation.csv", key="organisation", prefix="")
 
-    # assert name from offical-name
-    for organisation, o in organisations.items():
-        o["organisation"] = organisation
-        o["name"] = o.get("official-name", o.get("name", ""))
+    # add details for government organisations
+    patch_register("government-organisation")
 
     # statistical geography codes
     load_statistical_geography_register("county-eng")
@@ -172,6 +176,11 @@ if __name__ == "__main__":
     load_statistical_geography_register("metropolitan-district-eng")
     load_statistical_geography_register("non-metropolitan-district-eng")
     load_statistical_geography_register("unitary-authority-eng")
+
+    # assert name from offical-name
+    for organisation, o in organisations.items():
+        o["organisation"] = organisation
+        o["name"] = o.get("official-name", o.get("name", ""))
 
     patch("collection/wikidata/organisations.csv", key="name")
     patch("collection/wikidata/organisations.csv", key="wikidata")

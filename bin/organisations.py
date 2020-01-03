@@ -65,7 +65,11 @@ def valid_date(n, date):
 
 
 def valid_statistical_geography(organisation, value):
-    prefix = organisation.split(":")[0] + ":" + organisations[organisation].get("local-authority-type", "")
+    prefix = (
+        organisation.split(":")[0]
+        + ":"
+        + organisations[organisation].get("local-authority-type", "")
+    )
     pattern = {
         "local-authority-eng:UA": r"^E06000\d\d\d",
         "local-authority-eng:NMD": r"^E07000\d\d\d",
@@ -80,11 +84,17 @@ def valid_statistical_geography(organisation, value):
     }
     if value:
         if prefix not in pattern:
-            logging.error("%s: no pattern for statistical-geography %s (%s)" % (organisation, value, prefix))
+            logging.error(
+                "%s: no pattern for statistical-geography %s (%s)"
+                % (organisation, value, prefix)
+            )
             return True
 
         if not re.match(pattern[prefix], value):
-            logging.error("%s: invalid statistical-geography %s (%s)" % (organisation, value, pattern[prefix]))
+            logging.error(
+                "%s: invalid statistical-geography %s (%s)"
+                % (organisation, value, pattern[prefix])
+            )
             return True
 
     return False
@@ -105,7 +115,9 @@ def validate(organisations):
                 errors += 1
 
         # statistical geography
-        if valid_statistical_geography(organisation, o.get("statistical-geography", "")):
+        if valid_statistical_geography(
+            organisation, o.get("statistical-geography", "")
+        ):
             errors += 1
 
         # mandatory fields ..
@@ -131,11 +143,13 @@ def validate(organisations):
                     ]
                 ]
             ):
-                local_fields = set([
-                    "statistical-geography",
-                    "opendatacommunities",
-                    "opendatacommunities-area",
-                ])
+                local_fields = set(
+                    [
+                        "statistical-geography",
+                        "opendatacommunities",
+                        "opendatacommunities-area",
+                    ]
+                )
                 mandatory_fields.update(local_fields)
                 expected_fields.update(local_fields)
                 expected_fields.update(["billing-authority"])
@@ -274,7 +288,7 @@ if __name__ == "__main__":
                 "name",
             ]:
                 patch_file(path, key=key)
-                #print(path, key, organisations["waste-authority:Q21921612"].get("statistical-geography"), file=sys.stderr)
+                # print(path, key, organisations["waste-authority:Q21921612"].get("statistical-geography"), file=sys.stderr)
 
     for organisation, o in organisations.items():
         # strip blank times from dates

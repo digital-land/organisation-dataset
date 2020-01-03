@@ -33,7 +33,7 @@ all: $(TARGETS)
 
 collection/organisation.csv:	data/organisation.csv $(REGISTERS) $(PATCH_FILES) bin/organisations.py
 	mkdir -p collection
-	python3 bin/organisations.py $(PATCH_FILES) > $@
+	python3 bin/organisations.py > $@
 
 collection/organisation-tag.csv:	data/tag.csv
 	cp data/tag.csv $@

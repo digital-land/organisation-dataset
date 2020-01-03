@@ -26,5 +26,9 @@ SELECT DISTINCT * WHERE {
   OPTIONAL { ?wikidata wdt:P2002 ?twitter }
   OPTIONAL { ?wikidata wdt:P571 ?start_date }
   OPTIONAL { ?wikidata wdt:P576 ?end_date }
+  OPTIONAL { ?wikidata wdt:P836 ?statistical_geography }
+
+  # not strictly a property of the organisation
+  OPTIONAL { ?wikidata wdt:P836 ?statistical_geography }
 }
 ORDER BY ASC(?name)

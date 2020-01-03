@@ -162,6 +162,7 @@ def validate(organisations):
                 # unable to find URIs for development corporation areas ..
                 elif organisation.startswith("development-corporation:"):
                     mandatory_fields.remove("opendatacommunities-area")
+                    expected_fields.remove("billing-authority")
 
                 # unable to find an area for the GLA ..
                 elif organisation in ["local-authority-eng:GLA"]:
@@ -246,14 +247,22 @@ def patch_file(path, key):
                         organisations[organisation][field] = row[field]
 
 
-def patch_register(register=None, key=None):
+def patch_register(register, key=None):
     key = key or register
     patch_file(register_path(register), key=key)
 
 
+def patch_wikidata(name, key):
+    patch_file(os.path.join("collection/wikidata", name + ".csv"), key)
+
+
+def patch_odc(name, key):
+    patch_file(os.path.join("collection/opendatacommunities", name + ".csv"), key)
+
+
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s"
+        level=logging.WARNING, format="%(asctime)s %(levelname)s %(message)s"
     )
 
     # load GOV.UK registers
@@ -277,18 +286,21 @@ if __name__ == "__main__":
         o["organisation"] = organisation
         o["name"] = o.get("official-name", o.get("name", ""))
 
-    # patch files by various keys, needs several passes!
-    for _pass in range(2):
-        for path in sys.argv[1:]:
-            for key in [
-                "statistical-geography",
-                "local-authority-eng",
-                "wikidata",
-                "billing-authority",
-                "name",
-            ]:
-                patch_file(path, key=key)
-                # print(path, key, organisations["waste-authority:Q21921612"].get("statistical-geography"), file=sys.stderr)
+    # patch wikidata
+    patch_wikidata("organisations", "wikidata")
+    patch_wikidata("organisations", "name")
+
+    patch_odc("localgov", "local-authority-eng")
+    patch_odc("localgov", "billing-authority")
+    patch_odc("localgov", "name")
+
+    patch_odc("national-park-authority", "billing-authority")
+    patch_odc("national-park-authority", "name")
+
+    patch_odc("development-corporation", "name")
+
+    patch_odc("admingeo", "opendatacommunities")
+    patch_odc("admingeo", "statistical-geography")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

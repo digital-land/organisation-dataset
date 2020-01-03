@@ -88,7 +88,10 @@ def validate(organisations):
 
             # opendatacommunities doesn't yet have URIs for Combined Authorities ..
 
-            if (organisation.startswith("local-authority-eng:") and organisations[organisation]["local-authority-type"] == "COMB"):
+            if (
+                organisation.startswith("local-authority-eng:")
+                and organisations[organisation]["local-authority-type"] == "COMB"
+            ):
                 expected_fields.extend(
                     [
                         "statistical-geography",
@@ -97,7 +100,9 @@ def validate(organisations):
                     ]
                 )
             # unable to find URIs for development corporation areas ..
-            elif organisation.startswith("development-corporation:") or organisation in ["local-authority-eng:GLA"]:
+            elif organisation.startswith(
+                "development-corporation:"
+            ) or organisation in ["local-authority-eng:GLA"]:
                 mandatory_fields.extend(
                     ["statistical-geography", "opendatacommunities"]
                 )
@@ -115,9 +120,7 @@ def validate(organisations):
 
         for expected_field in expected_fields:
             if not o.get(expected_field, ""):
-                logging.warning(
-                    "%s: missing %s field" % (organisation, expected_field)
-                )
+                logging.warning("%s: missing %s field" % (organisation, expected_field))
                 warnings += 1
 
         for mandatory_field in mandatory_fields:
@@ -218,7 +221,13 @@ if __name__ == "__main__":
         o["name"] = o.get("official-name", o.get("name", ""))
 
     for path in sys.argv[1:]:
-        for key in ["local-authority-eng", "wikidata", "billing-authority", "statistical-geography", "name"]:
+        for key in [
+            "local-authority-eng",
+            "wikidata",
+            "billing-authority",
+            "statistical-geography",
+            "name",
+        ]:
             patch_file(path, key=key)
 
     for organisation, o in organisations.items():

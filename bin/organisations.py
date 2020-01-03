@@ -79,16 +79,18 @@ def validate(organisations):
                 errors += 1
 
         # mandatory fields ..
-        mandatory_fields = ["name", "wikidata"]
-        expected_fields = []
+        mandatory_fields = set(["name", "wikidata"])
+        expected_fields = set()
+        unexpected_fields = set()
 
         # active organisations ..
         if not o.get("end-date", ""):
-            mandatory_fields.append("website")
+            mandatory_fields.add("website")
 
             # local government ..
             if organisation.startswith("waste-authority:"):
-                mandatory_fields.append("opendatacommunities")
+                mandatory_fields.add("opendatacommunities")
+                unexpected_fields.add("statistical-geography")
             elif any(
                 [
                     organisation.startswith(prefix + ":")
@@ -99,14 +101,14 @@ def validate(organisations):
                     ]
                 ]
             ):
-                local_fields = [
+                local_fields = set([
                     "statistical-geography",
                     "opendatacommunities",
                     "opendatacommunities-area",
-                ]
-                mandatory_fields.extend(local_fields)
-                expected_fields.extend(local_fields)
-                expected_fields.extend(["billing-authority"])
+                ])
+                mandatory_fields.update(local_fields)
+                expected_fields.update(local_fields)
+                expected_fields.update(["billing-authority"])
 
                 # unable to find URIs for Combined Authorities ..
                 if o.get("local-authority-type", "") == "COMB":
@@ -122,16 +124,23 @@ def validate(organisations):
                     mandatory_fields.remove("opendatacommunities-area")
 
         for field in expected_fields:
-            if field not in mandatory_fields:
+            if field not in set(mandatory_fields).union(unexpected_fields):
                 if not o.get(field, ""):
                     logging.warning("%s: missing %s field" % (organisation, field))
                     warnings += 1
 
-        for field in mandatory_fields:
-            if not o.get(field, ""):
+        for field in unexpected_fields:
+            if o.get(field, ""):
                 logging.info(o)
-                logging.error("%s: missing %s field" % (organisation, field))
+                logging.error("%s: unexpected field %s" % (organisation, field))
                 errors += 1
+
+        for field in mandatory_fields:
+            if field not in unexpected_fields:
+                if not o.get(field, ""):
+                    logging.info(o)
+                    logging.error("%s: missing %s field" % (organisation, field))
+                    errors += 1
 
     return errors, warnings
 
@@ -236,6 +245,7 @@ if __name__ == "__main__":
                 "label",
             ]:
                 patch_file(path, key=key)
+                #print(path, key, organisations["waste-authority:Q21921612"].get("statistical-geography"), file=sys.stderr)
 
     for organisation, o in organisations.items():
         # strip blank times from dates

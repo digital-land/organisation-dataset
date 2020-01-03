@@ -8,11 +8,21 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT * WHERE {
 
     VALUES ?opendatacommunities_type {
-        localgov:CivilAdministrativeAuthority
 
-        # some newer authorities don't have the CivilAdministrativeAuthority type
+        localgov:FireAuthority
+        localgov:PoliceAuthority
+        localgov:RegionalParkAuthority
+        localgov:TransportAuthority
+        localgov:WasteAuthority
+
+        # newer authorities don't have the CivilAdministrativeAuthority type
         localgov:UnitaryAuthority
         localgov:DistrictCouncil
+        localgov:LocalAuthority
+
+        # but still need this catch-all for the GLA
+        localgov:CivilAdministrativeAuthority
+
     }
     ?opendatacommunities rdf:type ?opendatacommunities_type .
 
@@ -23,7 +33,7 @@ SELECT DISTINCT * WHERE {
     OPTIONAL { ?opendatacommunities localgov:billingAuthorityCode ?billing_authority }
     OPTIONAL { ?opendatacommunities os:hasCensusCode ?census_area }
 
-    # local-authority-eng.register.gov.uk is kept and maintained by MHCLG ..
+    # the local-authority-eng.register.gov.uk is kept and maintained by MHCLG ..
 
     OPTIONAL { ?opendatacommunities admingeo:gdsCode ?local_authority_eng }
     OPTIONAL { ?opendatacommunities admingeo:gdsTypeCode ?local_authority_type }

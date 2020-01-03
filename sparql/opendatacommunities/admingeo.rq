@@ -4,7 +4,7 @@ PREFIX foi: <http://publishmydata.com/def/ontology/foi/>
 
 SELECT DISTINCT *
 WHERE {
-    VALUES ?o {
+    VALUES ?type {
         admingeo:nationalPark
         admingeo:County
         admingeo:UnitaryAuthority
@@ -12,8 +12,8 @@ WHERE {
         admingeo:NonMetropolitanDistrict
         admingeo:LondonBorough
     }
-    ?opendatacommunities_area ?p ?o .
-    { ?opendatacommunities_area <http://www.w3.org/2000/01/rdf-schema#label> ?name }
+    ?opendatacommunities_area ?p ?type .
+    { ?opendatacommunities_area <http://www.w3.org/2000/01/rdf-schema#label> ?label }
     OPTIONAL { ?opendatacommunities_area foi:code ?statistical_geography }
     OPTIONAL { ?opendatacommunities_area localgov:isGovernedBy ?opendatacommunities }
 }

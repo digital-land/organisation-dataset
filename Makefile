@@ -48,7 +48,7 @@ $(WIKIDATA_DIR)%.csv:	$(SPARQL_DIR)wikidata/%.rq bin/sparql.py
 
 $(OPENDATACOMMUNITIES_DIR)%.csv:	$(SPARQL_DIR)opendatacommunities/%.rq bin/sparql.py
 	@mkdir -p $(OPENDATACOMMUNITIES_DIR)
-	bin/sparql.py "https://opendatacommunities.org/sparql" $< "" > $@
+	bin/sparql.py "https://opendatacommunities.org/sparql" $< > $@
 
 black:
 	black .

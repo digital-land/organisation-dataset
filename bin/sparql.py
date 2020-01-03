@@ -8,6 +8,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 import csv
 
 names = {}
+prefix = ""
 
 
 def sparql(endpoint, query):
@@ -28,8 +29,11 @@ def remove_prefix(value, prefix):
 
 
 if __name__ == "__main__":
+    # usage: sparql.py endpoint-url sparql-files [removed-prefix]
     data = sparql(argv[1], open(argv[2]).read())
-    prefix = argv[3]
+
+    if len(argv) > 3:
+        prefix = argv[3]
 
     fields = [field.replace("_", "-") for field in data["head"]["vars"]]
 

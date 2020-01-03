@@ -64,6 +64,25 @@ def valid_date(n, date):
     return True
 
 
+def valid_statistical_geography(curie, value):
+    prefix = curie.split(":")[0]
+    pattern = {
+        "local-authority": r"^E07000\d\d\d",
+        "national-park": r"^E260000\d\d",
+        "development-corporation": r"^E510000\d\d",
+    }
+    if value:
+        if prefix not in pattern:
+            logging.error("%s: no pattern for statistical-geography %s" % (organisation, value))
+            return True
+
+        if not re.match(pattern[prefix], value):
+            logging.error("%s: invalid statistical-geography for %s" % (organisation, value))
+            return True
+
+    return False
+
+
 def validate(organisations):
     errors = warnings = 0
     for organisation in sorted(organisations):
@@ -77,6 +96,10 @@ def validate(organisations):
         for date_field in ["start-date", "end-date"]:
             if valid_date(organisation, o.get(date_field, "")):
                 errors += 1
+
+        # statistical geography
+        if valid_statistical_geography(organisation, o.get("statistical-geography", "")):
+            errors += 1
 
         # mandatory fields ..
         mandatory_fields = set(["name", "wikidata"])

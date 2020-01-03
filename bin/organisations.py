@@ -64,20 +64,27 @@ def valid_date(n, date):
     return True
 
 
-def valid_statistical_geography(curie, value):
-    prefix = curie.split(":")[0]
+def valid_statistical_geography(organisation, value):
+    prefix = organisation.split(":")[0] + ":" + organisations[organisation].get("local-authority-type", "")
     pattern = {
-        "local-authority": r"^E07000\d\d\d",
-        "national-park": r"^E260000\d\d",
-        "development-corporation": r"^E510000\d\d",
+        "local-authority-eng:UA": r"^E06000\d\d\d",
+        "local-authority-eng:NMD": r"^E07000\d\d\d",
+        "local-authority-eng:MD": r"^E08000\d\d\d",
+        "local-authority-eng:LBO": r"^E09000\d\d\d",
+        "local-authority-eng:CC": r"^E09000\d\d\d",
+        "local-authority-eng:CTY": r"^E10000\d\d\d",
+        "local-authority-eng:SRA": r"^E12000\d\d\d",
+        "local-authority-eng:COMB": r"^E47000\d\d\d",
+        "national-park:": r"^E260000\d\d",
+        "development-corporation:": r"^E510000\d\d",
     }
     if value:
         if prefix not in pattern:
-            logging.error("%s: no pattern for statistical-geography %s" % (organisation, value))
+            logging.error("%s: no pattern for statistical-geography %s (%s)" % (organisation, value, prefix))
             return True
 
         if not re.match(pattern[prefix], value):
-            logging.error("%s: invalid statistical-geography for %s" % (organisation, value))
+            logging.error("%s: invalid statistical-geography %s (%s)" % (organisation, value, pattern[prefix]))
             return True
 
     return False
@@ -265,7 +272,6 @@ if __name__ == "__main__":
                 "wikidata",
                 "billing-authority",
                 "name",
-                "label",
             ]:
                 patch_file(path, key=key)
                 #print(path, key, organisations["waste-authority:Q21921612"].get("statistical-geography"), file=sys.stderr)

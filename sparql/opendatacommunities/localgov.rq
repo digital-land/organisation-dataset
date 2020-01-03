@@ -26,7 +26,7 @@ SELECT DISTINCT * WHERE {
     }
     ?opendatacommunities rdf:type ?opendatacommunities_type .
 
-    { ?opendatacommunities rdfs:label ?label }
+    { ?opendatacommunities rdfs:label ?name }
 
     OPTIONAL { ?opendatacommunities os:gssCode ?statistical_geography }
 

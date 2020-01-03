@@ -86,47 +86,51 @@ def validate(organisations):
         if not o.get("end-date", ""):
             mandatory_fields.append("website")
 
-            # opendatacommunities doesn't yet have URIs for Combined Authorities ..
-
-            if (
-                organisation.startswith("local-authority-eng:")
-                and organisations[organisation]["local-authority-type"] == "COMB"
+            # local government ..
+            if organisation.startswith("waste-authority:"):
+                mandatory_fields.append("opendatacommunities")
+            elif any(
+                [
+                    organisation.startswith(prefix + ":")
+                    for prefix in [
+                        "local-authority-eng",
+                        "national-park",
+                        "development-corporation",
+                    ]
+                ]
             ):
-                expected_fields.extend(
-                    [
-                        "statistical-geography",
-                        "opendatacommunities",
-                        "opendatacommunities-area",
-                    ]
-                )
-            # unable to find URIs for development corporation areas ..
-            elif organisation.startswith(
-                "development-corporation:"
-            ) or organisation in ["local-authority-eng:GLA"]:
-                mandatory_fields.extend(
-                    ["statistical-geography", "opendatacommunities"]
-                )
-                expected_fields.extend(["opendatacommunities-area"])
-            elif organisation.startswith(
-                "local-authority-eng:"
-            ) or organisation.startswith("national-park:"):
-                mandatory_fields.extend(
-                    [
-                        "statistical-geography",
-                        "opendatacommunities",
-                        "opendatacommunities-area",
-                    ]
-                )
+                local_fields = [
+                    "statistical-geography",
+                    "opendatacommunities",
+                    "opendatacommunities-area",
+                ]
+                mandatory_fields.extend(local_fields)
+                expected_fields.extend(local_fields)
+                expected_fields.extend(["billing-authority"])
 
-        for expected_field in expected_fields:
-            if not o.get(expected_field, ""):
-                logging.warning("%s: missing %s field" % (organisation, expected_field))
-                warnings += 1
+                # unable to find URIs for Combined Authorities ..
+                if o.get("local-authority-type", "") == "COMB":
+                    mandatory_fields.remove("opendatacommunities")
+                    mandatory_fields.remove("opendatacommunities-area")
 
-        for mandatory_field in mandatory_fields:
-            if not o.get(mandatory_field, ""):
-                print(o, file=sys.stderr)
-                logging.error("%s: missing %s field" % (organisation, mandatory_field))
+                # unable to find URIs for development corporation areas ..
+                elif organisation.startswith("development-corporation:"):
+                    mandatory_fields.remove("opendatacommunities-area")
+
+                # unable to find an area for the GLA ..
+                elif organisation in ["local-authority-eng:GLA"]:
+                    mandatory_fields.remove("opendatacommunities-area")
+
+        for field in expected_fields:
+            if field not in mandatory_fields:
+                if not o.get(field, ""):
+                    logging.warning("%s: missing %s field" % (organisation, field))
+                    warnings += 1
+
+        for field in mandatory_fields:
+            if not o.get(field, ""):
+                logging.info(o)
+                logging.error("%s: missing %s field" % (organisation, field))
                 errors += 1
 
     return errors, warnings
@@ -196,7 +200,7 @@ def patch_register(register=None, key=None):
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.WARNING, format="%(asctime)s %(levelname)s %(message)s"
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s"
     )
 
     # load GOV.UK registers
@@ -220,7 +224,7 @@ if __name__ == "__main__":
         o["organisation"] = organisation
         o["name"] = o.get("official-name", o.get("name", ""))
 
-    # patch files by various keys, needs two passes!
+    # patch files by various keys, needs several passes!
     for _pass in range(2):
         for path in sys.argv[1:]:
             for key in [
@@ -229,6 +233,7 @@ if __name__ == "__main__":
                 "wikidata",
                 "billing-authority",
                 "name",
+                "label",
             ]:
                 patch_file(path, key=key)
 

@@ -220,15 +220,17 @@ if __name__ == "__main__":
         o["organisation"] = organisation
         o["name"] = o.get("official-name", o.get("name", ""))
 
-    for path in sys.argv[1:]:
-        for key in [
-            "local-authority-eng",
-            "wikidata",
-            "billing-authority",
-            "statistical-geography",
-            "name",
-        ]:
-            patch_file(path, key=key)
+    # patch files by various keys, needs two passes!
+    for _pass in range(2):
+        for path in sys.argv[1:]:
+            for key in [
+                "statistical-geography",
+                "local-authority-eng",
+                "wikidata",
+                "billing-authority",
+                "name",
+            ]:
+                patch_file(path, key=key)
 
     for organisation, o in organisations.items():
         # strip blank times from dates

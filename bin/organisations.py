@@ -17,6 +17,7 @@ fields = [
     "wikidata",
     "name",
     "website",
+    "twitter",
     "statistical-geography",
     "toid",
     "opendatacommunities",

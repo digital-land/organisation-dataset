@@ -107,13 +107,10 @@ def register_path(name):
     return register_dir + name + ".csv"
 
 
-def load_register(register=None, key=None, prefix=None, path=None, fields={}):
-    if path is None:
-        path = register_path(register)
+# add to organisations
+def load_file(path, key=None, prefix=None, fields={}):
 
-    if key is None:
-        key = register
-
+    # construct prefix for curie
     if prefix is None:
         prefix = key + ":"
 
@@ -128,10 +125,15 @@ def load_register(register=None, key=None, prefix=None, path=None, fields={}):
                     organisations[curie][to] = row[field]
 
 
+def load_register(register=None, key=None, prefix=None, fields={}):
+    key = key or register
+    load_file(register_path(register), key=key, prefix=prefix, fields=fields)
+
+
 def load_statistical_geography_register(name):
     register = "statistical-geography-" + name
     fields = { register: "statistical-geography" }
-    load_register(register, fields=fields, key="local-authority-eng")
+    load_register(register, key="local-authority-eng", fields=fields)
 
 
 # index organisations by key
@@ -144,7 +146,8 @@ def index(key):
     return keys
 
 
-def patch(path, key):
+# add to existing organisations
+def patch_file(path, key):
     keys = index(key)
     for row in csv.DictReader(open(path)):
         for organisation in keys.get(row[key], []):
@@ -155,7 +158,7 @@ def patch(path, key):
 
 def patch_register(register=None, key=None):
     key = key or register
-    patch(register_path(register), key)
+    patch_file(register_path(register), key=key)
 
 
 if __name__ == "__main__":
@@ -165,7 +168,7 @@ if __name__ == "__main__":
     load_register("local-authority-eng")
 
     # add organisations missing from registers
-    load_register(path="data/organisation.csv", key="organisation", prefix="")
+    load_file("data/organisation.csv", key="organisation", prefix="")
 
     # add details for government organisations
     patch_register("government-organisation")
@@ -182,11 +185,11 @@ if __name__ == "__main__":
         o["organisation"] = organisation
         o["name"] = o.get("official-name", o.get("name", ""))
 
-    patch("collection/wikidata/organisations.csv", key="name")
-    patch("collection/wikidata/organisations.csv", key="wikidata")
+    patch_file("collection/wikidata/organisations.csv", key="name")
+    patch_file("collection/wikidata/organisations.csv", key="wikidata")
 
-    patch("collection/opendatacommunities/admingeo.csv", key="statistical-geography")
-    patch("collection/opendatacommunities/localgov.csv", key="statistical-geography")
+    patch_file("collection/opendatacommunities/admingeo.csv", key="statistical-geography")
+    patch_file("collection/opendatacommunities/localgov.csv", key="statistical-geography")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

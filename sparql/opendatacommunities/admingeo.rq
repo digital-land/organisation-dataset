@@ -13,7 +13,7 @@ WHERE {
         admingeo:LondonBorough
     }
     ?opendatacommunities_area ?p ?o .
-    { ?opendatacommunities_area foi:displayName ?name }
+    { ?opendatacommunities_area <http://www.w3.org/2000/01/rdf-schema#label> ?name }
     OPTIONAL { ?opendatacommunities_area foi:code ?statistical_geography }
     OPTIONAL { ?opendatacommunities_area localgov:isGovernedBy ?opendatacommunities }
 }

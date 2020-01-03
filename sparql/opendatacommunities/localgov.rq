@@ -1,13 +1,35 @@
 PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX admingeo: <http://opendatacommunities.org/ontology/admingeo/>
 PREFIX foi: <http://publishmydata.com/def/ontology/foi/>
+PREFIX os: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT *
-WHERE {
-    VALUES ?o {
-        localgov:DevelopmentCorporation
+SELECT DISTINCT * WHERE {
+
+    VALUES ?opendatacommunities_type {
+        localgov:CivilAdministrativeAuthority
+
+        # some newer authorities don't have the CivilAdministrativeAuthority type
+        localgov:UnitaryAuthority
+        localgov:DistrictCouncil
     }
-    ?opendatacommunities ?p ?o .
-    { ?opendatacommunities foi:displayName ?name }
-    OPTIONAL { ?opendatacommunities foi:code ?statistical_geography }
+    ?opendatacommunities rdf:type ?opendatacommunities_type .
+
+    { ?opendatacommunities rdfs:label ?label }
+
+    OPTIONAL { ?opendatacommunities os:gssCode ?statistical_geography }
+
+    OPTIONAL { ?opendatacommunities localgov:billingAuthorityCode ?billing_authority }
+    OPTIONAL { ?opendatacommunities os:hasCensusCode ?census_area }
+
+    # local-authority-eng.register.gov.uk is kept and maintained by MHCLG ..
+
+    OPTIONAL { ?opendatacommunities admingeo:gdsCode ?local_authority_eng }
+    OPTIONAL { ?opendatacommunities admingeo:gdsTypeCode ?local_authority_type }
+    OPTIONAL { ?opendatacommunities admingeo:gdsName ?name }
+    OPTIONAL { ?opendatacommunities admingeo:gdsOfficialName ?official_name }
+    OPTIONAL { ?opendatacommunities admingeo:startDate ?start_date }
+    OPTIONAL { ?opendatacommunities admingeo:endDate ?end_date }
 }
 ORDER BY ASC(?name)

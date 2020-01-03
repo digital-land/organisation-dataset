@@ -22,16 +22,18 @@ REGISTERS=\
 	$(REGISTER_DIR)statistical-geography-non-metropolitan-district-eng.csv\
 	$(REGISTER_DIR)statistical-geography-unitary-authority-eng.csv
 
-SPARQL_DATA=\
+PATCH_FILES=\
 	$(WIKIDATA_DIR)organisations.csv\
 	$(OPENDATACOMMUNITIES_DIR)admingeo.csv\
-	$(OPENDATACOMMUNITIES_DIR)localgov.csv
+	$(OPENDATACOMMUNITIES_DIR)localgov.csv\
+	$(OPENDATACOMMUNITIES_DIR)development-corporation.csv\
+	$(OPENDATACOMMUNITIES_DIR)national-park-authority.csv
 
 all: $(TARGETS)
 
-collection/organisation.csv:	data/organisation.csv $(REGISTERS) $(SPARQL_DATA) bin/organisations.py
+collection/organisation.csv:	data/organisation.csv $(REGISTERS) $(PATCH_FILES) bin/organisations.py
 	mkdir -p collection
-	python3 bin/organisations.py > $@
+	python3 bin/organisations.py $(PATCH_FILES) > $@
 
 collection/organisation-tag.csv:	data/tag.csv
 	cp data/tag.csv $@

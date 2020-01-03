@@ -9,6 +9,7 @@ import csv
 
 names = {}
 
+
 def sparql(endpoint, query):
     s = SPARQLWrapper(
         endpoint,

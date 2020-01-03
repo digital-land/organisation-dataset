@@ -1,0 +1,12 @@
+PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX admingeo: <http://opendatacommunities.org/ontology/admingeo/>
+PREFIX os: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT * WHERE {
+    ?opendatacommunities rdf:type localgov:DevelopmentCorporation .
+    { ?opendatacommunities rdfs:label ?name }
+    { ?opendatacommunities os:gssCode ?statistical_geography}
+}
+ORDER BY ASC(?name)

@@ -1,0 +1,17 @@
+PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX admingeo: <http://opendatacommunities.org/ontology/admingeo/>
+PREFIX foi: <http://publishmydata.com/def/ontology/foi/>
+PREFIX os: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT * WHERE {
+    ?opendatacommunities rdf:type localgov:NationalParkAuthority .
+    { ?opendatacommunities rdfs:label ?name }
+
+    OPTIONAL { ?opendatacommunities localgov:billingAuthorityCode ?billing_authority }
+
+    # National Parks don't seem to have the gssCode property ..
+    OPTIONAL { ?opendatacommunities foi:code ?statistical_geography }
+}
+ORDER BY ASC(?name)

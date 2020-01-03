@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os.path
 import sys
 import csv
 import logging
@@ -8,8 +9,6 @@ import validators
 from datetime import datetime
 
 register_dir = "collection/register/"
-wikidata_dir = "collection/wikidata/"
-opendatacommunties_dir = "collection/opendatacommunties/"
 
 organisations = {}
 
@@ -62,7 +61,7 @@ def valid_date(n, date):
 
 
 def validate(organisations):
-    errors = 0
+    errors = warnings = 0
     for organisation in sorted(organisations):
         o = organisations[organisation]
 
@@ -77,38 +76,63 @@ def validate(organisations):
 
         # mandatory fields ..
         mandatory_fields = ["name", "wikidata"]
+        expected_fields = []
 
+        # active organisations ..
         if not o.get("end-date", ""):
             mandatory_fields.append("website")
 
-            # LPA additional constraints ..
-            if (
-                organisation.startswith("local-authority-eng")
-                or organisation.startswith("national-park")
-                or organisation.startswith("development-corporation")
-            ):
+            # opendatacommunities doesn't yet have URIs for Combined Authorities ..
+
+            if (organisation.startswith("local-authority-eng:") and organisations[organisation]["local-authority-type"] == "COMB"):
+                expected_fields.extend(
+                    [
+                        "statistical-geography",
+                        "opendatacommunities",
+                        "opendatacommunities-area",
+                    ]
+                )
+            # unable to find URIs for development corporation areas ..
+            elif organisation.startswith("development-corporation:") or organisation in ["local-authority-eng:GLA"]:
+                mandatory_fields.extend(
+                    ["statistical-geography", "opendatacommunities"]
+                )
+                expected_fields.extend(["opendatacommunities-area"])
+            elif organisation.startswith(
+                "local-authority-eng:"
+            ) or organisation.startswith("national-park:"):
                 mandatory_fields.extend(
                     [
                         "statistical-geography",
                         "opendatacommunities",
-                        "opendatacommunities-area"
+                        "opendatacommunities-area",
                     ]
                 )
 
+        for expected_field in expected_fields:
+            if not o.get(expected_field, ""):
+                logging.warning(
+                    "%s: missing %s field" % (organisation, expected_field)
+                )
+                warnings += 1
+
         for mandatory_field in mandatory_fields:
             if not o.get(mandatory_field, ""):
+                print(o, file=sys.stderr)
                 logging.error("%s: missing %s field" % (organisation, mandatory_field))
                 errors += 1
 
-    return errors
+    return errors, warnings
 
 
 def register_path(name):
-    return register_dir + name + ".csv"
+    return os.path.join(register_dir, name + ".csv")
 
 
 # add to organisations
 def load_file(path, key=None, prefix=None, fields={}):
+
+    logging.info("loading %s" % (path))
 
     # construct prefix for curie
     if prefix is None:
@@ -132,7 +156,7 @@ def load_register(register=None, key=None, prefix=None, fields={}):
 
 def load_statistical_geography_register(name):
     register = "statistical-geography-" + name
-    fields = { register: "statistical-geography" }
+    fields = {register: "statistical-geography"}
     load_register(register, key="local-authority-eng", fields=fields)
 
 
@@ -148,12 +172,14 @@ def index(key):
 
 # add to existing organisations
 def patch_file(path, key):
+    logging.info("patching %s with %s" % (path, key))
     keys = index(key)
     for row in csv.DictReader(open(path)):
-        for organisation in keys.get(row[key], []):
-            for field in row:
-                if not organisations[organisation].get(field, None):
-                    organisations[organisation][field] = row[field]
+        if key in row:
+            for organisation in keys.get(row[key], []):
+                for field in row:
+                    if not organisations[organisation].get(field, None):
+                        organisations[organisation][field] = row[field]
 
 
 def patch_register(register=None, key=None):
@@ -162,7 +188,9 @@ def patch_register(register=None, key=None):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    logging.basicConfig(
+        level=logging.WARNING, format="%(asctime)s %(levelname)s %(message)s"
+    )
 
     # load GOV.UK registers
     load_register("local-authority-eng")
@@ -185,11 +213,9 @@ if __name__ == "__main__":
         o["organisation"] = organisation
         o["name"] = o.get("official-name", o.get("name", ""))
 
-    patch_file("collection/wikidata/organisations.csv", key="name")
-    patch_file("collection/wikidata/organisations.csv", key="wikidata")
-
-    patch_file("collection/opendatacommunities/admingeo.csv", key="statistical-geography")
-    patch_file("collection/opendatacommunities/localgov.csv", key="statistical-geography")
+    for path in sys.argv[1:]:
+        for key in ["local-authority-eng", "wikidata", "billing-authority", "statistical-geography", "name"]:
+            patch_file(path, key=key)
 
     for organisation, o in organisations.items():
         # strip blank times from dates
@@ -199,9 +225,11 @@ if __name__ == "__main__":
 
     save(organisations)
 
-    errors = validate(organisations)
+    errors, warnings = validate(organisations)
+
+    if warnings:
+        logging.warning("%d warnings" % (warnings))
 
     if errors:
         logging.error("%d errors" % (errors))
-        # live with errors .. for now ..
-        #sys.exit(2)
+        sys.exit(2)

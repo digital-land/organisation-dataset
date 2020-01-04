@@ -243,8 +243,9 @@ def patch_file(path, key):
         if key in row:
             for organisation in keys.get(row[key], []):
                 for field in row:
-                    if not organisations[organisation].get(field, None):
+                    if row[field] and not organisations[organisation].get(field, None):
                         organisations[organisation][field] = row[field]
+                        logging.debug([path, key, organisation, field, row[field]])
 
 
 def patch_register(register, key=None):

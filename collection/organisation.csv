@@ -394,6 +394,14 @@ national-park-authority:Q72617784,Q72617784,Exmoor National Park Authority,https
 national-park-authority:Q72617890,Q72617890,Northumberland National Park Authority,https://www.gov.uk/government/organisations/northumberland-national-park-authority,,E26000004,,http://opendatacommunities.org/id/national-park-authority/northumberland,http://opendatacommunities.org/id/geography/administration/npark/E26000004,E6405,,,,,
 national-park-authority:Q72617988,Q72617988,Peak District National Park Authority,https://www.gov.uk/government/organisations/peak-district-national-park,,E26000006,,http://opendatacommunities.org/id/national-park-authority/peak-district,http://opendatacommunities.org/id/geography/administration/npark/E26000006,E6406,,,,,
 regional-park-authority:Q6515400,Q6515400,Lee Valley Regional Park Authority,https://www.leevalleypark.org.uk/,,,,http://opendatacommunities.org/id/regional-park-authority/lee-valley,,E6803,,,,,
+transport-authority:Q25171369,Q25171369,West Midlands Passenger Transport Executive,,,,,,,,,,,1969-10-01,2016-06-17
+transport-authority:Q6820591,Q6820591,Merseytravel,http://www.merseytravel.gov.uk,,,,http://opendatacommunities.org/id/transport-authority/merseyside,,E6343,,,,1969-12-01,
+transport-authority:Q682520,Q682520,Transport for London,http://www.tfl.gov.uk,TfL,,,,,,,,,2000-07-03,
+transport-authority:Q7569004,Q7569004,South Yorkshire Passenger Transport Executive,http://www.sypte.co.uk/,,,,http://opendatacommunities.org/id/transport-authority/south-yorkshire,,E6344,,,,1974-01-01,
+transport-authority:Q7834921,Q7834921,Transport for Greater Manchester,http://www.tfgm.com/,,,,,,,,,,2011-04-01,
+transport-authority:Q7860508,Q7860508,Tyne and Wear Passenger Transport Executive,http://www.nexus.org.uk,,,,http://opendatacommunities.org/id/transport-authority/tyne-and-wear,,E6345,,,,1968-01-01,
+transport-authority:Q7985947,Q7985947,Transport for West Midlands,https://www.tfwm.org.uk/,,,,http://opendatacommunities.org/id/transport-authority/west-midlands,,E6346,,,,1969-10-01,
+transport-authority:Q7987043,Q7987043,West Yorkshire Passenger Transport Executive,http://www.wymetro.com/,,,,http://opendatacommunities.org/id/transport-authority/west-yorkshire,,E6347,,,,1974-01-01,2014-04-01
 waste-authority:Q20711950,Q20711950,East London Waste Authority,http://www.recycleforyourcommunity.com,recycleFYC,,,http://opendatacommunities.org/id/waste-authority/east-london,,E6201,,,,1986-01-01,
 waste-authority:Q20713477,Q20713477,North London Waste Authority,http://nlwa.gov.uk/,,,,http://opendatacommunities.org/id/waste-authority/north-london,,E6205,,,,1986-01-01,
 waste-authority:Q21921612,Q21921612,West London Waste Authority,http://westlondonwaste.gov.uk,WestLondonWaste,,,http://opendatacommunities.org/id/waste-authority/west-london,,E6207,,,,1986-01-01,

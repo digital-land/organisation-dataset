@@ -17,6 +17,7 @@ SELECT DISTINCT * WHERE {
     wd:Q16690653 # borough council
     wd:Q80647952 # Strategic Regional Authority
     wd:Q7972817 # Waste disposal authority
+    wd:Q514989 # passenger transport executive
   }
 
   ?wikidata wdt:P31 ?legislature .

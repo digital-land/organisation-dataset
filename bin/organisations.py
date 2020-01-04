@@ -135,7 +135,15 @@ def validate(organisations):
             mandatory_fields.add("website")
 
             # local government ..
-            if has_prefix(organisation, ["waste-authority", "regional-park-authority"]):
+            if organisation in [
+                    "transport-authority:Q682520", # TfL
+                    "transport-authority:Q7834921", # TfGM
+                ]:
+                expected_fields.update(["opendatacommunities", "billing-authority"])
+            elif has_prefix(
+                organisation,
+                ["waste-authority", "transport-authority", "regional-park-authority"],
+            ):
                 mandatory_fields.update(["opendatacommunities", "billing-authority"])
                 unexpected_fields.add("statistical-geography")
             elif has_prefix(
@@ -285,6 +293,7 @@ if __name__ == "__main__":
     load_data("local-authority-eng")
     load_data("national-park-authority")
     load_data("regional-park-authority")
+    load_data("transport-authority")
     load_data("waste-authority")
 
     # add details for government organisations

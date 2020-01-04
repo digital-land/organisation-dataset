@@ -1,0 +1,16 @@
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT * WHERE {
+  VALUES ?wikidata {
+    wd:Q6515400 # Lee Valley Regional Park Authority
+  }
+  ?wikidata rdfs:label ?name .
+    FILTER (langMatches(lang(?name), "EN" ))
+  OPTIONAL { ?wikidata wdt:P856 ?website }
+  OPTIONAL { ?wikidata wdt:P2002 ?twitter }
+  OPTIONAL { ?wikidata wdt:P571 ?start_date }
+  OPTIONAL { ?wikidata wdt:P576 ?end_date }
+}
+ORDER BY ASC(?name)

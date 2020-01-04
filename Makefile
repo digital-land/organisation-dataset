@@ -23,7 +23,8 @@ COLLECTED_REGISTERS=\
 	$(REGISTER_DIR)statistical-geography-unitary-authority-eng.csv
 
 COLLECTED_DATA=\
-	$(WIKIDATA_DIR)organisations.csv\
+	$(WIKIDATA_DIR)legislature.csv\
+	$(WIKIDATA_DIR)authority.csv\
 	$(OPENDATACOMMUNITIES_DIR)admingeo.csv\
 	$(OPENDATACOMMUNITIES_DIR)localgov.csv\
 	$(OPENDATACOMMUNITIES_DIR)development-corporation.csv\

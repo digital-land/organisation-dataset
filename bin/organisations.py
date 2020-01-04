@@ -39,6 +39,10 @@ def save(organisations):
         w.writerow(organisations[organisation])
 
 
+def has_prefix(organisation, prefixes):
+    return any([organisation.startswith(prefix + ":") for prefix in prefixes])
+
+
 def valid_url(n, url):
     if url != "" and not validators.url(url):
         logging.error("%s: invalid url %s" % (n, url))
@@ -131,18 +135,16 @@ def validate(organisations):
             mandatory_fields.add("website")
 
             # local government ..
-            if organisation.startswith("waste-authority:"):
-                mandatory_fields.add("opendatacommunities")
+            if has_prefix(organisation, ["waste-authority", "regional-park-authority"]):
+                mandatory_fields.update(["opendatacommunities", "billing-authority"])
                 unexpected_fields.add("statistical-geography")
-            elif any(
+            elif has_prefix(
+                organisation,
                 [
-                    organisation.startswith(prefix + ":")
-                    for prefix in [
-                        "local-authority-eng",
-                        "national-park-authority",
-                        "development-corporation",
-                    ]
-                ]
+                    "local-authority-eng",
+                    "national-park-authority",
+                    "development-corporation",
+                ],
             ):
                 local_fields = set(
                     [
@@ -161,7 +163,7 @@ def validate(organisations):
                     mandatory_fields.remove("opendatacommunities-area")
 
                 # unable to find URIs for development corporation areas ..
-                elif organisation.startswith("development-corporation:"):
+                elif has_prefix(organisation, ["development-corporation"]):
                     mandatory_fields.remove("opendatacommunities-area")
                     expected_fields.remove("billing-authority")
 
@@ -262,11 +264,11 @@ def patch_register(register, key=None):
 
 
 def patch_wikidata(name, key):
-    patch_file(os.path.join("collection/wikidata", name + ".csv"), key)
+    patch_file(csv_path("collection/wikidata", name), key)
 
 
 def patch_odc(name, key):
-    patch_file(os.path.join("collection/opendatacommunities", name + ".csv"), key)
+    patch_file(csv_path("collection/opendatacommunities", name), key)
 
 
 if __name__ == "__main__":
@@ -282,6 +284,7 @@ if __name__ == "__main__":
     load_data("development-corporation")
     load_data("local-authority-eng")
     load_data("national-park-authority")
+    load_data("regional-park-authority")
     load_data("waste-authority")
 
     # add details for government organisations
@@ -300,8 +303,9 @@ if __name__ == "__main__":
         o["name"] = o.get("official-name", o.get("name", ""))
 
     # patch wikidata
-    patch_wikidata("organisations", "wikidata")
-    patch_wikidata("organisations", "name")
+    patch_wikidata("legislature", "wikidata")
+    patch_wikidata("legislature", "name")
+    patch_wikidata("authority", "wikidata")
 
     patch_odc("localgov", "local-authority-eng")
     patch_odc("localgov", "billing-authority")

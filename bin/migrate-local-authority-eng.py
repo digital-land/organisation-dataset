@@ -5,12 +5,16 @@ import csv
 
 fieldnames = [
     "local-authority-eng",
-    "local-authority-type",
-    "name",
+
+    # for matching and patching register data
     "wikidata",
     "billing-authority",
-    "esd-inventories",
     "statistical-geography",
+    "esd-inventories",
+
+    # data missing from the register
+    "name",
+    "local-authority-type",
     "start-date",
     "end-date",
 ]

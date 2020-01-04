@@ -8,7 +8,6 @@ fieldnames = [
 
     # for matching and patching register data
     "wikidata",
-    "billing-authority",
     "statistical-geography",
     "esd-inventories",
 
@@ -16,7 +15,6 @@ fieldnames = [
     "name",
     "local-authority-type",
     "start-date",
-    "end-date",
 ]
 
 writer = csv.DictWriter(open('local-authority-eng.csv', 'w'), fieldnames=fieldnames, extrasaction="ignore")

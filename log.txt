@@ -1,0 +1,52 @@
+curl -qs "https://government-organisation.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/government-organisation.csv
+curl -qs "https://local-authority-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/local-authority-eng.csv
+curl -qs "https://local-authority-type.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/local-authority-type.csv
+curl -qs "https://statistical-geography-county-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/statistical-geography-county-eng.csv
+curl -qs "https://statistical-geography-london-borough-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/statistical-geography-london-borough-eng.csv
+curl -qs "https://statistical-geography-metropolitan-district-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/statistical-geography-metropolitan-district-eng.csv
+curl -qs "https://statistical-geography-non-metropolitan-district-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/statistical-geography-non-metropolitan-district-eng.csv
+curl -qs "https://statistical-geography-unitary-authority-eng.register.gov.uk/records.csv?page-index=1&page-size=5000" > collection/register/statistical-geography-unitary-authority-eng.csv
+bin/sparql.py "https://query.wikidata.org/sparql" sparql/wikidata/organisations.rq "http://www.wikidata.org/entity/" > collection/wikidata/organisations.csv
+bin/sparql.py "https://opendatacommunities.org/sparql" sparql/opendatacommunities/admingeo.rq > collection/opendatacommunities/admingeo.csv
+bin/sparql.py "https://opendatacommunities.org/sparql" sparql/opendatacommunities/localgov.rq > collection/opendatacommunities/localgov.csv
+bin/sparql.py "https://opendatacommunities.org/sparql" sparql/opendatacommunities/development-corporation.rq > collection/opendatacommunities/development-corporation.csv
+bin/sparql.py "https://opendatacommunities.org/sparql" sparql/opendatacommunities/national-park-authority.rq > collection/opendatacommunities/national-park-authority.csv
+mkdir -p collection
+python3 bin/organisations.py > collection/organisation.csv
+2020-01-04 16:46:58,364 WARNING development-corporation:Q20648596: missing opendatacommunities-area field
+2020-01-04 16:46:58,364 WARNING development-corporation:Q6670544: missing opendatacommunities-area field
+2020-01-04 16:46:58,364 WARNING development-corporation:Q72456968: missing opendatacommunities-area field
+2020-01-04 16:46:58,364 WARNING development-corporation:Q72463795: missing opendatacommunities-area field
+2020-01-04 16:46:58,366 WARNING local-authority-eng:BPC: missing billing-authority field
+2020-01-04 16:46:58,367 WARNING local-authority-eng:CPCA: missing billing-authority field
+2020-01-04 16:46:58,367 WARNING local-authority-eng:CPCA: missing opendatacommunities field
+2020-01-04 16:46:58,367 WARNING local-authority-eng:CPCA: missing opendatacommunities-area field
+2020-01-04 16:46:58,368 WARNING local-authority-eng:DST: missing billing-authority field
+2020-01-04 16:46:58,369 WARNING local-authority-eng:ESK: missing billing-authority field
+2020-01-04 16:46:58,369 WARNING local-authority-eng:GLA: missing opendatacommunities-area field
+2020-01-04 16:46:58,369 WARNING local-authority-eng:GMCA: missing opendatacommunities-area field
+2020-01-04 16:46:58,371 WARNING local-authority-eng:LCR: missing billing-authority field
+2020-01-04 16:46:58,371 WARNING local-authority-eng:LCR: missing opendatacommunities field
+2020-01-04 16:46:58,371 WARNING local-authority-eng:LCR: missing opendatacommunities-area field
+2020-01-04 16:46:58,372 WARNING local-authority-eng:NECA: missing billing-authority field
+2020-01-04 16:46:58,372 WARNING local-authority-eng:NECA: missing opendatacommunities field
+2020-01-04 16:46:58,373 WARNING local-authority-eng:NECA: missing opendatacommunities-area field
+2020-01-04 16:46:58,375 WARNING local-authority-eng:SCR: missing billing-authority field
+2020-01-04 16:46:58,375 WARNING local-authority-eng:SCR: missing opendatacommunities field
+2020-01-04 16:46:58,375 WARNING local-authority-eng:SCR: missing opendatacommunities-area field
+2020-01-04 16:46:58,376 WARNING local-authority-eng:SWT: missing billing-authority field
+2020-01-04 16:46:58,378 WARNING local-authority-eng:TVCA: missing billing-authority field
+2020-01-04 16:46:58,378 WARNING local-authority-eng:TVCA: missing opendatacommunities field
+2020-01-04 16:46:58,378 WARNING local-authority-eng:TVCA: missing opendatacommunities-area field
+2020-01-04 16:46:58,380 WARNING local-authority-eng:WECA: missing billing-authority field
+2020-01-04 16:46:58,381 WARNING local-authority-eng:WECA: missing opendatacommunities field
+2020-01-04 16:46:58,381 WARNING local-authority-eng:WECA: missing opendatacommunities-area field
+2020-01-04 16:46:58,382 WARNING local-authority-eng:WMCA: missing billing-authority field
+2020-01-04 16:46:58,382 WARNING local-authority-eng:WMCA: missing opendatacommunities field
+2020-01-04 16:46:58,382 WARNING local-authority-eng:WMCA: missing opendatacommunities-area field
+2020-01-04 16:46:58,383 WARNING local-authority-eng:WSK: missing billing-authority field
+2020-01-04 16:46:58,385 WARNING local-authority-eng:WYCA: missing billing-authority field
+2020-01-04 16:46:58,385 WARNING local-authority-eng:WYCA: missing opendatacommunities field
+2020-01-04 16:46:58,385 WARNING local-authority-eng:WYCA: missing opendatacommunities-area field
+2020-01-04 16:46:58,386 WARNING 35 warnings
+cp data/tag.csv collection/organisation-tag.csv

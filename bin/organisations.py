@@ -80,7 +80,7 @@ def valid_statistical_geography(organisation, value):
         "local-authority-eng:CTY": r"^E10000\d\d\d",
         "local-authority-eng:SRA": r"^E12000\d\d\d",
         "local-authority-eng:COMB": r"^E47000\d\d\d",
-        "national-park:": r"^E260000\d\d",
+        "national-park-authority:": r"^E260000\d\d",
         "development-corporation:": r"^E510000\d\d",
     }
     if value:
@@ -139,7 +139,7 @@ def validate(organisations):
                     organisation.startswith(prefix + ":")
                     for prefix in [
                         "local-authority-eng",
-                        "national-park",
+                        "national-park-authority",
                         "development-corporation",
                     ]
                 ]
@@ -281,7 +281,7 @@ if __name__ == "__main__":
     load_data("government-organisation")
     load_data("development-corporation")
     load_data("local-authority-eng")
-    load_data("national-park")
+    load_data("national-park-authority")
     load_data("waste-authority")
 
     # add details for government organisations

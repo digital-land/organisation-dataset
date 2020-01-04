@@ -9,6 +9,7 @@ import validators
 from datetime import datetime
 
 register_dir = "collection/register/"
+data_dir = "data/"
 
 organisations = {}
 
@@ -190,8 +191,8 @@ def validate(organisations):
     return errors, warnings
 
 
-def register_path(name):
-    return os.path.join(register_dir, name + ".csv")
+def csv_path(directory, name):
+    return os.path.join(directory, name + ".csv")
 
 
 # add to organisations
@@ -209,20 +210,27 @@ def load_file(path, key=None, prefix=None, fields={}):
             organisations.setdefault(curie, {})
 
             for field in row:
+                if field is None:
+                    logging.error("%s: %s has extra columns" % (path, curie))
                 to = fields.get(field, field)
                 if row[field]:
                     organisations[curie][to] = row[field]
 
 
-def load_register(register=None, key=None, prefix=None, fields={}):
+def load_register(register, key=None, fields={}):
     key = key or register
-    load_file(register_path(register), key=key, prefix=prefix, fields=fields)
+    load_file(csv_path(register_dir, register), key=key, fields=fields)
 
 
 def load_statistical_geography_register(name):
     register = "statistical-geography-" + name
     fields = {register: "statistical-geography"}
     load_register(register, key="local-authority-eng", fields=fields)
+
+
+def load_data(register, key=None):
+    key = key or register
+    load_file(csv_path(data_dir, register), key=key)
 
 
 # index organisations by key
@@ -250,7 +258,7 @@ def patch_file(path, key):
 
 def patch_register(register, key=None):
     key = key or register
-    patch_file(register_path(register), key=key)
+    patch_file(csv_path(register_dir, register), key=key)
 
 
 def patch_wikidata(name, key):
@@ -269,8 +277,12 @@ if __name__ == "__main__":
     # load GOV.UK registers
     load_register("local-authority-eng")
 
-    # add organisations missing from registers
-    load_file("data/organisation.csv", key="organisation", prefix="")
+    # add organisations and data missing from registers
+    load_data("government-organisation")
+    load_data("development-corporation")
+    load_data("local-authority-eng")
+    load_data("national-park")
+    load_data("waste-authority")
 
     # add details for government organisations
     patch_register("government-organisation")
@@ -306,7 +318,7 @@ if __name__ == "__main__":
     for organisation, o in organisations.items():
         # strip blank times from dates
         for k in o:
-            if k.endswith("-date") and o[k].endswith("T00:00:00Z"):
+            if k.endswith("-date") or o[k].endswith("T00:00:00Z"):
                 o[k] = o[k][:10]
 
     save(organisations)

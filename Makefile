@@ -3,7 +3,7 @@
 .DELETE_ON_ERROR:
 
 SPARQL_DIR=sparql/
-
+DATA_DIR=data/
 REGISTER_DIR=collection/register/
 WIKIDATA_DIR=collection/wikidata/
 OPENDATACOMMUNITIES_DIR=collection/opendatacommunities/
@@ -12,7 +12,7 @@ TARGETS=\
 	collection/organisation.csv\
 	collection/organisation-tag.csv
 
-REGISTERS=\
+COLLECTED_REGISTERS=\
 	$(REGISTER_DIR)government-organisation.csv\
 	$(REGISTER_DIR)local-authority-eng.csv\
 	$(REGISTER_DIR)local-authority-type.csv\
@@ -22,16 +22,28 @@ REGISTERS=\
 	$(REGISTER_DIR)statistical-geography-non-metropolitan-district-eng.csv\
 	$(REGISTER_DIR)statistical-geography-unitary-authority-eng.csv
 
-PATCH_FILES=\
+COLLECTED_DATA=\
 	$(WIKIDATA_DIR)organisations.csv\
 	$(OPENDATACOMMUNITIES_DIR)admingeo.csv\
 	$(OPENDATACOMMUNITIES_DIR)localgov.csv\
 	$(OPENDATACOMMUNITIES_DIR)development-corporation.csv\
 	$(OPENDATACOMMUNITIES_DIR)national-park-authority.csv
 
+PATCH_FILES=\
+	$(DATA_DIR)/government-organisation.csv\
+	$(DATA_DIR)/local-authority-eng.csv\
+	$(DATA_DIR)/national-park.csv\
+	$(DATA_DIR)/development-corporation.csv\
+	$(DATA_DIR)/waste-authority.csv
+
+SOURCE_DATA=\
+	$(COLLECTED_REGISTERS)\
+	$(COLLECTED_DATA)\
+	$(PATCH_FILES)
+
 all: $(TARGETS)
 
-collection/organisation.csv:	data/organisation.csv $(REGISTERS) $(PATCH_FILES) bin/organisations.py
+collection/organisation.csv:	$(SOURCE_DATA) bin/organisations.py
 	mkdir -p collection
 	python3 bin/organisations.py > $@
 

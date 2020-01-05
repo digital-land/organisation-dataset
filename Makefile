@@ -33,10 +33,11 @@ COLLECTED_DATA=\
 	$(OPENDATACOMMUNITIES_DIR)national-park-authority.csv
 
 PATCH_FILES=\
+	$(DATA_DIR)development-corporation.csv\
 	$(DATA_DIR)government-organisation.csv\
 	$(DATA_DIR)local-authority-eng.csv\
 	$(DATA_DIR)national-park-authority.csv\
-	$(DATA_DIR)development-corporation.csv\
+	$(DATA_DIR)public-authority.csv\
 	$(DATA_DIR)waste-authority.csv
 
 SOURCE_DATA=\

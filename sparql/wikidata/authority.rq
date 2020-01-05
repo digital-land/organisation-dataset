@@ -5,6 +5,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT * WHERE {
   VALUES ?wikidata {
     wd:Q6515400 # Lee Valley Regional Park Authority
+    wd:Q5533909 # Geoplace
   }
   ?wikidata rdfs:label ?name .
     FILTER (langMatches(lang(?name), "EN" ))

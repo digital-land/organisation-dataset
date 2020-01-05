@@ -27,6 +27,8 @@ COLLECTED_DATA=\
 	$(WIKIDATA_DIR)authority.csv\
 	$(OPENDATACOMMUNITIES_DIR)admingeo.csv\
 	$(OPENDATACOMMUNITIES_DIR)localgov.csv\
+	$(OPENDATACOMMUNITIES_DIR)billing-authority.csv\
+	$(OPENDATACOMMUNITIES_DIR)governed-by.csv\
 	$(OPENDATACOMMUNITIES_DIR)development-corporation.csv\
 	$(OPENDATACOMMUNITIES_DIR)national-park-authority.csv
 

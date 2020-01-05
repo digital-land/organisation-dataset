@@ -1,0 +1,8 @@
+PREFIX localgov: <http://opendatacommunities.org/def/local-government/>
+PREFIX os: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>
+
+SELECT DISTINCT * WHERE {
+    ?area_uri localgov:isGovernedBy ?opendatacommunities .
+    OPTIONAL { ?opendatacommunities os:gssCode ?statistical_geography }
+}
+ORDER BY ASC(?opendatacommunities)

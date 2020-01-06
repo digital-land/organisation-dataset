@@ -1,16 +1,17 @@
-government-organisation,wikidata,name,website,opendatacommunities
-D4,Q601819,,,http://opendatacommunities.org/def/concept/folders/organisations/department-for-communities-and-local-government
-EA39,Q7201367,,,http://opendatacommunities.org/def/concept/folders/organisations/the-planning-inspectorate
-PB1164,Q19604421,,https://historicengland.org.uk/,
-D69,Q5635120,,,
-PB207,Q1478750,,,
-D303,Q1334971,,https://www.ons.gov.uk/,
-PB1232,Q5890410,Homes England,https://www.gov.uk/government/organisations/homes-england,http://opendatacommunities.org/def/concept/folders/organisations/the-homes-and-communities-agency
-PB372,Q39046108,,https://www.housing-ombudsman.org.uk/,
-PB160,Q39045922,,,
-PB373,Q81054630,,,
-PB375,Q81056025,,,
-PB1204,Q81075624,,,
-PB1218,Q65071973,,,
-PC163,Q4787008,,,
-EA87,Q7912696,,,
+government-organisation,wikidata,name,website,opendatacommunities,company
+D4,Q601819,,,http://opendatacommunities.org/def/concept/folders/organisations/department-for-communities-and-local-government,
+EA39,Q7201367,,,http://opendatacommunities.org/def/concept/folders/organisations/the-planning-inspectorate,
+PB1164,Q19604421,,https://historicengland.org.uk/,,
+D69,Q5635120,,,,
+PB207,Q1478750,,,,
+D303,Q1334971,,https://www.ons.gov.uk/,,
+PB1232,Q5890410,Homes England,https://www.gov.uk/government/organisations/homes-england,http://opendatacommunities.org/def/concept/folders/organisations/the-homes-and-communities-agency,
+PB372,Q39046108,,https://www.housing-ombudsman.org.uk/,,
+PB160,Q39045922,,,,
+PB373,Q81054630,,,,03296985
+PB375,Q81056025,,,,
+PB1204,Q81075624,,,,
+PB1218,Q65071973,,,,
+PC163,Q4787008,,,,
+EA87,Q7912696,,,,
+D38,Q548721,,,,09121572

@@ -1,0 +1,37 @@
+name: Run organisation collection at midnight, every night
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+    - name: Install Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: make init
+    - name: Cleanup targets
+      run: make clean
+    - name: Run make
+      run: make
+    - name: Commit files
+      env:
+        GITHUB_ACTOR_EMAIL: ${{ secrets.GITHUB_ACTOR_EMAIL }}
+        GITHUB_ACTOR_TOKEN: ${{ secrets.GITHUB_ACTOR_TOKEN }}
+        GITHUB_ACTOR_USERNAME: ${{ secrets.GITHUB_ACTOR_USERNAME }}
+      run: |
+        git config user.email "${GITHUB_ACTOR_EMAIL}"
+        git config user.name "${GITHUB_ACTOR_USERNAME}"
+        git remote set-url origin https://${GITHUB_ACTOR_USERNAME}:${GITHUB_ACTOR_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        git checkout master
+        git add .
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Commit files collected on $(date +%F)"; git push origin master)

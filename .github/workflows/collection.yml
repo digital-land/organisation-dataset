@@ -1,4 +1,4 @@
-name: Run organisation collection at midnight, every night
+name: Run organisation collection
 
 on:
   push:

@@ -136,9 +136,9 @@ def validate(organisations):
 
             # local government ..
             if organisation in [
-                    "transport-authority:Q682520", # TfL
-                    "transport-authority:Q7834921", # TfGM
-                ]:
+                "transport-authority:Q682520",  # TfL
+                "transport-authority:Q7834921",  # TfGM
+            ]:
                 expected_fields.update(["opendatacommunities", "billing-authority"])
             elif has_prefix(
                 organisation,
@@ -206,7 +206,7 @@ def csv_path(directory, name):
 
 
 # add to organisations
-def load_file(path, key=None, prefix=None, fields={}):
+def load_file(path, key=None, prefix=None, fields=None):
 
     logging.info("loading %s" % (path))
 
@@ -222,9 +222,10 @@ def load_file(path, key=None, prefix=None, fields={}):
             for field in row:
                 if field is None:
                     logging.error("%s: %s has extra columns" % (path, curie))
-                to = fields.get(field, field)
-                if row[field]:
-                    organisations[curie][to] = row[field]
+                if (not fields) or (field in fields):
+                    to = fields[field] if fields else field
+                    if row[field]:
+                        organisations[curie][to] = row[field]
 
 
 def load_register(register, key=None, fields={}):

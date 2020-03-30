@@ -16,6 +16,7 @@ COLLECTED_REGISTERS=\
 	$(REGISTER_DIR)government-organisation.csv\
 	$(REGISTER_DIR)local-authority-eng.csv\
 	$(REGISTER_DIR)local-authority-type.csv\
+	$(REGISTER_DIR)government-domain.csv\
 	$(REGISTER_DIR)statistical-geography-county-eng.csv\
 	$(REGISTER_DIR)statistical-geography-london-borough-eng.csv\
 	$(REGISTER_DIR)statistical-geography-metropolitan-district-eng.csv\

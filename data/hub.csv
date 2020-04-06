@@ -1,136 +1,136 @@
-hub,name
-barnsley,Barnsley
-bath-&-north-east-somerset-council,Bath & North East Somerset Council
-bcp,BCP
-bedford-borough-council,Bedford Borough Council
-birmingham,Birmingham
-blackburn-with-darwen,Blackburn with Darwen
-blackpool,Blackpool
-bracknell-forest,Bracknell Forest
-brighton-&-hove-city-council,Brighton & Hove City Council
-bristol-city-council,Bristol City Council
-buckinghamshire-county-council,Buckinghamshire County Council
-calderdale-mbc,Calderdale MBC
-cambridgeshire-county-council,Cambridgeshire County Council
-central-bedfordshire-council,Central Bedfordshire Council
-cheshire-east,Cheshire East
-cheshire-west-and-chester-council,Cheshire West and Chester Council
-city-of-bradford,City of Bradford
-city-of-london-corporation,City of London Corporation
-city-of-york-council,City of York Council
-cornwall-council,Cornwall Council
-coventry,Coventry
-cumbria-county-council,Cumbria County Council
-darlington-council,Darlington Council
-derby-city-council,Derby City Council
-derbyshire-county-council,Derbyshire County Council
-devon-county-council,Devon County Council
-doncaster-council,Doncaster Council
-dorset,Dorset
-dudley,Dudley
-durham-county-council,Durham County Council
-east-sussex-county-council,East Sussex County Council
-enfield-council,Enfield Council
-essex-cc,Essex CC
-gateshead-council,Gateshead Council
-gloucestershire-county-council,Gloucestershire County Council
-halton,Halton
-hampshire-county-council,Hampshire County Council
-hartlepool-council,Hartlepool Council
-hertfordshire-county-council,Hertfordshire County Council
-hull-city-council,Hull City Council
-isle-of-wight-council,Isle of Wight Council
-isles-of-scilly-council,Isles of Scilly Council
-kent-county-council,Kent County Council
-kirklees-council,Kirklees Council
-knowsley,Knowsley
-lancashire-county-council,Lancashire County Council
-leeds-city-council,Leeds City Council
-leicester-city-council,Leicester City Council
-leicestershire-county-council,Leicestershire County Council
-lincolnshire-county-council,Lincolnshire County Council
-liverpool,Liverpool
-london-borough-of-barking-&-dagenham,London Borough of Barking & Dagenham
-london-borough-of-barnet,London Borough of Barnet
-london-borough-of-bexley,London Borough of Bexley
-london-borough-of-brent,London Borough of Brent
-london-borough-of-bromley,London Borough of Bromley
-london-borough-of-camden,London Borough of Camden
-london-borough-of-croydon,London Borough of Croydon
-london-borough-of-ealing,London Borough of Ealing
-london-borough-of-hackney,London Borough of Hackney
-london-borough-of-hammersmith-&-fulham,London Borough of Hammersmith & Fulham
-london-borough-of-haringey,London Borough of Haringey
-london-borough-of-harrow,London Borough of Harrow
-london-borough-of-havering,London Borough of Havering
-london-borough-of-hillingdon,London Borough of Hillingdon
-london-borough-of-hounslow,London Borough of Hounslow
-london-borough-of-islington,London Borough of Islington
-london-borough-of-lambeth,London Borough of Lambeth
-london-borough-of-lewisham,London Borough of Lewisham
-london-borough-of-merton,London Borough of Merton
-london-borough-of-newham,London Borough of Newham
-london-borough-of-redbridge,London Borough of Redbridge
-london-borough-of-richmond-upon-thames,London Borough of Richmond upon Thames
-london-borough-of-southwark,London Borough of Southwark
-london-borough-of-sutton,London Borough of Sutton
-london-borough-of-tower-hamlets,London Borough of Tower Hamlets
-london-borough-of-waltham-forest,London Borough of Waltham Forest
-london-councils,London Councils
-london-royal-borough-of-greenwich,London Royal Borough of Greenwich
-luton-borough-council,Luton Borough Council
-medway-council,Medway Council
-middlesbrough,Middlesbrough
-milton-keynes-council,Milton Keynes Council
-newcastle,Newcastle
-norfolk-county-council,Norfolk County Council
-north-somerset-council,North Somerset Council
-north-tyneside-council,North Tyneside Council
-north-yorkshire-county-council,North Yorkshire County Council
-northamptonshire-county-council,Northamptonshire County Council
-northumberland,Northumberland
-nottingham-city-council,Nottingham City Council
-nottinghamshire-county-council,Nottinghamshire County Council
-oxfordshire-county-council,Oxfordshire County Council
-peterborough-city-council,Peterborough City Council
-plymouth-city-council,Plymouth City Council
-portsmouth-city-council,Portsmouth City Council
-reading-borough-council,Reading Borough Council
-redcar-and-cleveland,Redcar and Cleveland
-redditch-borough-council-and-bromsgrove-district-council,Redditch Borough Council and Bromsgrove District Council
-rotherham-rmbc,Rotherham RMBC
-royal-borough-of-kensington-&-chelsea,Royal Borough of Kensington & Chelsea
-royal-borough-of-kingston-upon-thames,Royal Borough of Kingston upon Thames
-royal-borough-of-windsor-&-maidenhead,Royal Borough of Windsor & Maidenhead
-rutland-county-council,Rutland County Council
-salford,Salford
-sandwell-mbc,Sandwell MBC
-sheffield-city-council,Sheffield City Council
-slough,Slough
-solihull-mbc,Solihull MBC
-somerset-county-council,Somerset County Council
-south-end-on-sea,South-end-on-sea
-south-gloucestershire-council,South Gloucestershire Council
-south-tyneside-council,South Tyneside Council
-southampton-city-council,Southampton City council
-st-helens,St Helens
-staffordshire-county-council,Staffordshire County Council
-stockton-council,Stockton Council
-stoke-on-trent,Stoke-on-Trent
-suffolk-county-council,Suffolk County Council
-sunderland-council,Sunderland Council
-surrey-county-council,Surrey County Council
-swindon-borough-council,Swindon Borough Council
-torbay-council,Torbay Council
-thurrock,Thurrock
-wakefield-council,Wakefield Council
-walsall,Walsall
-wandsworth-borough-council,Wandsworth Borough Council
-warrington,Warrington
-warwickshire-county-council,Warwickshire County Council
-west-berkshire-council,West Berkshire Council
-west-sussex-county-council,West Sussex County Council
-westminster-city-council,Westminster City Council
-wiltshire-council,Wiltshire Council
-wokingham-borough-council,Wokingham Borough Council
-wolverhampton,Wolverhampton
+hub,informal-name,organisation
+barnsley,Barnsley,local-authority-eng:BNS
+bath-&-north-east-somerset-council,Bath & North East Somerset Council,local-authority-eng:BAS
+bcp,BCP,local-authority-eng:BPC
+bedford-borough-council,Bedford Borough Council,local-authority-eng:BDF
+birmingham,Birmingham,local-authority-eng:BIR
+blackburn-with-darwen,Blackburn with Darwen,local-authority-eng:BBD
+blackpool,Blackpool,local-authority-eng:BPL
+bracknell-forest,Bracknell Forest,local-authority-eng:BRC
+brighton-&-hove-city-council,Brighton & Hove City Council,local-authority-eng:BNH
+bristol-city-council,Bristol City Council,local-authority-eng:BST
+buckinghamshire-county-council,Buckinghamshire County Council,local-authority-eng:BKM
+calderdale-mbc,Calderdale MBC,local-authority-eng:CLD
+cambridgeshire-county-council,Cambridgeshire County Council,local-authority-eng:CAM
+central-bedfordshire-council,Central Bedfordshire Council,local-authority-eng:CBF
+cheshire-east,Cheshire East,local-authority-eng:CHE
+cheshire-west-and-chester-council,Cheshire West and Chester Council,local-authority-eng:CHW
+city-of-bradford,City of Bradford,local-authority-eng:BRD
+city-of-london-corporation,City of London Corporation,local-authority-eng:LND
+city-of-york-council,City of York Council,local-authority-eng:YOR
+cornwall-council,Cornwall Council,local-authority-eng:CON
+coventry,Coventry,local-authority-eng:COV
+cumbria-county-council,Cumbria County Council,local-authority-eng:CMA
+darlington-council,Darlington Council,local-authority-eng:DAL
+derby-city-council,Derby City Council,local-authority-eng:DER
+derbyshire-county-council,Derbyshire County Council,local-authority-eng:DBY
+devon-county-council,Devon County Council,local-authority-eng:DEV
+doncaster-council,Doncaster Council,local-authority-eng:DNC
+dorset,Dorset,local-authority-eng:DOR
+dudley,Dudley,local-authority-eng:DUD
+durham-county-council,Durham County Council,local-authority-eng:DUR
+east-sussex-county-council,East Sussex County Council,local-authority-eng:ESX
+enfield-council,Enfield Council,local-authority-eng:ENF
+essex-cc,Essex CC,local-authority-eng:ESS
+gateshead-council,Gateshead Council,local-authority-eng:GAT
+gloucestershire-county-council,Gloucestershire County Council,local-authority-eng:GLS
+halton,Halton,local-authority-eng:HAL
+hampshire-county-council,Hampshire County Council,local-authority-eng:HAM
+hartlepool-council,Hartlepool Council,local-authority-eng:HPL
+hertfordshire-county-council,Hertfordshire County Council,local-authority-eng:HRT
+hull-city-council,Hull City Council,local-authority-eng:KHL
+isle-of-wight-council,Isle of Wight Council,local-authority-eng:IOW
+isles-of-scilly-council,Isles of Scilly Council,local-authority-eng:IOS
+kent-county-council,Kent County Council,local-authority-eng:KEN
+kirklees-council,Kirklees Council,local-authority-eng:KIR
+knowsley,Knowsley,local-authority-eng:KWL
+lancashire-county-council,Lancashire County Council,local-authority-eng:LAN
+leeds-city-council,Leeds City Council,local-authority-eng:LDS
+leicester-city-council,Leicester City Council,local-authority-eng:LCE
+leicestershire-county-council,Leicestershire County Council,local-authority-eng:LEC
+lincolnshire-county-council,Lincolnshire County Council,local-authority-eng:LIN
+liverpool,Liverpool,local-authority-eng:LCR
+london-borough-of-barking-&-dagenham,London Borough of Barking & Dagenham,local-authority-eng:BDG
+london-borough-of-barnet,London Borough of Barnet,local-authority-eng:BNE
+london-borough-of-bexley,London Borough of Bexley,local-authority-eng:BEX
+london-borough-of-brent,London Borough of Brent,local-authority-eng:BEN
+london-borough-of-bromley,London Borough of Bromley,local-authority-eng:BRY
+london-borough-of-camden,London Borough of Camden,local-authority-eng:CMD
+london-borough-of-croydon,London Borough of Croydon,local-authority-eng:CRY
+london-borough-of-ealing,London Borough of Ealing,local-authority-eng:EAL
+london-borough-of-hackney,London Borough of Hackney,local-authority-eng:HCK
+london-borough-of-hammersmith-&-fulham,London Borough of Hammersmith & Fulham,local-authority-eng:HMF
+london-borough-of-haringey,London Borough of Haringey,local-authority-eng:HRY
+london-borough-of-harrow,London Borough of Harrow,local-authority-eng:HRW
+london-borough-of-havering,London Borough of Havering,local-authority-eng:HAV
+london-borough-of-hillingdon,London Borough of Hillingdon,local-authority-eng:HIL
+london-borough-of-hounslow,London Borough of Hounslow,local-authority-eng:HNS
+london-borough-of-islington,London Borough of Islington,local-authority-eng:ISL
+london-borough-of-lambeth,London Borough of Lambeth,local-authority-eng:LBH
+london-borough-of-lewisham,London Borough of Lewisham,local-authority-eng:LEW
+london-borough-of-merton,London Borough of Merton,local-authority-eng:MRT
+london-borough-of-newham,London Borough of Newham,local-authority-eng:NWM
+london-borough-of-redbridge,London Borough of Redbridge,local-authority-eng:RDB
+london-borough-of-richmond-upon-thames,London Borough of Richmond upon Thames,local-authority-eng:RIC
+london-borough-of-southwark,London Borough of Southwark,local-authority-eng:SWK
+london-borough-of-sutton,London Borough of Sutton,local-authority-eng:STN
+london-borough-of-tower-hamlets,London Borough of Tower Hamlets,local-authority-eng:TWH
+london-borough-of-waltham-forest,London Borough of Waltham Forest,local-authority-eng:WFT
+london-royal-borough-of-greenwich,London Royal Borough of Greenwich,local-authority-eng:GRE
+luton-borough-council,Luton Borough Council,local-authority-eng:LUT
+medway-council,Medway Council,local-authority-eng:MDW
+middlesbrough,Middlesbrough,local-authority-eng:MDB
+milton-keynes-council,Milton Keynes Council,local-authority-eng:MIK
+newcastle,Newcastle,local-authority-eng:NET
+norfolk-county-council,Norfolk County Council,local-authority-eng:NFK
+north-somerset-council,North Somerset Council,local-authority-eng:NSM
+north-tyneside-council,North Tyneside Council,local-authority-eng:NTY
+north-yorkshire-county-council,North Yorkshire County Council,local-authority-eng:NYK
+northamptonshire-county-council,Northamptonshire County Council,local-authority-eng:NTH
+northumberland,Northumberland,local-authority-eng:NBL
+nottingham-city-council,Nottingham City Council,local-authority-eng:NGM
+nottinghamshire-county-council,Nottinghamshire County Council,local-authority-eng:NTT
+oxfordshire-county-council,Oxfordshire County Council,local-authority-eng:OXF
+peterborough-city-council,Peterborough City Council,local-authority-eng:PTE
+plymouth-city-council,Plymouth City Council,local-authority-eng:PLY
+portsmouth-city-council,Portsmouth City Council,local-authority-eng:POR
+reading-borough-council,Reading Borough Council,local-authority-eng:RDG
+redcar-and-cleveland,Redcar and Cleveland,local-authority-eng:RCC
+redditch-borough-council-and-bromsgrove-district-council,Redditch Borough Council and Bromsgrove District Council,local-authority-eng:RED
+redditch-borough-council-and-bromsgrove-district-council,Redditch Borough Council and Bromsgrove District Council,local-authority-eng:BRM
+rotherham-rmbc,Rotherham RMBC,local-authority-eng:ROT
+royal-borough-of-kensington-&-chelsea,Royal Borough of Kensington & Chelsea,local-authority-eng:KEC
+royal-borough-of-kingston-upon-thames,Royal Borough of Kingston upon Thames,local-authority-eng:KTT
+royal-borough-of-windsor-&-maidenhead,Royal Borough of Windsor & Maidenhead,local-authority-eng:WNM
+rutland-county-council,Rutland County Council,local-authority-eng:RUT
+salford,Salford,local-authority-eng:SLF
+sandwell-mbc,Sandwell MBC,local-authority-eng:SAW
+sheffield-city-council,Sheffield City Council,local-authority-eng:SHF
+slough,Slough,local-authority-eng:SLG
+solihull-mbc,Solihull MBC,local-authority-eng:SOL
+somerset-county-council,Somerset County Council,local-authority-eng:SOM
+south-end-on-sea,South-end-on-sea,local-authority-eng:SOS
+south-gloucestershire-council,South Gloucestershire Council,local-authority-eng:SGC
+south-tyneside-council,South Tyneside Council,local-authority-eng:STY
+southampton-city-council,Southampton City council,local-authority-eng:STH
+st-helens,St Helens,local-authority-eng:SHN
+staffordshire-county-council,Staffordshire County Council,local-authority-eng:STS
+stockton-council,Stockton Council,local-authority-eng:STT
+stoke-on-trent,Stoke-on-Trent,local-authority-eng:STE
+suffolk-county-council,Suffolk County Council,local-authority-eng:SFK
+sunderland-council,Sunderland Council,local-authority-eng:SND
+surrey-county-council,Surrey County Council,local-authority-eng:SRY
+swindon-borough-council,Swindon Borough Council,local-authority-eng:SWD
+torbay-council,Torbay Council,local-authority-eng:TOB
+thurrock,Thurrock,local-authority-eng:THR
+wakefield-council,Wakefield Council,local-authority-eng:WKF
+walsall,Walsall,local-authority-eng:WLL
+wandsworth-borough-council,Wandsworth Borough Council,local-authority-eng:WND
+warrington,Warrington,local-authority-eng:WRT
+warwickshire-county-council,Warwickshire County Council,local-authority-eng:WAR
+west-berkshire-council,West Berkshire Council,local-authority-eng:WBK
+west-sussex-county-council,West Sussex County Council,local-authority-eng:WSX
+westminster-city-council,Westminster City Council,local-authority-eng:WSM
+wiltshire-council,Wiltshire Council,local-authority-eng:WIL
+wokingham-borough-council,Wokingham Borough Council,local-authority-eng:WOK
+wolverhampton,Wolverhampton,local-authority-eng:WLV

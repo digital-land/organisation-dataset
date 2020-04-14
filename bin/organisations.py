@@ -179,6 +179,11 @@ def validate(organisations):
                 elif organisation in ["local-authority-eng:GLA"]:
                     mandatory_fields.remove("opendatacommunities-area")
 
+                # unable to find opendatacommunities data for the BUC ..
+                elif organisation in ["local-authority-eng:BUC"]:
+                    mandatory_fields.remove("opendatacommunities-area")
+                    mandatory_fields.remove("opendatacommunities")
+
         for field in expected_fields:
             if field not in set(mandatory_fields).union(unexpected_fields):
                 if not o.get(field, ""):

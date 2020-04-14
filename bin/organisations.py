@@ -179,7 +179,7 @@ def validate(organisations):
                 elif organisation in ["local-authority-eng:GLA"]:
                     mandatory_fields.remove("opendatacommunities-area")
 
-                # unable to find opendatacommunities data for the BUC ..
+                # find opendatacommunities doesn't yet have data for Buckinghamsire Unitary Authority ..
                 elif organisation in ["local-authority-eng:BUC"]:
                     mandatory_fields.remove("opendatacommunities-area")
                     mandatory_fields.remove("opendatacommunities")

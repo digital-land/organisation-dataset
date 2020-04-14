@@ -1,4 +1,10 @@
 index-entry-number,entry-number,entry-timestamp,key,local-authority-eng,local-authority-type,name,official-name,start-date,end-date
+393,393,2020-02-29T11:57:30Z,BUC,BUC,UA,Buckinghamshire,"Buckinghamshire Council",2020-04-01,
+392,392,2020-02-29T11:57:30Z,BKM,BKM,CTY,Buckinghamshire,"Buckinghamshire County Council",1905-06-19,2020-03-31
+391,391,2020-02-29T11:57:30Z,AYL,AYL,NMD,"Aylesbury Vale","Aylesbury Vale District Council",,2020-03-31
+390,390,2020-02-29T11:57:30Z,CHN,CHN,NMD,Chiltern,"Chiltern District Council",,2020-03-31
+389,389,2020-02-29T11:57:30Z,SBU,SBU,NMD,"South Bucks","South Bucks District Council",,2020-03-31
+388,388,2020-02-29T11:57:30Z,WYO,WYO,NMD,Wycombe,"Wycombe District Council",,2020-03-31
 387,387,2018-10-10T09:09:57Z,BPC,BPC,UA,"Bournemouth, Christchurch and Poole","Bournemouth, Christchurch and Poole Council",2019-04-01,
 386,386,2018-10-09T14:07:04Z,DST,DST,UA,"Dorset Council","Dorset Council",2019-04-01,
 384,384,2018-10-09T14:05:00Z,SWT,SWT,NMD,"Somerset West and Taunton","Somerset West and Taunton Council",2019-04-01,
@@ -272,11 +278,6 @@ index-entry-number,entry-number,entry-timestamp,key,local-authority-eng,local-au
 101,101,2016-10-21T16:11:20Z,ECA,ECA,NMD,"East Cambridgeshire","East Cambridgeshire District Council",,
 100,100,2016-10-21T16:11:20Z,CAB,CAB,NMD,Cambridge,"Cambridge City Council",,
 99,99,2016-10-21T16:11:20Z,CAM,CAM,CTY,Cambridgeshire,"Cambridgeshire County Council",,
-98,98,2016-10-21T16:11:20Z,WYO,WYO,NMD,Wycombe,"Wycombe District Council",,
-97,97,2016-10-21T16:11:20Z,SBU,SBU,NMD,"South Bucks","South Bucks District Council",,
-96,96,2016-10-21T16:11:20Z,CHN,CHN,NMD,Chiltern,"Chiltern District Council",,
-95,95,2016-10-21T16:11:20Z,AYL,AYL,NMD,"Aylesbury Vale","Aylesbury Vale District Council",,
-94,94,2016-10-21T16:11:20Z,BKM,BKM,CTY,Buckinghamshire,"Buckinghamshire County Council",1905-06-19,
 93,93,2016-10-21T16:11:20Z,YOR,YOR,UA,York,"City of York Council",1905-06-18,
 92,92,2016-10-21T16:11:20Z,WRT,WRT,UA,Warrington,"Warrington Borough Council",1905-06-20,
 91,91,2016-10-21T16:11:20Z,WRL,WRL,MD,Wirral,"Wirral Borough Council",1974-04-01,

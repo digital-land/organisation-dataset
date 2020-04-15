@@ -27,6 +27,8 @@ fields = [
     "census-area",
     "local-authority-type",
     "esd-inventories",
+    "lrf",
+    "region",
     "start-date",
     "end-date",
 ]
@@ -285,6 +287,10 @@ def patch_odc(name, key):
     patch_file(csv_path("collection/opendatacommunities", name), key)
 
 
+def patch_dataset(name, key):
+    patch_file(csv_path("data/lookup", name), key)
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.WARNING, format="%(asctime)s %(levelname)s %(message)s"
@@ -334,6 +340,9 @@ if __name__ == "__main__":
 
     patch_odc("admingeo", "opendatacommunities")
     patch_odc("admingeo", "statistical-geography")
+
+    patch_dataset("region-local-authority-lookup", "organisation")
+    patch_dataset("lrf-local-authority-lookup", "organisation")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

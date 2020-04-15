@@ -24,6 +24,7 @@ def fetch_json_from_endpoint(endpoint):
 
 # write json to csv file
 def json_to_csv_file(output_file, data):
+    print(f'Write data to {output_file}')
     # now we will open a file for writing 
     data_file = open(output_file, 'w')
     # create the csv writer object 
@@ -62,13 +63,6 @@ def collect_regions():
     return regions
 
 
-def generate_regions_csv():
-    regions = collect_regions()
-    regions_csv_path = "data/region.csv"
-    print(f'Write region data to {regions_csv_path}')
-    json_to_csv_file(regions_csv_path, regions)
-
-
 def map_lrf(lrf):
     props = lrf['properties']
     return {
@@ -83,18 +77,10 @@ def collect_lrfs():
     d = fetch_json_from_endpoint(lrf_ep)
     lrfs = [map_lrf(r) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
     return lrfs
-
-
-def generate_lrf_csv():
-    lrfs = collect_lrfs()
-    lrfs_csv_path = "data/lrf.csv"
-    print(f'Write LRF data to {lrfs_csv_path}')
-    json_to_csv_file(lrfs_csv_path, lrfs)
-
-
+ 
 
 if __name__ == "__main__":
     # create LRF and Region CSVs
-    generate_regions_csv()
-    generate_lrf_csv()
+    json_to_csv_file("data/region.csv", collect_regions())
+    json_to_csv_file("data/lrf.csv", collect_lrfs())
 

@@ -78,3 +78,6 @@ clean::
 
 clobber::
 	rm -f $(TARGETS)
+
+regions::
+	python3 bin/collect_regions_and_lrfs.py

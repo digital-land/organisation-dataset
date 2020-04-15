@@ -79,8 +79,20 @@ def collect_lrfs():
     return lrfs
  
 
+def collect_statistical_geography_lookup():
+    print(f"Collect LRF data from {la_to_lrf_ep}")
+    d = fetch_json_from_endpoint(la_to_lrf_ep)
+    lookup = [
+        {'la-statistical-geography': r['properties']['LAD19CD'],
+        'lrf-statistical-geography': r['properties']['LRF19CD'] }
+        for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
+    json_to_csv_file("data/lookup/statistical-geography-la-to-lrf-lookup.csv", lookup)
+
+
 if __name__ == "__main__":
-    # create LRF and Region CSVs
+    # collect LRF and Region CSVs
     json_to_csv_file("data/region.csv", collect_regions())
     json_to_csv_file("data/lrf.csv", collect_lrfs())
+    # collect LA to LRF lookup, statistical-geography
+    collect_statistical_geography_lookup()
 

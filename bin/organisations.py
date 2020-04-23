@@ -6,6 +6,7 @@ import csv
 import logging
 import re
 import validators
+import requests
 from datetime import datetime
 
 register_dir = "collection/register/"
@@ -20,6 +21,7 @@ fields = [
     "website",
     "twitter",
     "statistical-geography",
+    "boundary-url",
     "toid",
     "opendatacommunities",
     "opendatacommunities-area",
@@ -290,6 +292,24 @@ def patch_odc(name, key):
 def patch_dataset(name, key):
     patch_file(csv_path("data/lookup", name), key)
 
+def patch_remote_dataset(name, key):
+    url="https://github.com/digital-land/boundary-collection/raw/master/index/local-authority-boundary.csv"
+    try:
+        # create tmp location
+        tmp_dir = "data/tmp"
+        if not os.path.exists(tmp_dir):
+            os.makedirs(tmp_dir)
+        tmp_path = csv_path(tmp_dir, "local-authority-boundary")
+        # fetch file
+        response = requests.get(url)
+        with open(tmp_path, 'wb') as f:
+            f.write(response.content)
+        # patch the file
+        patch_file(tmp_path, key)
+    finally:
+        os.remove(tmp_path)
+        os.rmdir(tmp_dir)
+
 
 if __name__ == "__main__":
     logging.basicConfig(
@@ -343,6 +363,8 @@ if __name__ == "__main__":
 
     patch_dataset("region-local-authority-lookup", "organisation")
     patch_dataset("lrf-local-authority-lookup", "organisation")
+
+    patch_remote_dataset("local-authority-boundary", "statistical-geography")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

@@ -29,6 +29,7 @@ fields = [
     "esd-inventories",
     "lrf",
     "region",
+    "addressbase-custodian",
     "start-date",
     "end-date",
 ]
@@ -167,6 +168,9 @@ def validate(organisations):
                 expected_fields.update(local_fields)
                 expected_fields.update(["billing-authority"])
 
+                if o.get("local-authority-type", "") not in ["", "COMB", "CTY", "SRA"]:
+                    expected_fields.update(["addressbase-custodian"])
+
                 # unable to find URIs for Combined Authorities ..
                 if o.get("local-authority-type", "") == "COMB":
                     mandatory_fields.remove("opendatacommunities")
@@ -287,7 +291,7 @@ def patch_odc(name, key):
     patch_file(csv_path("collection/opendatacommunities", name), key)
 
 
-def patch_dataset(name, key):
+def patch_lookup(name, key):
     patch_file(csv_path("data/lookup", name), key)
 
 
@@ -341,8 +345,11 @@ if __name__ == "__main__":
     patch_odc("admingeo", "opendatacommunities")
     patch_odc("admingeo", "statistical-geography")
 
-    patch_dataset("region-local-authority-lookup", "organisation")
-    patch_dataset("lrf-local-authority-lookup", "organisation")
+    # TBD generate these patch files from ONS data
+    patch_lookup("region-local-authority-lookup", "organisation")
+    patch_lookup("lrf-local-authority-lookup", "organisation")
+
+    patch_file("collection/addressbase-custodian.csv", "organisation")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

@@ -20,6 +20,7 @@ fields = [
     "website",
     "twitter",
     "statistical-geography",
+    "boundary-url",
     "toid",
     "opendatacommunities",
     "opendatacommunities-area",
@@ -348,6 +349,7 @@ if __name__ == "__main__":
     # TBD generate these patch files from ONS data
     patch_lookup("region-local-authority-lookup", "organisation")
     patch_lookup("lrf-local-authority-lookup", "organisation")
+    patch_lookup("local-authority-statistical-geography-boundary", "statistical-geography")
 
     patch_file("collection/addressbase-custodian.csv", "organisation")
 

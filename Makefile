@@ -80,6 +80,9 @@ collection/addressbase-custodian.csv: bin/addressbase-custodian.py collection/ad
 collection/addressbase-products-local-custodian-codes.zip:
 	curl -qsL 'https://www.ordnancesurvey.co.uk/documents/product-support/support/addressbase-products-local-custodian-codes.zip' > collection/addressbase-products-local-custodian-codes.zip
 
+lookup/local-authority-statistical-geography-boundary.csv:
+	curl -qsL -H 'Accept: application/vnd.github.v3.raw' 'https://github.com/digital-land/boundary-collection/raw/master/index/local-authority-boundary.csv' > data/lookup/local-authority-statistical-geography-boundary.csv
+
 black:
 	black .
 

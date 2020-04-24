@@ -1,0 +1,24 @@
+name,organisation
+BRISTOL,local-authority-eng:BST
+DURHAM,local-authority-eng:DUR
+BRIGHTON & HOVE,local-authority-eng:BNH
+Folkestone and Hythe,local-authority-eng:SHE
+THANET DISTRICT,local-authority-eng:THA
+LANCASTER CITY,local-authority-eng:LAC
+LEICESTER CITY,local-authority-eng:LCE
+LINCOLN,local-authority-eng:LIC
+KINGS LYNN AND WEST NORFOLK,local-authority-eng:KIN
+NOTTINGHAM CITY,local-authority-eng:NGM
+CITY OF STOKE-ON-TRENT,local-authority-eng:STE
+SEFTON COUNCIL,local-authority-eng:SFT
+BRADFORD MDC,local-authority-eng:BRD
+CITY OF GLASGOW,local-authority-sct:GLG
+BRIDGEND COUNTY BOROUGH,principal-local-authority:BGE
+CAERPHILLY COUNTY BOROUGH,principal-local-authority:CAY
+MERTHYR TYDFIL UA,principal-local-authority:MTY
+VALE OF GLAMORGAN,principal-local-authority:VGL
+WESTERN ISLES,local-authority-sct:ELS
+CITY OF ABERDEEN,local-authority-sct:ABE
+CLACKMANNAN,local-authority-sct:CLK
+CITY OF DUNDEE,local-authority-sct:DND
+CITY OF EDINBURGH,local-authority-sct:EDH

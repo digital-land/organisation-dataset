@@ -6,6 +6,7 @@ certifi==2020.4.5.1
 chardet==3.0.4
 click==7.1.1
 decorator==4.4.2
+python-docx==0.8.10
 frozendict==1.2
 idna==2.8
 isodate==0.6.0

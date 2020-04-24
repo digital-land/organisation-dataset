@@ -20,7 +20,7 @@ fields = [
     "website",
     "twitter",
     "statistical-geography",
-    "boundary-url",
+    "boundary",
     "toid",
     "opendatacommunities",
     "opendatacommunities-area",

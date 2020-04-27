@@ -57,7 +57,7 @@ def json_to_csv_file(output_file, data):
     # now we will open a file for writing 
     data_file = open(output_file, 'w')
     # create the csv writer object 
-    csv_writer = csv.writer(data_file)
+    csv_writer = csv.writer(data_file, lineterminator='\n')
     # Counter variable used for writing  
     # headers to the CSV file
     count = 0

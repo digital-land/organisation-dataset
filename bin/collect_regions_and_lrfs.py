@@ -6,9 +6,18 @@ import json
 import requests
 import pandas as pd
 
+region_data = (
+    "Regions (December 2019) Names and Codes in England",
+    "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england"
+)
 
-regions_ep = "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson"
-lrf_ep = "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson"
+local_resilience_forum_data = (
+    "Local Resilience Forums (December 2019) Names and Codes in England and Wales",
+    "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales"
+)
+
 la_to_lrf_ep = "https://opendata.arcgis.com/datasets/203ea94d324b4fcda24875e83e577060_0.geojson"
 organisation_csv = os.environ.get("organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-collection/master/collection/organisation.csv")
 
@@ -74,6 +83,15 @@ def joiner(d1, d2, k, cols):
     return d1
 
 
+def save_geojson(data, filename):
+    with open(f'collection/{filename}.geojson', "w") as f:
+        json.dump(data,f)
+
+
+def extract_name_from_document_url(url):
+    return url.split("/")[-1]
+
+
 def map_region(region):
     props = region['properties']
     return {
@@ -84,8 +102,9 @@ def map_region(region):
 
 
 def collect_regions():
-    print(f"Collect region data from {regions_ep}")
-    d = fetch_json_from_endpoint(regions_ep)
+    print(f"Collect region data from {region_data[1]}")
+    d = fetch_json_from_endpoint(region_data[1])
+    save_geojson(d, extract_name_from_document_url(region_data[2]))
     regions = [map_region(r) for r in d['features']]
     return regions
 
@@ -100,8 +119,9 @@ def map_lrf(lrf):
 
 
 def collect_lrfs():
-    print(f"Collect LRF data from {regions_ep}")
-    d = fetch_json_from_endpoint(lrf_ep)
+    print(f"Collect LRF data from {local_resilience_forum_data[1]}")
+    d = fetch_json_from_endpoint(local_resilience_forum_data[1])
+    save_geojson(d, extract_name_from_document_url(local_resilience_forum_data[2]))
     lrfs = [map_lrf(r) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
     return lrfs
  

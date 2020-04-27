@@ -9,13 +9,24 @@ import pandas as pd
 region_data = (
     "Regions (December 2019) Names and Codes in England",
     "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson",
-    "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england"
+    "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england",
+    # fields we want to map
+    [
+        ("region", 'RGN19NM', True),
+        ("name", 'RGN19NM', False),
+        ("statistical-geography", 'RGN19CD', False)
+    ]
 )
 
 local_resilience_forum_data = (
     "Local Resilience Forums (December 2019) Names and Codes in England and Wales",
     "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
-    "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales"
+    "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales",
+    [
+        ("lrf", 'LRF19NM', True),
+        ("name", 'LRF19NM', False),
+        ("statistical-geography", 'LRF19CD', False)
+    ]
 )
 
 datasets = [region_data, local_resilience_forum_data]
@@ -105,31 +116,14 @@ def map_fields(d, field_tuples):
     return entry
 
 
-def collect_regions():
-    print(f"Collect region data from {region_data[1]}")
-    d = fetch_json_from_endpoint(region_data[1])
-    save_geojson(d, extract_name_from_document_url(region_data[2]))
-    fields = [
-        ("region", 'RGN19NM', True),
-        ("name", 'RGN19NM', False),
-        ("statistical-geography", 'RGN19CD', False)
-    ]
-    regions = [map_fields(r['properties'], fields) for r in d['features']]
-    return regions
+def collect_geojson(name, endpoint, filename, fields):
+    print(f"Collect: {name}\nfrom: {endpoint}")
+    d = fetch_json_from_endpoint(endpoint)
+    #save_geojson(d, extract_name_from_document_url(region_data[2]))
+    save_geojson(d, filename)
+    entries = [map_fields(r['properties'], fields) for r in d['features']]
+    return entries
 
-
-def collect_lrfs():
-    print(f"Collect LRF data from {local_resilience_forum_data[1]}")
-    d = fetch_json_from_endpoint(local_resilience_forum_data[1])
-    save_geojson(d, extract_name_from_document_url(local_resilience_forum_data[2]))
-    fields = [
-        ("lrf", 'LRF19NM', True),
-        ("name", 'LRF19NM', False),
-        ("statistical-geography", 'LRF19CD', False)
-    ]
-    lrfs = [map_fields(r['properties'], fields) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
-    return lrfs
- 
 
 def fetch_statistical_geography_lookup():
     d = fetch_json_from_endpoint(la_to_lrf_ep)
@@ -174,9 +168,13 @@ def generate_la_to_lrf_lookup():
 
 
 if __name__ == "__main__":
-    # collect LRF and Region CSVs
-    json_to_csv_file("data/region.csv", collect_regions())
-    json_to_csv_file("data/lrf.csv", collect_lrfs())
+
+    # collect LRF and Region data
+    for dataset in datasets:
+        (name, endpoint, doc_url, fields) = dataset
+        filename = extract_name_from_document_url(doc_url)
+        collect_geojson(name, endpoint, filename, fields)
+
     # collect LA to LRF lookup, statistical-geography
     collect_statistical_geography_lookup()
 

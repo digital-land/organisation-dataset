@@ -24,11 +24,11 @@ local_resilience_forum_data = (
     "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales",
     [
-        ("lrf", 'LRF19NM', True),
+        ("local-resilience-forum", 'LRF19NM', True),
         ("name", 'LRF19NM', False),
         ("statistical-geography", 'LRF19CD', False)
     ],
-    "data/lrf.csv"
+    "data/local-resilience-forum.csv"
 )
 
 datasets = [region_data, local_resilience_forum_data]
@@ -155,18 +155,29 @@ def generate_la_to_lrf_lookup():
         r['statistical-geography'] = r['la-statistical-geography']
     lookup = joiner(la_to_lrf, las, 'statistical-geography', ['organisation'])
 
-    lrfs = get_csv_as_json("data/lrf.csv")
+    lrfs = get_csv_as_json("data/local-resilience-forum.csv")
     # next join on lrf statistical geography
     for r in lookup:
         r['statistical-geography'] = r['lrf-statistical-geography']
-    lookup = joiner(lookup, lrfs, 'statistical-geography', ['lrf'])
+    lookup = joiner(lookup, lrfs, 'statistical-geography', ['local-resilience-forum'])
 
-    # remove temporary 'statistical-geography' key
+    # mid step for debugging
+    # json_to_csv_file("data/lookup/la_to_lrf_lookup.tmp.csv", lookup)
+    # print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
+
+    # remove 'statistical-geography' fields
+    pairs = []
     for r in lookup:
         r.pop('statistical-geography')
+        r.pop('la-statistical-geography')
+        r.pop('lrf-statistical-geography')
+        # only add lookup entry if organisation field set
+        if r['organisation'] is not None:
+            pairs.append(r)
+
 
     # write to file
-    json_to_csv_file("data/lookup/la_to_lrf_lookup.tmp.csv", lookup)
+    json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", pairs)
     print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
 
 
@@ -182,4 +193,5 @@ if __name__ == "__main__":
 
     # collect LA to LRF lookup, statistical-geography
     collect_statistical_geography_lookup()
+    generate_la_to_lrf_lookup()
 

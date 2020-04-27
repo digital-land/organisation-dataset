@@ -18,6 +18,8 @@ local_resilience_forum_data = (
     "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales"
 )
 
+datasets = [region_data, local_resilience_forum_data]
+
 la_to_lrf_ep = "https://opendata.arcgis.com/datasets/203ea94d324b4fcda24875e83e577060_0.geojson"
 organisation_csv = os.environ.get("organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-collection/master/collection/organisation.csv")
 
@@ -92,37 +94,40 @@ def extract_name_from_document_url(url):
     return url.split("/")[-1]
 
 
-def map_region(region):
-    props = region['properties']
-    return {
-        "region": name_to_identifier(props['RGN19NM']),
-        "name": props['RGN19NM'],
-        "statistical-geography": props['RGN19CD']
-    }
+# pass list of tuples
+# (desired field name, current field name, identifier(BOOL))
+def map_fields(d, field_tuples):
+    entry = {}
+    for (field, current, k) in field_tuples:
+        entry[field] = d.get(current)
+        if k:
+            entry[field] = name_to_identifier(d.get(current))
+    return entry
 
 
 def collect_regions():
     print(f"Collect region data from {region_data[1]}")
     d = fetch_json_from_endpoint(region_data[1])
     save_geojson(d, extract_name_from_document_url(region_data[2]))
-    regions = [map_region(r) for r in d['features']]
+    fields = [
+        ("region", 'RGN19NM', True),
+        ("name", 'RGN19NM', False),
+        ("statistical-geography", 'RGN19CD', False)
+    ]
+    regions = [map_fields(r['properties'], fields) for r in d['features']]
     return regions
-
-
-def map_lrf(lrf):
-    props = lrf['properties']
-    return {
-        "lrf": name_to_identifier(props['LRF19NM']),
-        "name": props['LRF19NM'],
-        "statistical-geography": props['LRF19CD']
-    }
 
 
 def collect_lrfs():
     print(f"Collect LRF data from {local_resilience_forum_data[1]}")
     d = fetch_json_from_endpoint(local_resilience_forum_data[1])
     save_geojson(d, extract_name_from_document_url(local_resilience_forum_data[2]))
-    lrfs = [map_lrf(r) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
+    fields = [
+        ("lrf", 'LRF19NM', True),
+        ("name", 'LRF19NM', False),
+        ("statistical-geography", 'LRF19CD', False)
+    ]
+    lrfs = [map_fields(r['properties'], fields) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
     return lrfs
  
 

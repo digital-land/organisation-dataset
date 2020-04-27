@@ -15,7 +15,8 @@ region_data = (
         ("region", 'RGN19NM', True),
         ("name", 'RGN19NM', False),
         ("statistical-geography", 'RGN19CD', False)
-    ]
+    ],
+    "data/region.csv"
 )
 
 local_resilience_forum_data = (
@@ -26,7 +27,8 @@ local_resilience_forum_data = (
         ("lrf", 'LRF19NM', True),
         ("name", 'LRF19NM', False),
         ("statistical-geography", 'LRF19CD', False)
-    ]
+    ],
+    "data/lrf.csv"
 )
 
 datasets = [region_data, local_resilience_forum_data]
@@ -59,6 +61,7 @@ def json_to_csv_file(output_file, data):
     # Counter variable used for writing  
     # headers to the CSV file
     count = 0
+
 
     for row in data: 
         if count == 0: 
@@ -171,9 +174,11 @@ if __name__ == "__main__":
 
     # collect LRF and Region data
     for dataset in datasets:
-        (name, endpoint, doc_url, fields) = dataset
+        (name, endpoint, doc_url, fields, save_path) = dataset
         filename = extract_name_from_document_url(doc_url)
-        collect_geojson(name, endpoint, filename, fields)
+        entries = collect_geojson(name, endpoint, filename, fields)
+        json_to_csv_file(save_path, entries)
+
 
     # collect LA to LRF lookup, statistical-geography
     collect_statistical_geography_lookup()

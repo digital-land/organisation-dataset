@@ -178,7 +178,6 @@ def generate_la_to_lrf_lookup():
 
     # write to file
     json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", pairs)
-    print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
 
 
 if __name__ == "__main__":

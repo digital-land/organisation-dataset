@@ -103,10 +103,12 @@ local-authority-eng:KET,northamptonshire
 local-authority-eng:NOR,northamptonshire
 local-authority-eng:SNR,northamptonshire
 local-authority-eng:WEL,northamptonshire
+local-authority-eng:NBL,northumbria
 local-authority-eng:NET,northumbria
 local-authority-eng:NTY,northumbria
 local-authority-eng:STY,northumbria
 local-authority-eng:SND,northumbria
+local-authority-eng:GAT,northumbria
 local-authority-eng:NGM,nottinghamshire
 local-authority-eng:ASH,nottinghamshire
 local-authority-eng:BAE,nottinghamshire
@@ -306,6 +308,10 @@ local-authority-eng:HER,hertfordshire
 local-authority-eng:NHE,hertfordshire
 local-authority-eng:THE,hertfordshire
 local-authority-eng:WAT,hertfordshire
+local-authority-eng:SAL,hertfordshire
+local-authority-eng:WEW,hertfordshire
+local-authority-eng:EHE,hertfordshire
+local-authority-eng:STV,hertfordshire
 local-authority-eng:KHL,humber
 local-authority-eng:ERY,humber
 local-authority-eng:NEL,humber

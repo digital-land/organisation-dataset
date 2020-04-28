@@ -6,10 +6,50 @@ import json
 import requests
 import pandas as pd
 
+region_data = (
+    "Regions (December 2019) Names and Codes in England",
+    "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england",
+    # fields we want to map
+    [
+        ("region", 'RGN19NM', True),
+        ("name", 'RGN19NM', False),
+        ("statistical-geography", 'RGN19CD', False)
+    ],
+    "data/region.csv"
+)
 
-regions_ep = "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson"
-lrf_ep = "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson"
-la_to_lrf_ep = "https://opendata.arcgis.com/datasets/203ea94d324b4fcda24875e83e577060_0.geojson"
+local_resilience_forum_data = (
+    "Local Resilience Forums (December 2019) Names and Codes in England and Wales",
+    "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales",
+    [
+        ("local-resilience-forum", 'LRF19NM', True),
+        ("name", 'LRF19NM', False),
+        ("statistical-geography", 'LRF19CD', False)
+    ],
+    "data/local-resilience-forum.csv"
+)
+
+local_resilience_forum_local_authority_lookup = (
+    "Local Authority District to Local Resilience Forum (December 2019) Lookup in England and Wales",
+    "https://opendata.arcgis.com/datasets/203ea94d324b4fcda24875e83e577060_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-local-resilience-forum-december-2019-lookup-in-england-and-wales",
+    [
+        ('la-statistical-geography', 'LAD19CD', False),
+        ('lrf-statistical-geography', 'LRF19CD', False)
+    ],
+    "data/lookup/statistical-geography-la-to-lrf-lookup.csv"
+)
+
+
+datasets = [
+    region_data,
+    local_resilience_forum_data,
+    local_resilience_forum_local_authority_lookup
+]
+
+
 organisation_csv = os.environ.get("organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-collection/master/collection/organisation.csv")
 
 
@@ -33,10 +73,11 @@ def json_to_csv_file(output_file, data):
     # now we will open a file for writing 
     data_file = open(output_file, 'w')
     # create the csv writer object 
-    csv_writer = csv.writer(data_file)
+    csv_writer = csv.writer(data_file, lineterminator='\n')
     # Counter variable used for writing  
     # headers to the CSV file
     count = 0
+
 
     for row in data: 
         if count == 0: 
@@ -74,49 +115,33 @@ def joiner(d1, d2, k, cols):
     return d1
 
 
-def map_region(region):
-    props = region['properties']
-    return {
-        "region": name_to_identifier(props['RGN19NM']),
-        "name": props['RGN19NM'],
-        "statistical-geography": props['RGN19CD']
-    }
+def save_geojson(data, filename):
+    with open(f'collection/{filename}.geojson', "w") as f:
+        json.dump(data,f)
 
 
-def collect_regions():
-    print(f"Collect region data from {regions_ep}")
-    d = fetch_json_from_endpoint(regions_ep)
-    regions = [map_region(r) for r in d['features']]
-    return regions
+def extract_name_from_document_url(url):
+    return url.split("/")[-1]
 
 
-def map_lrf(lrf):
-    props = lrf['properties']
-    return {
-        "lrf": name_to_identifier(props['LRF19NM']),
-        "name": props['LRF19NM'],
-        "statistical-geography": props['LRF19CD']
-    }
+# pass list of tuples
+# (desired field name, current field name, identifier(BOOL))
+def map_fields(d, field_tuples):
+    entry = {}
+    for (field, current, k) in field_tuples:
+        entry[field] = d.get(current)
+        if k:
+            entry[field] = name_to_identifier(d.get(current))
+    return entry
 
 
-def collect_lrfs():
-    print(f"Collect LRF data from {regions_ep}")
-    d = fetch_json_from_endpoint(lrf_ep)
-    lrfs = [map_lrf(r) for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
-    return lrfs
- 
-
-def fetch_statistical_geography_lookup():
-    d = fetch_json_from_endpoint(la_to_lrf_ep)
-    return [
-        {'la-statistical-geography': r['properties']['LAD19CD'],
-        'lrf-statistical-geography': r['properties']['LRF19CD'] }
-        for r in d['features'] if r['properties']['LRF19CD'].startswith('E48')]
-
-
-def collect_statistical_geography_lookup():
-    print(f"Collect LRF data from {la_to_lrf_ep}")
-    json_to_csv_file("data/lookup/statistical-geography-la-to-lrf-lookup.csv", fetch_statistical_geography_lookup())
+def collect_geojson(name, endpoint, filename, fields):
+    print(f"Collect: {name}\nfrom: {endpoint}")
+    d = fetch_json_from_endpoint(endpoint)
+    #save_geojson(d, extract_name_from_document_url(region_data[2]))
+    save_geojson(d, filename)
+    entries = [map_fields(r['properties'], fields) for r in d['features']]
+    return entries
 
 
 # how to create the identifier lookup from the statistical geography lookup
@@ -127,31 +152,47 @@ def generate_la_to_lrf_lookup():
     org_data = json.loads(org_pd.to_json(orient='records'))
     las = [x for x in org_data if x['organisation'].startswith('local-authority-eng:')]
 
-    la_to_lrf = fetch_statistical_geography_lookup()
+    la_to_lrf = get_csv_as_json("data/lookup/statistical-geography-la-to-lrf-lookup.csv")
     # firstly join on la statistical geography
     for r in la_to_lrf:
         r['statistical-geography'] = r['la-statistical-geography']
     lookup = joiner(la_to_lrf, las, 'statistical-geography', ['organisation'])
 
-    lrfs = get_csv_as_json("data/lrf.csv")
+    lrfs = get_csv_as_json("data/local-resilience-forum.csv")
     # next join on lrf statistical geography
     for r in lookup:
         r['statistical-geography'] = r['lrf-statistical-geography']
-    lookup = joiner(lookup, lrfs, 'statistical-geography', ['lrf'])
+    lookup = joiner(lookup, lrfs, 'statistical-geography', ['local-resilience-forum'])
 
-    # remove temporary 'statistical-geography' key
+    # mid step for debugging
+    # json_to_csv_file("data/lookup/la_to_lrf_lookup.tmp.csv", lookup)
+    # print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
+
+    # remove 'statistical-geography' fields
+    pairs = []
     for r in lookup:
         r.pop('statistical-geography')
+        r.pop('la-statistical-geography')
+        r.pop('lrf-statistical-geography')
+        # only add lookup entry if organisation field set
+        if r['organisation'] is not None:
+            pairs.append(r)
+
 
     # write to file
-    json_to_csv_file("data/lookup/la_to_lrf_lookup.tmp.csv", lookup)
-    print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
+    json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", pairs)
 
 
 if __name__ == "__main__":
-    # collect LRF and Region CSVs
-    json_to_csv_file("data/region.csv", collect_regions())
-    json_to_csv_file("data/lrf.csv", collect_lrfs())
-    # collect LA to LRF lookup, statistical-geography
-    collect_statistical_geography_lookup()
+
+    # collect LRF and Region data
+    for dataset in datasets:
+        (name, endpoint, doc_url, fields, save_path) = dataset
+        filename = extract_name_from_document_url(doc_url)
+        entries = collect_geojson(name, endpoint, filename, fields)
+        json_to_csv_file(save_path, entries)
+
+
+    # create local-authority code to local-resilience-forum id lookup
+    generate_la_to_lrf_lookup()
 

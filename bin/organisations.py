@@ -28,7 +28,7 @@ fields = [
     "census-area",
     "local-authority-type",
     "esd-inventories",
-    "lrf",
+    "local-resilience-forum",
     "region",
     "addressbase-custodian",
     "start-date",
@@ -353,7 +353,7 @@ if __name__ == "__main__":
 
     # TBD generate these patch files from ONS data
     patch_lookup("region-local-authority-lookup", "organisation")
-    patch_lookup("lrf-local-authority-lookup", "organisation")
+    patch_lookup("local-resilience-forum-to-local-authority", "organisation")
     patch_lookup("local-authority-statistical-geography-boundary", "statistical-geography")
 
     patch_file("collection/addressbase-custodian.csv", "organisation")

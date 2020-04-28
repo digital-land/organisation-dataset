@@ -218,7 +218,7 @@ def csv_path(directory, name):
 
 
 # add to organisations
-def load_file(path, key=None, prefix=None, fields=None):
+def load_file(path, key=None, prefix=None, fields=None, ignore_ended=False):
 
     logging.info("loading %s" % (path))
 
@@ -237,18 +237,23 @@ def load_file(path, key=None, prefix=None, fields=None):
                 if (not fields) or (field in fields):
                     to = fields[field] if fields else field
                     if row[field]:
-                        organisations[curie][to] = row[field]
+                        # stop statistical-geography entries with end-date 
+                        # overriding latest
+                        if ignore_ended and row.get('end-date') is not None:
+                            pass
+                        else:
+                            organisations[curie][to] = row[field]
 
 
-def load_register(register, key=None, fields={}):
+def load_register(register, key=None, fields={}, ignore_ended=False):
     key = key or register
-    load_file(csv_path(register_dir, register), key=key, fields=fields)
+    load_file(csv_path(register_dir, register), key=key, fields=fields, ignore_ended=ignore_ended)
 
 
 def load_statistical_geography_register(name):
     register = "statistical-geography-" + name
     fields = {register: "statistical-geography"}
-    load_register(register, key="local-authority-eng", fields=fields)
+    load_register(register, key="local-authority-eng", fields=fields, ignore_ended=True)
 
 
 def load_data(register, key=None):

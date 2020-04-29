@@ -82,6 +82,7 @@ def fetch_json_from_endpoint(endpoint):
 
 # write json to csv file
 def json_to_csv_file(output_file, data):
+
     print(f'Write data to {output_file}')
     # now we will open a file for writing 
     data_file = open(output_file, 'w')
@@ -157,43 +158,55 @@ def collect_geojson(name, endpoint, filename, fields):
     return entries
 
 
-# how to create the identifier lookup from the statistical geography lookup
+def map_statistical_geography_lookup(statistical_geography_lookup, mappings, keep=False):
+    mapped_dict = statistical_geography_lookup
+
+    for mapping in mappings:
+
+        # eg ('la-statistical-geography', 'organisation', las)
+        (statistical_geography_field, field, table) = mapping
+
+        for entry in mapped_dict:
+            entry['statistical-geography'] = entry[statistical_geography_field]
+
+        mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
+
+        for entry in mapped_dict:
+            # remove temp field
+            entry.pop('statistical-geography')
+            if not keep:
+                # if not keeping also remove the original statistical geography field
+                entry.pop(statistical_geography_field)
+
+    return mapped_dict
+
+
+# create the identifier lookup from the statistical geography lookup
 # requires organisation data with associated statistical geographies
-def generate_la_to_lrf_lookup():
-    # get data from master organisation.csv
-    org_pd = pd.read_csv(organisation_csv, sep=",")
-    org_data = json.loads(org_pd.to_json(orient='records'))
-    las = [x for x in org_data if x['organisation'].startswith('local-authority-eng:')]
+def map_la_to_lrf_lookup_data():
+    # load lookup data
+    lookup_data = get_csv_as_json("data/lookup/statistical-geography-la-to-lrf-lookup.csv")
 
-    la_to_lrf = get_csv_as_json("data/lookup/statistical-geography-la-to-lrf-lookup.csv")
-    # firstly join on la statistical geography
-    for r in la_to_lrf:
-        r['statistical-geography'] = r['la-statistical-geography']
-    lookup = joiner(la_to_lrf, las, 'statistical-geography', ['organisation'])
-
+    # load data to map on
+    organisations = get_csv_as_json(organisation_csv)
     lrfs = get_csv_as_json("data/local-resilience-forum.csv")
-    # next join on lrf statistical geography
-    for r in lookup:
-        r['statistical-geography'] = r['lrf-statistical-geography']
-    lookup = joiner(lookup, lrfs, 'statistical-geography', ['local-resilience-forum'])
 
-    # mid step for debugging
-    # json_to_csv_file("data/lookup/la_to_lrf_lookup.tmp.csv", lookup)
-    # print("Temporary lookup file created: data/lookup/la_to_lrf_lookup.tmp.csv")
+    # list field mappings
+    mappings = [
+        ('la-statistical-geography', 'organisation', organisations),
+        ('lrf-statistical-geography', 'local-resilience-forum', lrfs)
+    ]
 
-    # remove 'statistical-geography' fields
-    pairs = []
-    for r in lookup:
-        r.pop('statistical-geography')
-        r.pop('la-statistical-geography')
-        r.pop('lrf-statistical-geography')
-        # only add lookup entry if organisation field set
+    data = map_statistical_geography_lookup(lookup_data, mappings)
+
+    # only add lookup entry if organisation field set
+    successfully_mapped = []
+    for r in data:
         if r['organisation'] is not None:
-            pairs.append(r)
-
+            successfully_mapped.append(r)
 
     # write to file
-    json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", pairs)
+    json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", successfully_mapped)
 
 
 if __name__ == "__main__":
@@ -205,7 +218,6 @@ if __name__ == "__main__":
         entries = collect_geojson(name, endpoint, filename, fields)
         json_to_csv_file(save_path, entries)
 
-
     # create local-authority code to local-resilience-forum id lookup
-    generate_la_to_lrf_lookup()
+    map_la_to_lrf_lookup_data()
 

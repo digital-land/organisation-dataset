@@ -165,6 +165,13 @@ def rename_field(data, _from, to):
     return data
 
 
+def remove_field(data, field):
+    for d in data:
+        if field in d.keys():
+            del d[field]
+    return data
+
+
 def map_statistical_geography_lookup(statistical_geography_lookup, mappings, keep=False):
     mapped_dict = statistical_geography_lookup
 
@@ -183,13 +190,11 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
         else:
             mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
 
-
-        for entry in mapped_dict:
-            # remove temp field
-            entry.pop('statistical-geography')
-            if not keep:
-                # if not keeping also remove the original statistical geography field
-                entry.pop(statistical_geography_field)
+        # remove temp field
+        mapped_dict = remove_field(mapped_dict, 'statistical-geography')
+        if not keep:
+            # if not keeping also remove the original statistical geography field
+            mapped_dict = remove_field(mapped_dict, statistical_geography_field)
 
     return mapped_dict
 

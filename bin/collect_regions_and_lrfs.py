@@ -42,11 +42,23 @@ local_resilience_forum_local_authority_lookup = (
     "data/lookup/statistical-geography-la-to-lrf-lookup.csv"
 )
 
+local_authority_to_combined_authority_lookup = (
+    "Local Authority District to Combined Authority (December 2019) Lookup in England",
+    "https://opendata.arcgis.com/datasets/db4f8bae6bfa41babfafea3ec8a38c0e_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-combined-authority-december-2019-lookup-in-england",
+    [
+        ('la-statistical-geography', 'LAD19CD', False),
+        ('comb-statistical-geography', 'CAUTH19CD', False)
+    ],
+    "data/lookup/statistical-geography-la-to-comb-lookup.csv"
+)
+
 
 datasets = [
     region_data,
     local_resilience_forum_data,
-    local_resilience_forum_local_authority_lookup
+    local_resilience_forum_local_authority_lookup,
+    local_authority_to_combined_authority_lookup
 ]
 
 

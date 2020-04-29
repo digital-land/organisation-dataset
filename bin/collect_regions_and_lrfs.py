@@ -158,6 +158,13 @@ def collect_geojson(name, endpoint, filename, fields):
     return entries
 
 
+def rename_field(data, _from, to):
+    for d in data:
+        d[to] = d[_from]
+        d.pop(_from)
+    return data
+
+
 def map_statistical_geography_lookup(statistical_geography_lookup, mappings, keep=False):
     mapped_dict = statistical_geography_lookup
 
@@ -169,7 +176,13 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
         for entry in mapped_dict:
             entry['statistical-geography'] = entry[statistical_geography_field]
 
-        mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
+        if type(field) == tuple:
+            # handle cases where we want to rename newly added field
+            mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field[0]])
+            rename_field(mapped_dict, field[0], f'{field[0]}:{field[1]}')
+        else:
+            mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
+
 
         for entry in mapped_dict:
             # remove temp field

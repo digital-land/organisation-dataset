@@ -76,6 +76,7 @@ def get_csv_as_json(path_to_csv):
 
 def fetch_json_from_endpoint(endpoint):
     json_url = requests.get(endpoint)
+    # should this check response is OK?
     return json_url.json()
 
 

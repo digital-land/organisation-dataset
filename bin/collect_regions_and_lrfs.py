@@ -222,6 +222,31 @@ def map_la_to_lrf_lookup_data():
     json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", successfully_mapped)
 
 
+def map_la_to_comb_lookup_data():
+    # load lookup data
+    lookup_data = get_csv_as_json("data/lookup/statistical-geography-la-to-comb-lookup.csv")
+
+    # load data to map on
+    organisations = get_csv_as_json(organisation_csv)
+
+    # list field mappings
+    mappings = [
+        ('la-statistical-geography', ('organisation', 'local-authority'), organisations),
+        ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations)
+    ]
+
+    data = map_statistical_geography_lookup(lookup_data, mappings)
+
+    # only add lookup entry if organisation field set
+    successfully_mapped = []
+    for r in data:
+        if r['organisation:local-authority'] is not None and r['organisation:combined-authority']:
+            successfully_mapped.append(r)
+
+    # write to file
+    json_to_csv_file("data/lookup/local-authority-to-combined-authority.csv", successfully_mapped)
+
+
 if __name__ == "__main__":
 
     # collect LRF and Region data
@@ -233,4 +258,5 @@ if __name__ == "__main__":
 
     # create local-authority code to local-resilience-forum id lookup
     map_la_to_lrf_lookup_data()
+    map_la_to_comb_lookup_data()
 

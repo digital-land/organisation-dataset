@@ -186,7 +186,7 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
         if type(field) == tuple:
             # handle cases where we want to rename newly added field
             mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field[0]])
-            rename_field(mapped_dict, field[0], f'{field[0]}:{field[1]}')
+            rename_field(mapped_dict, field[0], field[1])
         else:
             mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
 
@@ -236,8 +236,8 @@ def map_la_to_comb_lookup_data():
 
     # list field mappings
     mappings = [
-        ('la-statistical-geography', ('organisation', 'local-authority'), organisations),
-        ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations)
+        ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations),
+        ('la-statistical-geography', 'organisation', organisations)
     ]
 
     data = map_statistical_geography_lookup(lookup_data, mappings)
@@ -245,7 +245,7 @@ def map_la_to_comb_lookup_data():
     # only add lookup entry if organisation field set
     successfully_mapped = []
     for r in data:
-        if r['organisation:local-authority'] is not None and r['organisation:combined-authority']:
+        if r['organisation'] is not None and r['combined-authority']:
             successfully_mapped.append(r)
 
     # write to file

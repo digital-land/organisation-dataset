@@ -27,6 +27,7 @@ fields = [
     "billing-authority",
     "census-area",
     "local-authority-type",
+    "combined-authority",
     "esd-inventories",
     "local-resilience-forum",
     "region",
@@ -355,6 +356,7 @@ if __name__ == "__main__":
     patch_lookup("region-local-authority-lookup", "organisation")
     patch_lookup("local-resilience-forum-to-local-authority", "organisation")
     patch_lookup("local-authority-statistical-geography-boundary", "statistical-geography")
+    patch_lookup("local-authority-to-combined-authority", 'organisation')
 
     patch_file("collection/addressbase-custodian.csv", "organisation")
 

@@ -12,7 +12,8 @@ COLLECTION_DIR=collection/
 
 TARGETS:=\
 	collection/organisation.csv\
-	collection/organisation-tag.csv
+	collection/organisation-tag.csv\
+	collect-ons-data
 
 COLLECTED_REGISTERS:=\
 	$(REGISTER_DIR)government-organisation.csv\
@@ -95,5 +96,5 @@ clean::
 clobber::
 	rm -f $(TARGETS)
 
-regions::
+collect-ons-data::
 	python3 bin/collect_regions_and_lrfs.py

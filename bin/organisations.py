@@ -352,8 +352,7 @@ if __name__ == "__main__":
     patch_odc("admingeo", "opendatacommunities")
     patch_odc("admingeo", "statistical-geography")
 
-    # TBD generate these patch files from ONS data
-    patch_lookup("region-local-authority-lookup", "organisation")
+    patch_lookup("local-authority-to-region", "organisation")
     patch_lookup("local-resilience-forum-to-local-authority", "organisation")
     patch_lookup("local-authority-statistical-geography-boundary", "statistical-geography")
     patch_lookup("local-authority-to-combined-authority", 'organisation')

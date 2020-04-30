@@ -53,12 +53,24 @@ local_authority_to_combined_authority_lookup = (
     "data/lookup/statistical-geography-la-to-comb-lookup.csv"
 )
 
+local_authority_to_region_lookup = (
+    "Local Authority District to Region (April 2019) Lookup in England",
+    "https://opendata.arcgis.com/datasets/3ba3daf9278f47daba0f561889c3521a_0.geojson",
+    "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-region-april-2019-lookup-in-england",
+    [
+        ('la-statistical-geography', 'LAD19CD', False),
+        ('region-statistical-geography', 'RGN19CD', False)
+    ],
+    "data/lookup/statistical-geography-la-to-region-lookup.csv"
+)
+
 
 datasets = [
     region_data,
     local_resilience_forum_data,
     local_resilience_forum_local_authority_lookup,
-    local_authority_to_combined_authority_lookup
+    local_authority_to_combined_authority_lookup,
+    local_authority_to_region_lookup
 ]
 
 
@@ -251,3 +263,11 @@ if __name__ == "__main__":
         "local-authority-to-combined-authority"
     )
 
+    map_to_identifiers(
+        "statistical-geography-la-to-region-lookup",
+        [
+            ('la-statistical-geography', 'organisation', organisations),
+            ('region-statistical-geography', 'region', get_csv_as_json("data/region.csv"))
+        ],
+        "local-authority-to-region"
+    )

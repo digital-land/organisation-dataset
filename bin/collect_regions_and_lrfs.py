@@ -230,6 +230,18 @@ def map_to_identifiers(lookup, mappings, output, exclude_incomplete=True):
     json_to_csv_file(f'data/lookup/{output}.csv', successfully_mapped)
 
 
+def patcher(patch, data, idx):
+    exists = [x[idx] for x in data]
+    # load patched names
+    for row in csv.DictReader(open(f'patch/{patch}.csv')):
+        if row[idx] not in exists:
+            patch_entry = {}
+            for k in row.keys():
+                patch_entry[k] = row[k]
+            data.append(patch_entry)
+    return data
+
+
 if __name__ == "__main__":
 
     # collect LRF and Region data
@@ -271,3 +283,8 @@ if __name__ == "__main__":
         ],
         "local-authority-to-region"
     )
+
+    # load patched missing regions
+    file_to_patch = "data/lookup/local-authority-to-region.csv"
+    patched_region_lookup = patcher('region', get_csv_as_json(file_to_patch), 'organisation')
+    json_to_csv_file(file_to_patch, patched_region_lookup)

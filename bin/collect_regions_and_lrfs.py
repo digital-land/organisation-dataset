@@ -199,57 +199,23 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
     return mapped_dict
 
 
-# create the identifier lookup from the statistical geography lookup
-# requires organisation data with associated statistical geographies
-def map_la_to_lrf_lookup_data():
+def map_to_identifiers(lookup, mappings, output, exclude_incomplete=True):
     # load lookup data
-    lookup_data = get_csv_as_json("data/lookup/statistical-geography-la-to-lrf-lookup.csv")
-
-    # load data to map on
-    organisations = get_csv_as_json(organisation_csv)
-    lrfs = get_csv_as_json("data/local-resilience-forum.csv")
-
-    # list field mappings
-    mappings = [
-        ('la-statistical-geography', 'organisation', organisations),
-        ('lrf-statistical-geography', 'local-resilience-forum', lrfs)
-    ]
+    lookup_data = get_csv_as_json(f'data/lookup/{lookup}.csv')
 
     data = map_statistical_geography_lookup(lookup_data, mappings)
 
-    # only add lookup entry if organisation field set
-    successfully_mapped = []
-    for r in data:
-        if r['organisation'] is not None:
-            successfully_mapped.append(r)
+    if exclude_incomplete:
+        # only include lookup entry if all keys have a value
+        successfully_mapped = []
+        for r in data:
+            if None not in r.values():
+                successfully_mapped.append(r)
+    else:
+        successfully_mapped = data
 
     # write to file
-    json_to_csv_file("data/lookup/local-resilience-forum-to-local-authority.csv", successfully_mapped)
-
-
-def map_la_to_comb_lookup_data():
-    # load lookup data
-    lookup_data = get_csv_as_json("data/lookup/statistical-geography-la-to-comb-lookup.csv")
-
-    # load data to map on
-    organisations = get_csv_as_json(organisation_csv)
-
-    # list field mappings
-    mappings = [
-        ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations),
-        ('la-statistical-geography', 'organisation', organisations)
-    ]
-
-    data = map_statistical_geography_lookup(lookup_data, mappings)
-
-    # only add lookup entry if organisation field set
-    successfully_mapped = []
-    for r in data:
-        if r['organisation'] is not None and r['combined-authority']:
-            successfully_mapped.append(r)
-
-    # write to file
-    json_to_csv_file("data/lookup/local-authority-to-combined-authority.csv", successfully_mapped)
+    json_to_csv_file(f'data/lookup/{output}.csv', successfully_mapped)
 
 
 if __name__ == "__main__":
@@ -261,7 +227,27 @@ if __name__ == "__main__":
         entries = collect_geojson(name, endpoint, filename, fields)
         json_to_csv_file(save_path, entries)
 
-    # create local-authority code to local-resilience-forum id lookup
-    map_la_to_lrf_lookup_data()
-    map_la_to_comb_lookup_data()
+
+    # load organisation data
+    organisations = get_csv_as_json(organisation_csv)
+
+
+    # map statistical geography lookups to identifier lookups
+    map_to_identifiers(
+        "statistical-geography-la-to-lrf-lookup",
+        [
+            ('la-statistical-geography', 'organisation', organisations),
+            ('lrf-statistical-geography', 'local-resilience-forum', get_csv_as_json("data/local-resilience-forum.csv"))
+        ],
+        "local-resilience-forum-to-local-authority"
+    )
+
+    map_to_identifiers(
+        "statistical-geography-la-to-comb-lookup",
+        [
+            ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations),
+            ('la-statistical-geography', 'organisation', organisations)
+        ],
+        "local-authority-to-combined-authority"
+    )
 

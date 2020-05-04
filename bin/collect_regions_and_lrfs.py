@@ -74,7 +74,8 @@ datasets = [
 ]
 
 
-organisation_csv = os.environ.get("organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv")
+organisation_csv = os.environ.get(
+    "organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv")
 
 
 def name_to_identifier(n):
@@ -96,26 +97,24 @@ def fetch_json_from_endpoint(endpoint):
 def json_to_csv_file(output_file, data):
 
     print(f'Write data to {output_file}')
-    # now we will open a file for writing 
+    # now we will open a file for writing
     data_file = open(output_file, 'w')
-    # create the csv writer object 
+    # create the csv writer object
     csv_writer = csv.writer(data_file, lineterminator='\n')
-    # Counter variable used for writing  
+    # Counter variable used for writing
     # headers to the CSV file
     count = 0
+    for row in data:
+        if count == 0:
 
-
-    for row in data: 
-        if count == 0: 
-    
-            # Writing headers of CSV file 
-            header = row.keys() 
-            csv_writer.writerow(header) 
+            # Writing headers of CSV file
+            header = row.keys()
+            csv_writer.writerow(header)
             count += 1
-    
-        # Writing data of CSV file 
-        csv_writer.writerow(row.values()) 
-    
+
+        # Writing data of CSV file
+        csv_writer.writerow(row.values())
+
     data_file.close()
 
 
@@ -143,7 +142,7 @@ def joiner(d1, d2, k, cols):
 
 def save_geojson(data, filename):
     with open(f'collection/{filename}.geojson', "w") as f:
-        json.dump(data,f)
+        json.dump(data, f)
 
 
 def extract_name_from_document_url(url):
@@ -197,16 +196,19 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
 
         if type(field) == tuple:
             # handle cases where we want to rename newly added field
-            mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field[0]])
+            mapped_dict = joiner(mapped_dict, table,
+                                 'statistical-geography', [field[0]])
             rename_field(mapped_dict, field[0], field[1])
         else:
-            mapped_dict = joiner(mapped_dict, table, 'statistical-geography', [field])
+            mapped_dict = joiner(mapped_dict, table,
+                                 'statistical-geography', [field])
 
         # remove temp field
         mapped_dict = remove_field(mapped_dict, 'statistical-geography')
         if not keep:
             # if not keeping also remove the original statistical geography field
-            mapped_dict = remove_field(mapped_dict, statistical_geography_field)
+            mapped_dict = remove_field(
+                mapped_dict, statistical_geography_field)
 
     return mapped_dict
 
@@ -251,17 +253,16 @@ if __name__ == "__main__":
         entries = collect_geojson(name, endpoint, filename, fields)
         json_to_csv_file(save_path, entries)
 
-
     # load organisation data
     organisations = get_csv_as_json(organisation_csv)
-
 
     # map statistical geography lookups to identifier lookups
     map_to_identifiers(
         "statistical-geography-la-to-lrf-lookup",
         [
             ('la-statistical-geography', 'organisation', organisations),
-            ('lrf-statistical-geography', 'local-resilience-forum', get_csv_as_json("data/local-resilience-forum.csv"))
+            ('lrf-statistical-geography', 'local-resilience-forum',
+             get_csv_as_json("data/local-resilience-forum.csv"))
         ],
         "local-resilience-forum-to-local-authority"
     )
@@ -269,7 +270,8 @@ if __name__ == "__main__":
     map_to_identifiers(
         "statistical-geography-la-to-comb-lookup",
         [
-            ('comb-statistical-geography', ('organisation', 'combined-authority'), organisations),
+            ('comb-statistical-geography',
+             ('organisation', 'combined-authority'), organisations),
             ('la-statistical-geography', 'organisation', organisations)
         ],
         "local-authority-to-combined-authority"
@@ -279,12 +281,14 @@ if __name__ == "__main__":
         "statistical-geography-la-to-region-lookup",
         [
             ('la-statistical-geography', 'organisation', organisations),
-            ('region-statistical-geography', 'region', get_csv_as_json("data/region.csv"))
+            ('region-statistical-geography', 'region',
+             get_csv_as_json("data/region.csv"))
         ],
         "local-authority-to-region"
     )
 
     # load patched missing regions
     file_to_patch = "data/lookup/local-authority-to-region.csv"
-    patched_region_lookup = patcher('region', get_csv_as_json(file_to_patch), 'organisation')
+    patched_region_lookup = patcher(
+        'region', get_csv_as_json(file_to_patch), 'organisation')
     json_to_csv_file(file_to_patch, patched_region_lookup)

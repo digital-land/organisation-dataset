@@ -12,11 +12,11 @@ region_data = (
     "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england",
     # fields we want to map
     [
-        ("region", 'RGN19NM', True),
-        ("name", 'RGN19NM', False),
-        ("statistical-geography", 'RGN19CD', False)
+        ("region", "RGN19NM", True),
+        ("name", "RGN19NM", False),
+        ("statistical-geography", "RGN19CD", False),
     ],
-    "data/region.csv"
+    "data/region.csv",
 )
 
 local_resilience_forum_data = (
@@ -24,11 +24,11 @@ local_resilience_forum_data = (
     "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales",
     [
-        ("local-resilience-forum", 'LRF19NM', True),
-        ("name", 'LRF19NM', False),
-        ("statistical-geography", 'LRF19CD', False)
+        ("local-resilience-forum", "LRF19NM", True),
+        ("name", "LRF19NM", False),
+        ("statistical-geography", "LRF19CD", False),
     ],
-    "data/local-resilience-forum.csv"
+    "data/local-resilience-forum.csv",
 )
 
 local_resilience_forum_local_authority_lookup = (
@@ -36,10 +36,10 @@ local_resilience_forum_local_authority_lookup = (
     "https://opendata.arcgis.com/datasets/203ea94d324b4fcda24875e83e577060_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-local-resilience-forum-december-2019-lookup-in-england-and-wales",
     [
-        ('la-statistical-geography', 'LAD19CD', False),
-        ('lrf-statistical-geography', 'LRF19CD', False)
+        ("la-statistical-geography", "LAD19CD", False),
+        ("lrf-statistical-geography", "LRF19CD", False),
     ],
-    "data/lookup/statistical-geography-la-to-lrf-lookup.csv"
+    "data/lookup/statistical-geography-la-to-lrf-lookup.csv",
 )
 
 local_authority_to_combined_authority_lookup = (
@@ -47,10 +47,10 @@ local_authority_to_combined_authority_lookup = (
     "https://opendata.arcgis.com/datasets/db4f8bae6bfa41babfafea3ec8a38c0e_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-combined-authority-december-2019-lookup-in-england",
     [
-        ('la-statistical-geography', 'LAD19CD', False),
-        ('comb-statistical-geography', 'CAUTH19CD', False)
+        ("la-statistical-geography", "LAD19CD", False),
+        ("comb-statistical-geography", "CAUTH19CD", False),
     ],
-    "data/lookup/statistical-geography-la-to-comb-lookup.csv"
+    "data/lookup/statistical-geography-la-to-comb-lookup.csv",
 )
 
 local_authority_to_region_lookup = (
@@ -58,10 +58,10 @@ local_authority_to_region_lookup = (
     "https://opendata.arcgis.com/datasets/3ba3daf9278f47daba0f561889c3521a_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-authority-district-to-region-april-2019-lookup-in-england",
     [
-        ('la-statistical-geography', 'LAD19CD', False),
-        ('region-statistical-geography', 'RGN19CD', False)
+        ("la-statistical-geography", "LAD19CD", False),
+        ("region-statistical-geography", "RGN19CD", False),
     ],
-    "data/lookup/statistical-geography-la-to-region-lookup.csv"
+    "data/lookup/statistical-geography-la-to-region-lookup.csv",
 )
 
 
@@ -70,12 +70,14 @@ datasets = [
     local_resilience_forum_data,
     local_resilience_forum_local_authority_lookup,
     local_authority_to_combined_authority_lookup,
-    local_authority_to_region_lookup
+    local_authority_to_region_lookup,
 ]
 
 
 organisation_csv = os.environ.get(
-    "organisation_csv", "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv")
+    "organisation_csv",
+    "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv",
+)
 
 
 def name_to_identifier(n):
@@ -84,7 +86,7 @@ def name_to_identifier(n):
 
 def get_csv_as_json(path_to_csv):
     csv_pd = pd.read_csv(path_to_csv, sep=",")
-    return json.loads(csv_pd .to_json(orient='records'))
+    return json.loads(csv_pd.to_json(orient="records"))
 
 
 def fetch_json_from_endpoint(endpoint):
@@ -96,11 +98,11 @@ def fetch_json_from_endpoint(endpoint):
 # write json to csv file
 def json_to_csv_file(output_file, data):
 
-    print(f'Write data to {output_file}')
+    print(f"Write data to {output_file}")
     # now we will open a file for writing
-    data_file = open(output_file, 'w')
+    data_file = open(output_file, "w")
     # create the csv writer object
-    csv_writer = csv.writer(data_file, lineterminator='\n')
+    csv_writer = csv.writer(data_file, lineterminator="\n")
     # Counter variable used for writing
     # headers to the CSV file
     count = 0
@@ -141,7 +143,7 @@ def joiner(d1, d2, k, cols):
 
 
 def save_geojson(data, filename):
-    with open(f'collection/{filename}.geojson', "w") as f:
+    with open(f"collection/{filename}.geojson", "w") as f:
         json.dump(data, f)
 
 
@@ -163,9 +165,9 @@ def map_fields(d, field_tuples):
 def collect_geojson(name, endpoint, filename, fields):
     print(f"Collect: {name}\nfrom: {endpoint}")
     d = fetch_json_from_endpoint(endpoint)
-    #save_geojson(d, extract_name_from_document_url(region_data[2]))
+    # save_geojson(d, extract_name_from_document_url(region_data[2]))
     save_geojson(d, filename)
-    entries = [map_fields(r['properties'], fields) for r in d['features']]
+    entries = [map_fields(r["properties"], fields) for r in d["features"]]
     return entries
 
 
@@ -183,7 +185,9 @@ def remove_field(data, field):
     return data
 
 
-def map_statistical_geography_lookup(statistical_geography_lookup, mappings, keep=False):
+def map_statistical_geography_lookup(
+    statistical_geography_lookup, mappings, keep=False
+):
     mapped_dict = statistical_geography_lookup
 
     for mapping in mappings:
@@ -192,30 +196,29 @@ def map_statistical_geography_lookup(statistical_geography_lookup, mappings, kee
         (statistical_geography_field, field, table) = mapping
 
         for entry in mapped_dict:
-            entry['statistical-geography'] = entry[statistical_geography_field]
+            entry["statistical-geography"] = entry[statistical_geography_field]
 
         if type(field) == tuple:
             # handle cases where we want to rename newly added field
-            mapped_dict = joiner(mapped_dict, table,
-                                 'statistical-geography', [field[0]])
+            mapped_dict = joiner(
+                mapped_dict, table, "statistical-geography", [field[0]]
+            )
             rename_field(mapped_dict, field[0], field[1])
         else:
-            mapped_dict = joiner(mapped_dict, table,
-                                 'statistical-geography', [field])
+            mapped_dict = joiner(mapped_dict, table, "statistical-geography", [field])
 
         # remove temp field
-        mapped_dict = remove_field(mapped_dict, 'statistical-geography')
+        mapped_dict = remove_field(mapped_dict, "statistical-geography")
         if not keep:
             # if not keeping also remove the original statistical geography field
-            mapped_dict = remove_field(
-                mapped_dict, statistical_geography_field)
+            mapped_dict = remove_field(mapped_dict, statistical_geography_field)
 
     return mapped_dict
 
 
 def map_to_identifiers(lookup, mappings, output, exclude_incomplete=True):
     # load lookup data
-    lookup_data = get_csv_as_json(f'data/lookup/{lookup}.csv')
+    lookup_data = get_csv_as_json(f"data/lookup/{lookup}.csv")
 
     data = map_statistical_geography_lookup(lookup_data, mappings)
 
@@ -229,13 +232,13 @@ def map_to_identifiers(lookup, mappings, output, exclude_incomplete=True):
         successfully_mapped = data
 
     # write to file
-    json_to_csv_file(f'data/lookup/{output}.csv', successfully_mapped)
+    json_to_csv_file(f"data/lookup/{output}.csv", successfully_mapped)
 
 
 def patcher(patch, data, idx):
     exists = [x[idx] for x in data]
     # load patched names
-    for row in csv.DictReader(open(f'patch/{patch}.csv')):
+    for row in csv.DictReader(open(f"patch/{patch}.csv")):
         if row[idx] not in exists:
             patch_entry = {}
             for k in row.keys():
@@ -260,35 +263,45 @@ if __name__ == "__main__":
     map_to_identifiers(
         "statistical-geography-la-to-lrf-lookup",
         [
-            ('la-statistical-geography', 'organisation', organisations),
-            ('lrf-statistical-geography', 'local-resilience-forum',
-             get_csv_as_json("data/local-resilience-forum.csv"))
+            ("la-statistical-geography", "organisation", organisations),
+            (
+                "lrf-statistical-geography",
+                "local-resilience-forum",
+                get_csv_as_json("data/local-resilience-forum.csv"),
+            ),
         ],
-        "local-resilience-forum-to-local-authority"
+        "local-resilience-forum-to-local-authority",
     )
 
     map_to_identifiers(
         "statistical-geography-la-to-comb-lookup",
         [
-            ('comb-statistical-geography',
-             ('organisation', 'combined-authority'), organisations),
-            ('la-statistical-geography', 'organisation', organisations)
+            (
+                "comb-statistical-geography",
+                ("organisation", "combined-authority"),
+                organisations,
+            ),
+            ("la-statistical-geography", "organisation", organisations),
         ],
-        "local-authority-to-combined-authority"
+        "local-authority-to-combined-authority",
     )
 
     map_to_identifiers(
         "statistical-geography-la-to-region-lookup",
         [
-            ('la-statistical-geography', 'organisation', organisations),
-            ('region-statistical-geography', 'region',
-             get_csv_as_json("data/region.csv"))
+            ("la-statistical-geography", "organisation", organisations),
+            (
+                "region-statistical-geography",
+                "region",
+                get_csv_as_json("data/region.csv"),
+            ),
         ],
-        "local-authority-to-region"
+        "local-authority-to-region",
     )
 
     # load patched missing regions
     file_to_patch = "data/lookup/local-authority-to-region.csv"
     patched_region_lookup = patcher(
-        'region', get_csv_as_json(file_to_patch), 'organisation')
+        "region", get_csv_as_json(file_to_patch), "organisation"
+    )
     json_to_csv_file(file_to_patch, patched_region_lookup)

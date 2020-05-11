@@ -1,9 +1,9 @@
-# Digital Land collection of organisations
+# Digital Land organisation dataset
 
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/psd/openregister/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://black.readthedocs.io/en/stable/)
 
-A collection of data about Local Planning Authorities and other organisations who publish data used by digital land:
+A dataset of Local Planning Authorities and other organisations who publish data used by Digital Land:
 
 * [collection/organisation.csv](collection/organisation.csv)
 
@@ -28,7 +28,7 @@ This locally maintained dataset provides websites for local authorities, develop
 
 The plan is to move to replace this locally maintained data with the website, and other data sourced from Wikipedia, such as https://www.wikidata.org/wiki/Q931180
 
-# Updating the collection
+# Updating the dataset
 
 We recommend working in [virtual environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/) before installing the python dependencies:
 

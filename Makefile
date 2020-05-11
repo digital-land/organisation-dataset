@@ -13,7 +13,7 @@ COLLECTION_DIR=collection/
 TARGETS:=\
 	collection/organisation.csv\
 	collection/organisation-tag.csv\
-	collect-ons-data
+	collect/ons-data
 
 COLLECTED_REGISTERS:=\
 	$(REGISTER_DIR)government-organisation.csv\

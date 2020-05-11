@@ -5,6 +5,11 @@ import csv
 import json
 import requests
 import pandas as pd
+from io import StringIO
+
+from cachecontrol import CacheControl
+from cachecontrol.caches.file_cache import FileCache
+
 
 region_data = (
     "Regions (December 2019) Names and Codes in England",
@@ -84,8 +89,22 @@ def name_to_identifier(n):
     return n.lower().replace(" ", "-").replace(",", "")
 
 
-def get_csv_as_json(path_to_csv):
-    csv_pd = pd.read_csv(path_to_csv, sep=",")
+# cache files collected
+session = CacheControl(requests.session(), cache=FileCache(".cache"))
+
+
+def get(url):
+    r = session.get(url)
+    r.raise_for_status()
+    return r.text
+
+
+def get_csv_as_json(path_to_csv, cache=False):
+    if cache:
+        csv_str = get(path_to_csv)
+        csv_pd = pd.read_csv(StringIO(csv_str), sep=",")
+    else:
+        csv_pd = pd.read_csv(path_to_csv, sep=",")
     return json.loads(csv_pd.to_json(orient="records"))
 
 
@@ -257,7 +276,7 @@ if __name__ == "__main__":
         json_to_csv_file(save_path, entries)
 
     # load organisation data
-    organisations = get_csv_as_json(organisation_csv)
+    organisations = get_csv_as_json(organisation_csv, cache=True)
 
     # map statistical geography lookups to identifier lookups
     map_to_identifiers(

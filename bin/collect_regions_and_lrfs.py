@@ -11,23 +11,11 @@ from cachecontrol import CacheControl
 from cachecontrol.caches.file_cache import FileCache
 
 
-region_data = (
-    "Regions (December 2019) Names and Codes in England",
-    "https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.geojson",
-    "https://geoportal.statistics.gov.uk/datasets/regions-december-2019-names-and-codes-in-england",
-    # fields we want to map
-    [
-        ("region", "RGN19NM", True),
-        ("name", "RGN19NM", False),
-        ("statistical-geography", "RGN19CD", False),
-    ],
-    "data/region.csv",
-)
-
 local_resilience_forum_data = (
     "Local Resilience Forums (December 2019) Names and Codes in England and Wales",
     "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
     "https://geoportal.statistics.gov.uk/datasets/local-resilience-forums-december-2019-names-and-codes-in-england-and-wales",
+    # fields we want to map
     [
         ("local-resilience-forum", "LRF19NM", True),
         ("name", "LRF19NM", False),
@@ -71,7 +59,6 @@ local_authority_to_region_lookup = (
 
 
 datasets = [
-    region_data,
     local_resilience_forum_data,
     local_resilience_forum_local_authority_lookup,
     local_authority_to_combined_authority_lookup,
@@ -83,6 +70,8 @@ organisation_csv = os.environ.get(
     "organisation_csv",
     "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv",
 )
+
+region_csv = "https://raw.githubusercontent.com/digital-land/region-collection/master/data/region.csv"
 
 
 def name_to_identifier(n):
@@ -275,8 +264,9 @@ if __name__ == "__main__":
         entries = collect_geojson(name, endpoint, filename, fields)
         json_to_csv_file(save_path, entries)
 
-    # load organisation data
+    # load remote data
     organisations = get_csv_as_json(organisation_csv, cache=True)
+    regions = get_csv_as_json(region_csv, cache=True)
 
     # map statistical geography lookups to identifier lookups
     map_to_identifiers(
@@ -309,11 +299,7 @@ if __name__ == "__main__":
         "statistical-geography-la-to-region-lookup",
         [
             ("la-statistical-geography", "organisation", organisations),
-            (
-                "region-statistical-geography",
-                "region",
-                get_csv_as_json("data/region.csv"),
-            ),
+            ("region-statistical-geography", "region", regions),
         ],
         "local-authority-to-region",
     )

@@ -44,21 +44,21 @@ w = csv.DictWriter(sys.stdout, fields.keys(), extrasaction="ignore")
 w.writeheader()
 
 with ZipFile(sys.argv[1]) as z:
-    with z.open("addressbase-products-local-custodian-codes.docx") as f:
+    z.extract("addressbase-products-local-custodian-codes.docx", "collection")
+    document = Document("collection/addressbase-products-local-custodian-codes.docx")
 
-        document = Document(f)
-        table = document.tables[0]
+    table = document.tables[0]
 
-        keys = None
-        for i, row in enumerate(table.rows):
-            text = (cell.text for cell in row.cells)
+    keys = None
+    for i, row in enumerate(table.rows):
+        text = (cell.text for cell in row.cells)
 
-            if i == 0:
-                keys = tuple(text)
-                continue
+        if i == 0:
+            keys = tuple(text)
+            continue
 
-            o = dict(zip(keys, text))
+        o = dict(zip(keys, text))
 
-            o["organisation"] = name.get(o["Authority"].lower(), "")
+        o["organisation"] = name.get(o["Authority"].lower(), "")
 
-            w.writerow({k: o[ok] for (k, ok) in fields.items()})
+        w.writerow({k: o[ok] for (k, ok) in fields.items()})

@@ -8,3 +8,6 @@ __pycache__/
 local
 var
 tmp
+
+.cache
+.vscode

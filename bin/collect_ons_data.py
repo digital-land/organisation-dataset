@@ -11,6 +11,7 @@ from cachecontrol import CacheControl
 from cachecontrol.caches.file_cache import FileCache
 
 
+# ONS datasets to collect
 local_resilience_forum_data = (
     "Local Resilience Forums (December 2019) Names and Codes in England and Wales",
     "https://opendata.arcgis.com/datasets/d81478eef3904c388091e40f4b344714_0.geojson",
@@ -65,7 +66,7 @@ datasets = [
     local_authority_to_region_lookup,
 ]
 
-
+# pointers to remote datasets
 organisation_csv = os.environ.get(
     "organisation_csv",
     "https://raw.githubusercontent.com/digital-land/organisation-dataset/master/collection/organisation.csv",

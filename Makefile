@@ -96,5 +96,5 @@ clean::
 clobber::
 	rm -f $(TARGETS)
 
-collect-ons-data::
-	python3 bin/collect_regions_and_lrfs.py
+collect/ons-data::
+	python3 bin/collect_ons_data.py

@@ -408,7 +408,7 @@ public-authority:Q5533909,Q5533909,GeoPlace,https://www.geoplace.co.uk/,GeoPlace
 regional-park-authority:Q6515400,Q6515400,Lee Valley Regional Park Authority,https://www.leevalleypark.org.uk/,,,,,http://opendatacommunities.org/id/regional-park-authority/lee-valley,,E6803,,,,,,,,,
 transport-authority:Q25171369,Q25171369,West Midlands Passenger Transport Executive,,,,,,,,,,,,,,,,1969-10-01,2016-06-17
 transport-authority:Q6820591,Q6820591,Merseytravel,http://www.merseytravel.gov.uk,,,,,http://opendatacommunities.org/id/transport-authority/merseyside,,E6343,,,,,,,,1969-12-01,
-transport-authority:Q682520,Q682520,Transport for London,http://www.tfl.gov.uk,TfL,,,,,,,,,,,,,,2000-07-03,
+transport-authority:Q682520,Q682520,Transport for London,https://tfl.gov.uk/,TfL,,,,,,,,,,,,,,2000-07-03,
 transport-authority:Q7569004,Q7569004,South Yorkshire Passenger Transport Executive,http://www.sypte.co.uk/,,,,,http://opendatacommunities.org/id/transport-authority/south-yorkshire,,E6344,,,,,,,,1974-01-01,
 transport-authority:Q7834921,Q7834921,Transport for Greater Manchester,http://www.tfgm.com/,,,,,,,,,,,,,,,2011-04-01,
 transport-authority:Q7860508,Q7860508,Tyne and Wear Passenger Transport Executive,http://www.nexus.org.uk,,,,,http://opendatacommunities.org/id/transport-authority/tyne-and-wear,,E6345,,,,,,,,1974-04-01,

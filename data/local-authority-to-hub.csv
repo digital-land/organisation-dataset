@@ -313,3 +313,8 @@ local-authority-eng:ARU,Arun,west-sussex-county-council,West Sussex County Counc
 local-authority-eng:AMB,Amber Valley,derbyshire-county-council,Derbyshire County Council,Derbyshire,East Midlands
 local-authority-eng:ALL,Allerdale,cumbria-county-council,Cumbria County Council,Cumbria,North West
 local-authority-eng:ADU,Adur,west-sussex-county-council,West Sussex County Council,Sussex,South East
+local-authority-eng:BUC,Buckinghamshire Council,buckinghamshire-county-council,Buckinghamshire County Council,Thames Valley,South East
+local-authority-eng:BRM,Bromsgrove District Council,redditch-borough-council-and-bromsgrove-district-council,Redditch Borough Council & Bromsgrove Council,West Mercia,West Midlands
+local-authority-eng:RED,Redditch Borough Council,redditch-borough-council-and-bromsgrove-district-council,Redditch Borough Council & Bromsgrove Council,West Mercia,West Midlands
+local-authority-eng:KHL,Hull City Council,hull-city-council,Hull City Council,Humber,Yorkshire and The Humber
+local-authority-eng:SLF,Salford City Council,salford,Salford City Council,Greater Manchester,North West

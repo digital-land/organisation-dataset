@@ -32,6 +32,7 @@ fields = [
     "local-resilience-forum",
     "region",
     "addressbase-custodian",
+    "company",
     "start-date",
     "end-date",
 ]

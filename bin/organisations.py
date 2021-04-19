@@ -33,6 +33,7 @@ fields = [
     "region",
     "addressbase-custodian",
     "company",
+    "wikipedia",
     "start-date",
     "end-date",
 ]

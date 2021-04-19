@@ -18,11 +18,17 @@ SELECT DISTINCT * WHERE {
     wd:Q80647952 # Strategic Regional Authority
     wd:Q7972817 # Waste disposal authority
     wd:Q514989 # passenger transport executive
+    wd:Q6047836 # internal drainage board
   }
 
   ?wikidata wdt:P31 ?legislature .
+  ?wikidata schema:dateModified ?entry_date .
   ?wikidata rdfs:label ?name .
     FILTER (langMatches(lang(?name), "EN" ))
+  OPTIONAL { ?wikipedia schema:name ?sitelink ;
+                     schema:about ?wikidata ;
+                     schema:isPartOf <https://en.wikipedia.org/> .
+  }
   OPTIONAL { ?wikidata wdt:P856 ?website }
   OPTIONAL { ?wikidata wdt:P2002 ?twitter }
   OPTIONAL { ?wikidata wdt:P571 ?start_date }

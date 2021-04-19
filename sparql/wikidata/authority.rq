@@ -23,8 +23,13 @@ SELECT DISTINCT * WHERE {
     wd:Q6515400 # Lee Valley Regional Park Authority
     wd:Q5533909 # Geoplace
   }
+  ?wikidata schema:dateModified ?entry_date .
   ?wikidata rdfs:label ?name .
     FILTER (langMatches(lang(?name), "EN" ))
+  OPTIONAL { ?wikipedia schema:name ?sitelink ;
+                     schema:about ?wikidata ;
+                     schema:isPartOf <https://en.wikipedia.org/> .
+  }
   OPTIONAL { ?wikidata wdt:P856 ?website }
   OPTIONAL { ?wikidata wdt:P2002 ?twitter }
   OPTIONAL { ?wikidata wdt:P571 ?start_date }

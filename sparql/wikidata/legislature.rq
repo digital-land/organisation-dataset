@@ -14,6 +14,7 @@ SELECT DISTINCT * WHERE {
     wd:Q19414242 # English metropolitan district council
     wd:Q21561306 # English non-metropolitan district council
     wd:Q21561350 # London borough council
+    wd:Q1136601 # Unitary authority
     wd:Q16690653 # borough council
     wd:Q80647952 # Strategic Regional Authority
     wd:Q7972817 # Waste disposal authority

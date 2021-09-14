@@ -15,6 +15,7 @@ organisations = {}
 
 fields = [
     "organisation",
+    "entity",
     "wikidata",
     "name",
     "website",
@@ -133,7 +134,7 @@ def validate(organisations):
             errors += 1
 
         # mandatory fields ..
-        mandatory_fields = set(["name", "wikidata"])
+        mandatory_fields = set(["entity", "name", "wikidata"])
         expected_fields = set()
         unexpected_fields = set()
 
@@ -360,6 +361,7 @@ if __name__ == "__main__":
     patch_lookup("local-authority-to-combined-authority", 'organisation')
 
     patch_file("collection/addressbase-custodian.csv", "organisation")
+    patch_file("data/entity.csv", "organisation")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

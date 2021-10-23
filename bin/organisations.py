@@ -362,6 +362,7 @@ if __name__ == "__main__":
 
     patch_file("collection/addressbase-custodian.csv", "organisation")
     patch_file("data/entity.csv", "organisation")
+    patch_file("data/government-organisation.csv", "organisation")
 
     for organisation, o in organisations.items():
         # strip blank times from dates

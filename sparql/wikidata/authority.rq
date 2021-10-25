@@ -22,6 +22,7 @@ SELECT DISTINCT * WHERE {
     wd:Q548721
     wd:Q6515400 # Lee Valley Regional Park Authority
     wd:Q5533909 # Geoplace
+    wd:Q3044721
   }
   ?wikidata schema:dateModified ?entry_date .
   ?wikidata rdfs:label ?name .

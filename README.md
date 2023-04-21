@@ -1,13 +1,17 @@
-# Digital Land organisation dataset
+# Digital Land organisation data
 
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/psd/openregister/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://black.readthedocs.io/en/stable/)
 
-A dataset of Local Planning Authorities and other organisations who publish data used by Digital Land:
+A data package of Local Planning Authorities and other organisations who publish data used by Digital Land:
 
 * [collection/organisation.csv](collection/organisation.csv)
 
-The list of organisations is assembled from the following registers:
+This file is used by the pipeline process, but will be soon replaced by data managed in registers by the data standards team.
+
+# Historical
+
+This dataset used to be assembled from the following GOV.UK registers,  before they were retired by GDS:
 
 * [government-organisation](https://government-organisation.register.gov.uk)
 * [local-authority-eng](https://local-authority-eng.register.gov.uk)
@@ -20,20 +24,8 @@ and combined with the following registers to provide statistical geographies:
 * [statistical-geography-non-metropolitan-district-eng](https://statistical-geography-non-metropolitan-district-eng.register.gov.uk)
 * [statistical-geography-unitary-authority-eng](https://statistical-geography-unitary-authority-eng.register.gov.uk)
 
-The data is matched against [https://opendatacommunities.org](https://opendatacommunities.org/home).
-
-This locally maintained dataset provides websites for local authorities, development corporations not yet listed on GOV.UK, and other missing values:
-
-* [data/organisations.csv](data/organisations.csv)
-
-The plan is to move to replace this locally maintained data with the website, and other data sourced from Wikipedia, such as https://www.wikidata.org/wiki/Q931180
-
-# Updating the dataset
-
-We recommend working in [virtual environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/) before installing the python dependencies:
-
-    $ make init
-    $ make
+The data was matched against [https://opendatacommunities.org](https://opendatacommunities.org/home),
+locally maintained data with the website, and other data sourced from Wikipedia, such as https://www.wikidata.org/wiki/Q931180
 
 # Licence
 

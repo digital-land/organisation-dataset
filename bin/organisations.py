@@ -322,6 +322,7 @@ if __name__ == "__main__":
     load_data("transport-authority")
     load_data("waste-authority")
     load_data("public-authority")
+    load_data("nonprofit")
 
     # add details for government organisations
     patch_register("government-organisation")

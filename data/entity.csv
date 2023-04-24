@@ -419,6 +419,11 @@ entity,organisation
 418,waste-authority:Q21921612
 419,waste-authority:Q21935501
 420,waste-authority:Q5600652
+10000,local-authority-eng:CUA
+10001,local-authority-eng:WFUA
+10002,local-authority-eng:WMCA
+10003,local-authority-eng:SUA
+10004,local-authority-eng:NYUA
 501908,local-authority-eng:NNUA
 501909,local-authority-eng:WNUA
 501910,government-organisation:PB202

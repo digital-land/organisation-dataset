@@ -53,7 +53,7 @@ def has_prefix(organisation, prefixes):
 
 def valid_url(n, url):
     if url != "" and not validators.url(url):
-        logging.error("%s: invalid url %s" % (n, url))
+        logging.warning("%s: invalid url %s" % (n, url))
         return True
     return False
 
@@ -121,7 +121,7 @@ def validate(organisations):
         # some validation ..
         for url_field in ["opendatacommunities", "opendatacommunities-area", "website"]:
             if valid_url(organisation, o.get(url_field, "")):
-                errors += 1
+                warnings += 1
 
         for date_field in ["start-date", "end-date"]:
             if valid_date(organisation, o.get(date_field, "")):
@@ -190,10 +190,9 @@ def validate(organisations):
                 elif organisation in ["local-authority-eng:GLA"]:
                     mandatory_fields.remove("opendatacommunities-area")
 
-                # find opendatacommunities doesn't yet have data for Northamptonshire UAs
-                elif organisation in ["local-authority-eng:NNUA", "local-authority-eng:WNUA"]:
-                    mandatory_fields.remove("opendatacommunities-area")
+                elif organisation in ["local-authority-eng:NNUA", "local-authority-eng:NYUA", "local-authority-eng:CUA", "local-authority-eng:WNUA", "local-authority-eng:WFUA", "local-authority-eng:SUA"]:
                     mandatory_fields.remove("opendatacommunities")
+                    mandatory_fields.remove("opendatacommunities-area")
 
         for field in expected_fields:
             if field not in set(mandatory_fields).union(unexpected_fields):
@@ -317,6 +316,7 @@ if __name__ == "__main__":
     load_data("government-organisation")
     load_data("development-corporation")
     load_data("local-authority-eng")
+    load_data("local-authority", key="local-authority-eng")
     load_data("national-park-authority")
     load_data("regional-park-authority")
     load_data("transport-authority")

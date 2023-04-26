@@ -28,6 +28,7 @@ fields = [
     "billing-authority",
     "census-area",
     "local-authority-type",
+    "government-organisation",
     "combined-authority",
     "esd-inventories",
     "local-resilience-forum",

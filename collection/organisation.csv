@@ -430,3 +430,13 @@ waste-authority:Q20713477,417,Q20713477,North London Waste Authority,http://nlwa
 waste-authority:Q21921612,418,Q21921612,West London Waste Authority,http://westlondonwaste.gov.uk,WestLondonWaste,,,,http://opendatacommunities.org/id/waste-authority/west-london,,E6207,,,,,,,,,,https://en.wikipedia.org/wiki/West_London_Waste_Authority,1986-01-01,
 waste-authority:Q21935501,419,Q21935501,Western Riverside Waste Authority,http://www.wrwa.gov.uk/,WRWArecycling,,,,http://opendatacommunities.org/id/waste-authority/western-riverside,,E6206,,,,,,,,,,,,
 waste-authority:Q5600652,420,Q5600652,Greater Manchester Waste Disposal Authority,http://www.gmwda.gov.uk/,zerowasteGM,,,,http://opendatacommunities.org/id/waste-authority/greater-manchester,,E6202,,,,,,,,,,https://en.wikipedia.org/wiki/Greater_Manchester_Waste_Disposal_Authority,1986-01-01,
+development-corporation:Q105544651,600003,Q105544651,Aycliffe and Peterlee Development Corporation,,,,,,,,,,,,,,,,,,,,1988-03-31
+development-corporation:Q105544654,600004,Q105544654,Basildon Development Corporation,,,,,,,,,,,,,,,,,,,,1986-03-31
+development-corporation:Q5061392,600005,Q5061392,Central Manchester Development Corporation,,,,,,,,,,,,,,,,,,Central_Manchester_Development_Corporation,1988-06-30,1996-07-01
+development-corporation:Q3258953,600006,Q3258953,London Docklands Development Corporation,,,,,,,,,,,,,,,,,,London_Docklands_Development_Corporation,1981-01-01,1998-01-01
+development-corporation:Q105544669,600007,Q105544669,Telford Development Corporation,,,,,,,,,,,,,,,,,,,,1990-09-30
+local-authority:Q4829191,8700000,Q4829191,Avon County Council,,,,,,,,,,,,,,,,,,Avon_County_Council,1974-04-01,1996-03-31
+local-authority:Q105544736,8700001,Q105544736,Wansbeck District Council,,,,,,,,,,,,,,,,,,,,2009-03-31
+local-authority:Q111232446,8700002,Q111232446,North Northamptonshire Council,https://www.northnorthants.gov.uk/,,,,,,,,,,,,,,,,,,2021-04-01,
+local-authority:Q111232469,8700003,Q111232469,West Northamptonshire Council,https://www.westnorthants.gov.uk/,,,,,,,,,,,,,,,,,,2021-04-01,
+passenger-transport-executive:Q54817549,15300000,Q54817549,Greater Manchester Passenger Transport Executive,,,,,,,,,,,,,,,,,,Greater_Manchester_Passenger_Transport_Executive,1974-04-01,2011-04-01
